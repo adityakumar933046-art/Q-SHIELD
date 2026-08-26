@@ -1,0 +1,3 @@
+experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
+EXP-B666FE94F536,ITR-89113133,2026-08-26T06:17:58.405934+00:00,True,False,False,ACCEPT,0.008762,0.0
+EXP-B666FE94F536,ITR-FB357AF9,2026-08-26T06:17:58.409414+00:00,True,False,False,ACCEPT,0.003457,0.0

@@ -1,0 +1,3 @@
+experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
+EXP-2F01C1BAD03D,ITR-2AC2D067,2026-08-26T08:15:09.780708+00:00,True,False,False,ACCEPT,0.008739,0.0
+EXP-2F01C1BAD03D,ITR-84D85942,2026-08-26T08:15:09.785968+00:00,True,False,False,ACCEPT,0.005233,0.0

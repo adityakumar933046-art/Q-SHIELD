@@ -1,0 +1,54 @@
+{
+  "experiment_id": "EXP-B6422E3E8D91",
+  "scenario_id": "LEGITIMATE_VERIFICATION",
+  "scenario_version": "1.0",
+  "status": "FAILED",
+  "started_at": "2026-08-26 06:29:56.692699+00:00",
+  "completed_at": "2026-08-26 06:29:56.803052+00:00",
+  "requested_iterations": 2,
+  "completed_iterations": 0,
+  "failed_iterations": 2,
+  "skipped_iterations": 0,
+  "observations": [],
+  "statistics": {
+    "total_samples": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "error_rate": 0.0,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.0,
+    "confidence_interval": null,
+    "threshold_status": "NO_DATA",
+    "metadata": {
+      "message": "No verification data provided."
+    }
+  },
+  "benchmark": {
+    "total_iterations": 0,
+    "successful_iterations": 0,
+    "failed_iterations": 0,
+    "average_latency": 0.0,
+    "median_latency": 0.0,
+    "minimum_latency": 0.0,
+    "maximum_latency": 0.0,
+    "p50_latency": 0.0,
+    "p90_latency": 0.0,
+    "p95_latency": 0.0,
+    "p99_latency": 0.0,
+    "throughput": 0.0,
+    "detection_rate": 0.0,
+    "attack_success_rate": 0.0,
+    "error_rate": 0.0,
+    "metadata": {}
+  },
+  "configuration_summary": {
+    "iterations": 2,
+    "seed": 42
+  },
+  "environment": {
+    "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "protocol_version": "1.0"
+  },
+  "metadata": {}
+}

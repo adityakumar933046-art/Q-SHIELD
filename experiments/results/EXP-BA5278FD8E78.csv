@@ -1,0 +1,3 @@
+experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
+EXP-BA5278FD8E78,ITR-746E9759,2026-08-26T05:59:21.387094+00:00,True,False,False,ACCEPT,0.011921,0.0
+EXP-BA5278FD8E78,ITR-AAB21F3C,2026-08-26T05:59:21.392174+00:00,True,False,False,ACCEPT,0.005044,0.0

@@ -1,0 +1,3 @@
+experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
+EXP-FAFC1847F35C,ITR-AAE6F3C4,2026-08-26T07:55:29.296586+00:00,True,False,False,ACCEPT,0.008638,0.0
+EXP-FAFC1847F35C,ITR-71F310C8,2026-08-26T07:55:29.300525+00:00,True,False,False,ACCEPT,0.003917,0.0

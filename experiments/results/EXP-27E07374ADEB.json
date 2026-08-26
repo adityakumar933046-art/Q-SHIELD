@@ -1,0 +1,91 @@
+{
+  "experiment_id": "EXP-27E07374ADEB",
+  "scenario_id": "LEGITIMATE_VERIFICATION",
+  "scenario_version": "1.0",
+  "status": "COMPLETED",
+  "started_at": "2026-08-26 06:00:45.401515+00:00",
+  "completed_at": "2026-08-26 06:00:45.469557+00:00",
+  "requested_iterations": 2,
+  "completed_iterations": 2,
+  "failed_iterations": 0,
+  "skipped_iterations": 0,
+  "observations": [
+    {
+      "iteration_id": "ITR-80A04779",
+      "timestamp": "2026-08-26 06:00:45.465187+00:00",
+      "success": true,
+      "detected": false,
+      "blocked": false,
+      "decision": "ACCEPT",
+      "latency": 0.010366,
+      "error_count": 0,
+      "total_measurements": 1000,
+      "error_rate": 0.0,
+      "threat_level": "LOW",
+      "metadata": {}
+    },
+    {
+      "iteration_id": "ITR-17B6AA6C",
+      "timestamp": "2026-08-26 06:00:45.469220+00:00",
+      "success": true,
+      "detected": false,
+      "blocked": false,
+      "decision": "ACCEPT",
+      "latency": 0.004007,
+      "error_count": 0,
+      "total_measurements": 1000,
+      "error_rate": 0.0,
+      "threat_level": "LOW",
+      "metadata": {}
+    }
+  ],
+  "statistics": {
+    "total_samples": 2,
+    "accepted": 2,
+    "rejected": 0,
+    "error_rate": 0.0,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.0,
+    "confidence_interval": {
+      "estimate": 1.0,
+      "lower_bound": 0.34238,
+      "upper_bound": 1.0,
+      "confidence_level": 0.95,
+      "sample_size": 2,
+      "method": "wilson",
+      "metadata": {}
+    },
+    "threshold_status": "PASSED",
+    "metadata": {
+      "num_records": 2
+    }
+  },
+  "benchmark": {
+    "total_iterations": 2,
+    "successful_iterations": 2,
+    "failed_iterations": 0,
+    "average_latency": 0.007187,
+    "median_latency": 0.007187,
+    "minimum_latency": 0.004007,
+    "maximum_latency": 0.010366,
+    "p50_latency": 0.007187,
+    "p90_latency": 0.00973,
+    "p95_latency": 0.010048,
+    "p99_latency": 0.010302,
+    "throughput": 29.5364,
+    "detection_rate": 0.0,
+    "attack_success_rate": 1.0,
+    "error_rate": 0.0,
+    "metadata": {}
+  },
+  "configuration_summary": {
+    "iterations": 2,
+    "seed": 42
+  },
+  "environment": {
+    "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "protocol_version": "1.0"
+  },
+  "metadata": {}
+}
