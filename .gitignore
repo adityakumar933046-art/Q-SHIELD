@@ -1,4 +1,4 @@
-# Python
+# Python & Bytecode
 __pycache__/
 *.py[cod]
 *$py.class
@@ -11,17 +11,26 @@ env/
 .coverage
 htmlcov/
 
-# Node / Frontend
+# Database & SQLite
+*.sqlite3
+db.sqlite3
+
+# Node & Frontend Build Artifacts
 node_modules/
 dist/
 build/
 .output/
 *.log
 
+# Experiments & Generated Reports
+validation_report.json
+experiments/results/
+
 # Environment & Secrets
 .env
 .env.local
 .env.*.local
+!.env.example
 
 # IDE & Editor
 .vscode/

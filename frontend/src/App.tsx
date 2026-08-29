@@ -1,77 +1,140 @@
-import React, { useState } from 'react';
-import { Dashboard } from './pages/Dashboard';
-import { Signatures } from './pages/Signatures';
-import { Verification } from './pages/Verification';
-import { QuantumProtocol } from './pages/QuantumProtocol';
-import { ThreatDetection } from './pages/ThreatDetection';
-import { AttackSimulator } from './pages/AttackSimulator';
-import { Statistics } from './pages/Statistics';
-import { Experiments } from './pages/Experiments';
-import { AuditLogs } from './pages/AuditLogs';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Navbar } from './components/Navbar';
+import { Sidebar } from './components/Sidebar';
+import { LoginModal } from './components/LoginModal';
+import { RoleGuard } from './components/RoleGuard';
+import { DashboardPage } from './pages/DashboardPage';
+import { UserManagementPage } from './pages/UserManagementPage';
+import { OrganizationsPage } from './pages/OrganizationsPage';
+import { SecurityRulesPage } from './pages/SecurityRulesPage';
+import { QdsStudioPage } from './pages/QdsStudioPage';
+import { AttackSimulatorPage } from './pages/AttackSimulatorPage';
+import { ThreatsPage } from './pages/ThreatsPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+import { AuditPage } from './pages/AuditPage';
+import { UnauthorizedPage } from './pages/UnauthorizedPage';
+import { api } from './services/api';
+import { User } from './types';
+
+// Role-Based Default Landing Component
+const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ currentUser }) => {
+  if (!currentUser) return <Navigate to="/admin/dashboard" replace />;
+  
+  switch (currentUser.role) {
+    case 'SIGNER':
+      return <Navigate to="/signer/qds" replace />;
+    case 'VERIFIER':
+      return <Navigate to="/verifier/verify" replace />;
+    case 'SECURITY_ANALYST':
+      return <Navigate to="/analyst/threats" replace />;
+    case 'ADMIN':
+    default:
+      return <Navigate to="/admin/dashboard" replace />;
+  }
+};
 
 export const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-  const renderPage = () => {
-    switch (activeTab) {
-      case 'dashboard': return <Dashboard />;
-      case 'signatures': return <Signatures />;
-      case 'verification': return <Verification />;
-      case 'quantum': return <QuantumProtocol />;
-      case 'threats': return <ThreatDetection />;
-      case 'attacks': return <AttackSimulator />;
-      case 'statistics': return <Statistics />;
-      case 'experiments': return <Experiments />;
-      case 'audit': return <AuditLogs />;
-      default: return <Dashboard />;
+  const fetchUser = async () => {
+    try {
+      const u = await api.getCurrentUser();
+      setCurrentUser(u);
+    } catch (err) {
+      try {
+        await api.login('admin', 'admin123');
+        const u = await api.getCurrentUser();
+        setCurrentUser(u);
+      } catch (loginErr) {
+        console.log("Login check failure:", loginErr);
+      }
     }
   };
 
-  return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#111827', fontFamily: 'system-ui, sans-serif' }}>
-      {/* Sidebar Navigation */}
-      <div style={{ width: '240px', background: '#1F2937', padding: '20px', color: '#F9FAFB', borderRight: '1px solid #374151' }}>
-        <h3 style={{ color: '#10B981', marginBottom: '24px' }}>🛡️ Q-SHIELD</h3>
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              onClick={() => setActiveTab(item.id)}
-              style={{
-                textAlign: 'left',
-                padding: '10px 14px',
-                borderRadius: '6px',
-                border: 'none',
-                background: activeTab === item.id ? '#374151' : 'transparent',
-                color: activeTab === item.id ? '#10B981' : '#D1D5DB',
-                cursor: 'pointer',
-                fontWeight: activeTab === item.id ? 'bold' : 'normal',
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-      </div>
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
-      {/* Main Content Area */}
-      <div style={{ flexGrow: 1, overflowY: 'auto' }}>
-        {renderPage()}
+  const handleLogout = async () => {
+    await api.logout();
+    setCurrentUser(null);
+    setIsLoginModalOpen(true);
+  };
+
+  return (
+    <Router>
+      <div className="min-h-screen bg-cyber-bg flex flex-col font-sans">
+        <Navbar
+          currentUser={currentUser}
+          onLoginClick={() => setIsLoginModalOpen(true)}
+        />
+
+        <div className="flex flex-1">
+          <Sidebar
+            currentUser={currentUser}
+            onLogout={handleLogout}
+          />
+
+          <main className="flex-1 p-6 overflow-y-auto">
+            <Routes>
+              {/* Default Landing */}
+              <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+
+              {/* ADMIN WORKSPACE ROUTES */}
+              <Route path="/admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><DashboardPage /></RoleGuard>} />
+              <Route path="/admin/users" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><UserManagementPage /></RoleGuard>} />
+              <Route path="/admin/orgs" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><OrganizationsPage /></RoleGuard>} />
+              <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><ThreatsPage /></RoleGuard>} />
+              <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
+              <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><QdsStudioPage /></RoleGuard>} />
+              <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AnalyticsPage /></RoleGuard>} />
+              <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecurityRulesPage /></RoleGuard>} />
+              <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AuditPage /></RoleGuard>} />
+              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+
+              {/* SIGNER WORKSPACE ROUTES */}
+              <Route path="/signer/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><QdsStudioPage /></RoleGuard>} />
+              <Route path="/signer/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><AuditPage /></RoleGuard>} />
+              <Route path="/signer" element={<Navigate to="/signer/qds" replace />} />
+
+              {/* VERIFIER WORKSPACE ROUTES */}
+              <Route path="/verifier/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><QdsStudioPage /></RoleGuard>} />
+              <Route path="/verifier/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><AuditPage /></RoleGuard>} />
+              <Route path="/verifier" element={<Navigate to="/verifier/verify" replace />} />
+
+              {/* SECURITY ANALYST WORKSPACE ROUTES */}
+              <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
+              <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
+              <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
+              <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
+              <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
+
+              {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
+              <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+              <Route path="/attack-simulator" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+              <Route path="/threats" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+              <Route path="/analytics" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+              <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+              <Route path="/users" element={<Navigate to="/admin/users" replace />} />
+
+              {/* 403 / UNAUTHORIZED CATCH-ALL */}
+              <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
+              <Route path="*" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            </Routes>
+          </main>
+        </div>
+
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          currentUser={currentUser}
+          onUserChanged={(u) => setCurrentUser(u)}
+        />
       </div>
-    </div>
+    </Router>
   );
 };
-
-const navItems = [
-  { id: 'dashboard', label: '📊 Dashboard' },
-  { id: 'signatures', label: '✍️ Signatures' },
-  { id: 'verification', label: '🔍 Verification' },
-  { id: 'quantum', label: '⚛️ Quantum Protocol' },
-  { id: 'threats', label: '⚠️ Threat Detection' },
-  { id: 'attacks', label: '⚔️ Attack Simulator' },
-  { id: 'statistics', label: '📈 Statistics' },
-  { id: 'experiments', label: '🧪 Experiments' },
-  { id: 'audit', label: '📜 Audit Logs' },
-];
 
 export default App;

@@ -1,1 +1,0 @@
-"""Q-SHIELD Security Package."""

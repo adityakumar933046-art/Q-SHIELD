@@ -1,1 +1,0 @@
-"""Q-SHIELD Config Package."""
