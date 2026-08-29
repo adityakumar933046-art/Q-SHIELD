@@ -1,3 +1,0 @@
-experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
-EXP-DD80C029ED60,ITR-7DC186C9,2026-08-26T07:39:08.992171+00:00,True,False,False,ACCEPT,0.006541,0.0
-EXP-DD80C029ED60,ITR-53D375F6,2026-08-26T07:39:08.997370+00:00,True,False,False,ACCEPT,0.005172,0.0

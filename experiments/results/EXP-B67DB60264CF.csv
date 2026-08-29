@@ -1,3 +1,0 @@
-experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
-EXP-B67DB60264CF,ITR-D161BE44,2026-08-26T06:20:40.095240+00:00,True,False,False,ACCEPT,0.007598,0.0
-EXP-B67DB60264CF,ITR-510C685B,2026-08-26T06:20:40.099574+00:00,True,False,False,ACCEPT,0.004309,0.0

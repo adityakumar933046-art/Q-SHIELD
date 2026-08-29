@@ -1,3 +1,0 @@
-experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
-EXP-FF7C5B973744,ITR-1D970B87,2026-08-26T08:41:51.134764+00:00,True,False,False,ACCEPT,0.007255,0.0
-EXP-FF7C5B973744,ITR-CD99CF3B,2026-08-26T08:41:51.139933+00:00,True,False,False,ACCEPT,0.005139,0.0

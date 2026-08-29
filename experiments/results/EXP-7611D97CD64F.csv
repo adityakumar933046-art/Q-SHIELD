@@ -1,3 +1,0 @@
-experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
-EXP-7611D97CD64F,ITR-AC2AA7FE,2026-08-26T08:17:23.147416+00:00,True,False,False,ACCEPT,0.007193,0.0
-EXP-7611D97CD64F,ITR-7D770595,2026-08-26T08:17:23.151593+00:00,True,False,False,ACCEPT,0.004154,0.0

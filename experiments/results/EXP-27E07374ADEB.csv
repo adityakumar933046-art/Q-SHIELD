@@ -1,3 +1,0 @@
-experiment_id,iteration_id,timestamp,success,detected,blocked,decision,latency,error_rate
-EXP-27E07374ADEB,ITR-80A04779,2026-08-26T06:00:45.465187+00:00,True,False,False,ACCEPT,0.010366,0.0
-EXP-27E07374ADEB,ITR-17B6AA6C,2026-08-26T06:00:45.469220+00:00,True,False,False,ACCEPT,0.004007,0.0
