@@ -48,3 +48,42 @@ class QuantumDigitalSignature(models.Model):
 
     def __str__(self):
         return f"QDS {self.signature_id} ({self.status}) - Nonce: {self.nonce[:8]}..."
+
+
+class SigningRequest(models.Model):
+    request_id = models.CharField(max_length=64, unique=True, default=uuid.uuid4)
+    requester = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='requested_signatures'
+    )
+    signer = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='pending_signatures'
+    )
+    purpose = models.CharField(max_length=255, default='Document Sign')
+    payload_content = models.TextField(default='', blank=True)
+    verifiers_count = models.IntegerField(default=1)
+    status = models.CharField(
+        max_length=30,
+        choices=[
+            ('PENDING', 'Pending'),
+            ('COMPLETED', 'Completed'),
+            ('REJECTED', 'Rejected')
+        ],
+        default='PENDING'
+    )
+    signature = models.ForeignKey(
+        'QuantumDigitalSignature',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='signing_request'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Request {self.request_id} ({self.status}) - Signer: {self.signer.username}"
+

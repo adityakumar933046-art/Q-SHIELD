@@ -49,9 +49,6 @@ export const DashboardPage: React.FC = () => {
         <div className="space-y-1">
           <div className="flex items-center space-x-3">
             <h1 className="text-xl font-extrabold tracking-wide">Threat Telemetry & QDS Command</h1>
-            <span className="bg-[#00C2FF]/10 text-[#00C2FF] text-[10px] font-bold px-2.5 py-0.5 rounded border border-[#00C2FF]/30 uppercase tracking-wider">
-              SIH 26141 Non-ML
-            </span>
           </div>
           <p className="text-xs text-slate-300 max-w-2xl font-medium">
             Real-time monitoring of Teleportation-based Quantum Digital Signatures, Bell-state entanglement fidelity, and non-machine-learning statistical threshold breach detection.

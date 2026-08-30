@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { LoginModal } from './components/LoginModal';
@@ -14,6 +14,28 @@ import { ThreatsPage } from './pages/ThreatsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { AuditPage } from './pages/AuditPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
+import { SignerDashboardPage } from './pages/SignerDashboardPage';
+import { MyQdsPage } from './pages/MyQdsPage';
+import { SigningRequestsPage } from './pages/SigningRequestsPage';
+import { SignerProfilePage } from './pages/SignerProfilePage';
+import { SignerNotificationsPage } from './pages/SignerNotificationsPage';
+import { SignerSettingsPage } from './pages/SignerSettingsPage';
+
+// Verifier workspace pages
+import { VerifierDashboardPage } from './pages/VerifierDashboardPage';
+import { VerifyQdsPage } from './pages/VerifyQdsPage';
+import { MyVerificationsPage } from './pages/MyVerificationsPage';
+import { VerificationRequestsPage } from './pages/VerificationRequestsPage';
+import { VerificationHistoryPage } from './pages/VerificationHistoryPage';
+import { VerifierAnalyticsPage } from './pages/VerifierAnalyticsPage';
+import { VerifierAuditPage } from './pages/VerifierAuditPage';
+import { VerifierNotificationsPage } from './pages/VerifierNotificationsPage';
+import { VerifierSettingsPage } from './pages/VerifierSettingsPage';
+
+// Verifier layout components
+import { VerifierSidebar } from './components/VerifierSidebar';
+import { VerifierNavbar } from './components/VerifierNavbar';
+
 import { api } from './services/api';
 import { User } from './types';
 
@@ -23,15 +45,58 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
   
   switch (currentUser.role) {
     case 'SIGNER':
-      return <Navigate to="/signer/qds" replace />;
+      return <Navigate to="/signer/dashboard" replace />;
     case 'VERIFIER':
-      return <Navigate to="/verifier/verify" replace />;
+      return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
       return <Navigate to="/analyst/threats" replace />;
     case 'ADMIN':
     default:
       return <Navigate to="/admin/dashboard" replace />;
   }
+};
+
+// Standard dark-themed layout for Admin, Signer, and Analyst
+const StandardLayout: React.FC<{
+  currentUser: User | null;
+  onLogout: () => void;
+  onLoginClick: () => void;
+}> = ({ currentUser, onLogout, onLoginClick }) => {
+  return (
+    <div className="min-h-screen bg-cyber-bg flex flex-col font-sans">
+      <Navbar
+        currentUser={currentUser}
+        onLoginClick={onLoginClick}
+      />
+      <div className="flex flex-1">
+        <Sidebar
+          currentUser={currentUser}
+          onLogout={onLogout}
+        />
+        <main className="flex-1 p-6 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+// Light-themed layout for the Verifier portal matching the screenshot
+const VerifierLayout: React.FC<{
+  currentUser: User | null;
+  onLogout: () => void;
+}> = ({ currentUser, onLogout }) => {
+  return (
+    <div className="min-h-screen bg-[#F3F4F6] flex font-sans text-slate-800">
+      <VerifierSidebar currentUser={currentUser} onLogout={onLogout} />
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+        <VerifierNavbar currentUser={currentUser} />
+        <main className="flex-1 p-6 overflow-y-auto bg-[#F3F4F6]">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
 };
 
 export const App: React.FC = () => {
@@ -65,74 +130,77 @@ export const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-cyber-bg flex flex-col font-sans">
-        <Navbar
-          currentUser={currentUser}
-          onLoginClick={() => setIsLoginModalOpen(true)}
-        />
+      <Routes>
+        {/* Default Landing */}
+        <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
 
-        <div className="flex flex-1">
-          <Sidebar
-            currentUser={currentUser}
-            onLogout={handleLogout}
-          />
+        {/* VERIFIER WORKSPACE ROUTES (Custom green/light theme layout) */}
+        <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
+          <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierDashboardPage /></RoleGuard>} />
+          <Route path="/verifier/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifyQdsPage /></RoleGuard>} />
+          <Route path="/verifier/my-verifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><MyVerificationsPage /></RoleGuard>} />
+          <Route path="/verifier/requests" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerificationRequestsPage /></RoleGuard>} />
+          <Route path="/verifier/history" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerificationHistoryPage /></RoleGuard>} />
+          <Route path="/verifier/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierAnalyticsPage /></RoleGuard>} />
+          <Route path="/verifier/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierAuditPage /></RoleGuard>} />
+          <Route path="/verifier/notifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierNotificationsPage /></RoleGuard>} />
+          <Route path="/verifier/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierSettingsPage /></RoleGuard>} />
+          <Route path="/verifier" element={<Navigate to="/verifier/dashboard" replace />} />
+        </Route>
 
-          <main className="flex-1 p-6 overflow-y-auto">
-            <Routes>
-              {/* Default Landing */}
-              <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+        {/* OTHER WORKSPACE ROUTES (Standard cyber-bg theme layout) */}
+        <Route element={<StandardLayout currentUser={currentUser} onLogout={handleLogout} onLoginClick={() => setIsLoginModalOpen(true)} />}>
+          {/* ADMIN WORKSPACE ROUTES */}
+          <Route path="/admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><DashboardPage /></RoleGuard>} />
+          <Route path="/admin/users" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><UserManagementPage /></RoleGuard>} />
+          <Route path="/admin/orgs" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><OrganizationsPage /></RoleGuard>} />
+          <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><ThreatsPage /></RoleGuard>} />
+          <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
+          <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><QdsStudioPage /></RoleGuard>} />
+          <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AnalyticsPage /></RoleGuard>} />
+          <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecurityRulesPage /></RoleGuard>} />
+          <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AuditPage /></RoleGuard>} />
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
-              {/* ADMIN WORKSPACE ROUTES */}
-              <Route path="/admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><DashboardPage /></RoleGuard>} />
-              <Route path="/admin/users" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><UserManagementPage /></RoleGuard>} />
-              <Route path="/admin/orgs" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><OrganizationsPage /></RoleGuard>} />
-              <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><ThreatsPage /></RoleGuard>} />
-              <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
-              <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><QdsStudioPage /></RoleGuard>} />
-              <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AnalyticsPage /></RoleGuard>} />
-              <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecurityRulesPage /></RoleGuard>} />
-              <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AuditPage /></RoleGuard>} />
-              <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          {/* SIGNER WORKSPACE ROUTES */}
+          <Route path="/signer/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerDashboardPage /></RoleGuard>} />
+          <Route path="/signer/create" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><QdsStudioPage /></RoleGuard>} />
+          <Route path="/signer/my-qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><MyQdsPage /></RoleGuard>} />
+          <Route path="/signer/requests" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SigningRequestsPage /></RoleGuard>} />
+          <Route path="/signer/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerProfilePage /></RoleGuard>} />
+          <Route path="/signer/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><AuditPage /></RoleGuard>} />
+          <Route path="/signer/notifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerNotificationsPage /></RoleGuard>} />
+          <Route path="/signer/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerSettingsPage /></RoleGuard>} />
+          <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
 
-              {/* SIGNER WORKSPACE ROUTES */}
-              <Route path="/signer/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><QdsStudioPage /></RoleGuard>} />
-              <Route path="/signer/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><AuditPage /></RoleGuard>} />
-              <Route path="/signer" element={<Navigate to="/signer/qds" replace />} />
+          {/* SECURITY ANALYST WORKSPACE ROUTES */}
+          <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
+          <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
+          <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
+          <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
+          <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
 
-              {/* VERIFIER WORKSPACE ROUTES */}
-              <Route path="/verifier/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><QdsStudioPage /></RoleGuard>} />
-              <Route path="/verifier/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><AuditPage /></RoleGuard>} />
-              <Route path="/verifier" element={<Navigate to="/verifier/verify" replace />} />
+          {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
+          <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          <Route path="/attack-simulator" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          <Route path="/threats" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          <Route path="/analytics" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          <Route path="/users" element={<Navigate to="/admin/users" replace />} />
 
-              {/* SECURITY ANALYST WORKSPACE ROUTES */}
-              <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
-              <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
-              <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
-              <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-              <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
+          {/* 403 / UNAUTHORIZED CATCH-ALL */}
+          <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
+        </Route>
 
-              {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
-              <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-              <Route path="/attack-simulator" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-              <Route path="/threats" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-              <Route path="/analytics" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-              <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-              <Route path="/users" element={<Navigate to="/admin/users" replace />} />
+        <Route path="*" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+      </Routes>
 
-              {/* 403 / UNAUTHORIZED CATCH-ALL */}
-              <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
-              <Route path="*" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-            </Routes>
-          </main>
-        </div>
-
-        <LoginModal
-          isOpen={isLoginModalOpen}
-          onClose={() => setIsLoginModalOpen(false)}
-          currentUser={currentUser}
-          onUserChanged={(u) => setCurrentUser(u)}
-        />
-      </div>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        currentUser={currentUser}
+        onUserChanged={(u) => setCurrentUser(u)}
+      />
     </Router>
   );
 };

@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Q
 from .models import QuantumDigitalSignature
-from .serializers import QuantumDigitalSignatureSerializer, CreateSignatureRequestSerializer
+from .serializers import QuantumDigitalSignatureSerializer, CreateSignatureRequestSerializer, SigningRequestSerializer, CreateSigningRequestSerializer
 from apps.quantum_engine.services import QuantumEngineService
 from apps.organizations.models import Organization
 from apps.audit.models import AuditTrailRecord
@@ -91,7 +91,224 @@ class QDSViewSet(viewsets.ModelViewSet):
             }
         )
 
+        AuditTrailRecord.objects.create(
+            action_type='QDS_SIGNATURE_CREATED',
+            user_identifier=request.user.username,
+            target_resource=sig_id,
+            status='SUCCESS',
+            details={
+                'signature_id': sig_id,
+                'message_digest': digest,
+                'quantum_state_basis': data['quantum_state_basis'],
+                'session_id': session_id,
+                'nonce': nonce,
+                'organization_id': request.user.organization.id if request.user.organization else None
+            }
+        )
+
         return Response({
             'signature': QuantumDigitalSignatureSerializer(qds_obj).data,
             'quantum_teleportation_key': q_result
         }, status=status.HTTP_201_CREATED)
+
+    @action(detail=False, methods=['get'], url_path='dashboard-stats')
+    def dashboard_stats(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({'error': 'Unauthorized'}, status=401)
+        
+        # 1. QDS Created
+        qds_created_count = QuantumDigitalSignature.objects.filter(sender=user).count()
+        
+        # 2. Pending Requests
+        from .models import SigningRequest
+        pending_requests_count = SigningRequest.objects.filter(signer=user, status='PENDING').count()
+        
+        # 3. Verified
+        from apps.verification.models import SignatureVerificationAttempt
+        verified_count = SignatureVerificationAttempt.objects.filter(
+            signature__sender=user, 
+            verification_result='PASSED'
+        ).count()
+        
+        # 4. Rejected
+        rejected_count = SignatureVerificationAttempt.objects.filter(
+            signature__sender=user,
+            verification_result__startswith='REJECTED'
+        ).count()
+        
+        # 5. Total Verifications
+        total_verifications_count = SignatureVerificationAttempt.objects.filter(
+            signature__sender=user
+        ).count()
+
+        # 6. Creation trend dataset (last 7 days)
+        from django.utils import timezone
+        import datetime
+        trend = []
+        now = timezone.now()
+        for i in range(6, -1, -1):
+            day = now - datetime.timedelta(days=i)
+            date_str = day.strftime('%d %b') # e.g. "15 Apr"
+            count = QuantumDigitalSignature.objects.filter(
+                sender=user,
+                created_at__date=day.date()
+            ).count()
+            trend.append({
+                'time': date_str,
+                'count': count
+            })
+        
+        return Response({
+            'qds_created': qds_created_count,
+            'pending_requests': pending_requests_count,
+            'verified': verified_count,
+            'rejected': rejected_count,
+            'total_verifications': total_verifications_count,
+            'creation_trend': trend
+        })
+
+
+class SigningRequestViewSet(viewsets.ModelViewSet):
+    serializer_class = SigningRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        from .models import SigningRequest
+        if user.role == 'ADMIN' or user.is_superuser:
+            return SigningRequest.objects.all().order_by('-created_at')
+        return SigningRequest.objects.filter(Q(signer=user) | Q(requester=user)).order_by('-created_at')
+
+    def create(self, request, *args, **kwargs):
+        from .models import SigningRequest
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        
+        serializer = CreateSigningRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            signer_user = User.objects.get(id=data['signer_id'])
+        except User.DoesNotExist:
+            return Response({'error': 'Signer user not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        req_id = f"REQ-{uuid.uuid4().hex[:6].upper()}"
+
+        req_obj = SigningRequest.objects.create(
+            request_id=req_id,
+            requester=request.user,
+            signer=signer_user,
+            purpose=data['purpose'],
+            payload_content=data['payload_content'],
+            verifiers_count=data['verifiers_count'],
+            status='PENDING'
+        )
+
+        AuditTrailRecord.objects.create(
+            action_type='SIGNING_REQUEST_CREATED',
+            user_identifier=request.user.username,
+            target_resource=req_id,
+            status='SUCCESS',
+            details={
+                'request_id': req_id,
+                'signer': signer_user.username,
+                'purpose': data['purpose']
+            }
+        )
+
+        return Response(SigningRequestSerializer(req_obj).data, status=status.HTTP_201_CREATED)
+
+    @action(detail=True, methods=['post'], url_path='sign')
+    def sign_request(self, request, pk=None):
+        req_obj = self.get_object()
+        if req_obj.status != 'PENDING':
+            return Response({'error': 'This signing request is not pending'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        if req_obj.signer != request.user and request.user.role != 'ADMIN' and not request.user.is_superuser:
+            return Response({'error': 'Only the designated signer can sign this request'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Reuse signature creation logic
+        basis = request.data.get('quantum_state_basis', '|+>')
+        bell_type = request.data.get('bell_pair_type', 'PHI_PLUS')
+
+        # Run Qiskit simulator
+        q_result = QuantumEngineService.run_teleportation_qds(
+            input_state_symbol=basis,
+            bell_type=bell_type,
+            shots=1024
+        )
+
+        sig_id = f"QDS-{uuid.uuid4().hex[:12].upper()}"
+        session_id = f"SESS-{uuid.uuid4().hex[:12].upper()}"
+        nonce = f"NONCE-{uuid.uuid4().hex[:16].upper()}"
+        digest = hashlib.sha256(req_obj.payload_content.encode('utf-8')).hexdigest()
+
+        # Create QDS signature
+        qds_obj = QuantumDigitalSignature.objects.create(
+            signature_id=sig_id,
+            sender=request.user,
+            recipient_organization=req_obj.requester.organization,
+            message_payload=req_obj.payload_content,
+            message_digest=digest,
+            payload_summary=req_obj.payload_content[:200],
+            quantum_state_basis=basis,
+            bell_pair_type=bell_type,
+            quantum_execution_id=q_result['execution_id'],
+            session_id=session_id,
+            nonce=nonce,
+            status='ISSUED'
+        )
+
+        # Update request
+        req_obj.signature = qds_obj
+        req_obj.status = 'COMPLETED'
+        req_obj.save()
+
+        # Log audit
+        AuditTrailRecord.objects.create(
+            action_type='SIGNING_REQUEST_SIGNED',
+            user_identifier=request.user.username,
+            target_resource=req_obj.request_id,
+            status='SUCCESS',
+            details={
+                'request_id': req_obj.request_id,
+                'signature_id': sig_id,
+                'basis': basis,
+                'bell_type': bell_type
+            }
+        )
+
+        return Response({
+            'status': 'success',
+            'request': SigningRequestSerializer(req_obj).data,
+            'signature': QuantumDigitalSignatureSerializer(qds_obj).data,
+            'quantum_teleportation_key': q_result
+        })
+
+    @action(detail=True, methods=['post'], url_path='reject')
+    def reject_request(self, request, pk=None):
+        req_obj = self.get_object()
+        if req_obj.status != 'PENDING':
+            return Response({'error': 'This signing request is not pending'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if req_obj.signer != request.user and request.user.role != 'ADMIN' and not request.user.is_superuser:
+            return Response({'error': 'Only the designated signer can reject this request'}, status=status.HTTP_403_FORBIDDEN)
+
+        req_obj.status = 'REJECTED'
+        req_obj.save()
+
+        # Log audit
+        AuditTrailRecord.objects.create(
+            action_type='SIGNING_REQUEST_REJECTED',
+            user_identifier=request.user.username,
+            target_resource=req_obj.request_id,
+            status='SUCCESS',
+            details={
+                'request_id': req_obj.request_id
+            }
+        )
+
+        return Response(SigningRequestSerializer(req_obj).data)
+
