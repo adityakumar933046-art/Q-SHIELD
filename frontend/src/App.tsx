@@ -14,6 +14,7 @@ import { ThreatsPage } from './pages/ThreatsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { AuditPage } from './pages/AuditPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
+import { SecurityAnalystDashboard } from './pages/SecurityAnalystDashboard';
 import { api } from './services/api';
 import { User } from './types';
 
@@ -109,7 +110,7 @@ export const App: React.FC = () => {
               <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
               <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
               <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-              <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
+              <Route path="/analyst" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboard /></RoleGuard>} />
 
               {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
               <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
