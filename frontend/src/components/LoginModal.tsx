@@ -24,10 +24,10 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   if (!isOpen) return null;
 
   const demoAccounts = [
-    { role: 'ADMIN', user: 'admin', pass: 'admin123', label: 'System Admin' },
-    { role: 'SIGNER', user: 'alice', pass: 'alice123', label: 'Sender Alice (Signer)' },
-    { role: 'VERIFIER', user: 'bob', pass: 'bob123', label: 'Receiver Bob (Verifier)' },
-    { role: 'SECURITY_ANALYST', user: 'analyst', pass: 'analyst123', label: 'SOC Security Analyst' },
+    { role: 'ADMIN', user: 'admin', pass: 'admin123', label: 'Admin' },
+    { role: 'SIGNER', user: 'signer_alice', pass: 'alice123', label: 'Signer' },
+    { role: 'VERIFIER', user: 'verifier_bob', pass: 'bob123', label: 'Verifier' },
+    { role: 'SECURITY_ANALYST', user: 'analyst_carol', pass: 'analyst123', label: 'Security Analyst' },
   ];
 
   const handleCustomLogin = async (e: React.FormEvent) => {
@@ -129,17 +129,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
                   key={acc.user}
                   onClick={() => handleQuickLogin(acc.user, acc.pass)}
                   disabled={isSubmitting}
-                  className={`p-2.5 rounded-lg border text-left text-xs transition flex flex-col justify-between ${
+                  className={`p-3 rounded-lg border text-left text-xs transition flex items-center justify-between ${
                     isActive
                       ? 'bg-[#00C2FF]/10 border-[#00C2FF] text-[#00C2FF] font-bold'
                       : 'bg-[#131E33] border-[#1F2E4D] text-slate-200 hover:border-[#00C2FF]/50'
                   }`}
                 >
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold font-mono text-[10px] text-[#00C2FF]">{acc.role}</span>
-                    {isActive && <Check className="w-3.5 h-3.5 text-[#00C2FF]" />}
-                  </div>
-                  <span className="text-[11px] text-white font-medium mt-1">{acc.label}</span>
+                  <span className="text-white font-semibold">{acc.label}</span>
+                  {isActive && <Check className="w-4 h-4 text-[#00C2FF] flex-shrink-0" />}
                 </button>
               );
             })}
