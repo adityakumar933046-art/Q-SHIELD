@@ -1,6 +1,6 @@
 import hashlib
 from rest_framework import serializers
-from .models import QuantumDigitalSignature
+from .models import QuantumDigitalSignature, SigningRequest
 
 class QuantumDigitalSignatureSerializer(serializers.ModelSerializer):
     sender_username = serializers.CharField(source='sender.username', read_only=True)
@@ -24,3 +24,22 @@ class CreateSignatureRequestSerializer(serializers.Serializer):
         default='PHI_PLUS'
     )
     recipient_organization_id = serializers.IntegerField(required=False, allow_null=True)
+
+
+class SigningRequestSerializer(serializers.ModelSerializer):
+    requester_username = serializers.CharField(source='requester.username', read_only=True)
+    signer_username = serializers.CharField(source='signer.username', read_only=True)
+    signature_details = QuantumDigitalSignatureSerializer(source='signature', read_only=True)
+
+    class Meta:
+        model = SigningRequest
+        fields = '__all__'
+        read_only_fields = ('request_id', 'status', 'signature', 'created_at', 'updated_at')
+
+
+class CreateSigningRequestSerializer(serializers.Serializer):
+    signer_id = serializers.IntegerField(required=True)
+    purpose = serializers.CharField(max_length=255, default='Document Sign')
+    payload_content = serializers.CharField(required=True)
+    verifiers_count = serializers.IntegerField(default=1)
+

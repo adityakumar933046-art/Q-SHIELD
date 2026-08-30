@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Key, ShieldAlert, AlertTriangle, BarChart3, FileText, Cpu, Users, Building2, Sliders, LogOut } from 'lucide-react';
+import { LayoutDashboard, Key, ShieldAlert, AlertTriangle, BarChart3, FileText, Cpu, Users, Building2, Sliders, LogOut, Bell, User as UserIcon, Settings } from 'lucide-react';
 import { User } from '../types';
 
 interface SidebarProps {
@@ -53,15 +53,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, onLogout }) => {
   } else if (role === 'SIGNER') {
     groups = [
       {
-        title: 'SIGNER WORKSPACE',
+        title: 'SIGNER PORTAL',
         items: [
-          { to: '/signer/qds', label: 'QDS Signer Studio', icon: Key },
-        ]
-      },
-      {
-        title: 'SYSTEM',
-        items: [
-          { to: '/signer/audit', label: 'Audit Log Trail', icon: FileText },
+          { to: '/signer/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+          { to: '/signer/create', label: 'Create QDS', icon: Key },
+          { to: '/signer/my-qds', label: 'My QDS', icon: FileText },
+          { to: '/signer/requests', label: 'Signing Requests', icon: Key },
+          { to: '/signer/profile', label: 'My Profile', icon: UserIcon },
+          { to: '/signer/audit', label: 'Audit Trail', icon: FileText },
+          { to: '/signer/notifications', label: 'Notifications', icon: Bell },
+          { to: '/signer/settings', label: 'Settings', icon: Settings },
+          { to: '#logout', label: 'Logout', icon: LogOut },
         ]
       }
     ];
@@ -131,6 +133,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, onLogout }) => {
             </div>
             {group.items.map((item) => {
               const Icon = item.icon;
+              if (item.label === 'Logout') {
+                return (
+                  <button
+                    key={item.to}
+                    onClick={onLogout}
+                    className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition duration-150 text-slate-300 hover:text-white hover:bg-[#131E33] text-left border-l-4 border-transparent pl-2"
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              }
               return (
                 <NavLink
                   key={item.to}
@@ -139,7 +153,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, onLogout }) => {
                     `flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition duration-150 ${
                       isActive
                         ? 'bg-[#00C2FF]/10 text-[#00C2FF] border-l-4 border-[#00C2FF] pl-2 font-bold shadow-sm'
-                        : 'text-slate-300 hover:text-white hover:bg-[#131E33]'
+                        : 'text-slate-300 hover:text-white hover:bg-[#131E33] border-l-4 border-transparent pl-2'
                     }`
                   }
                 >

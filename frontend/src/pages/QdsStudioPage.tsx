@@ -98,7 +98,7 @@ export const QdsStudioPage: React.FC = () => {
               1
             </span>
             <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
-              Issue Quantum Digital Signature (Sender Alice)
+              Issue Quantum Digital Signature (Sender)
             </h2>
           </div>
 
@@ -177,7 +177,7 @@ export const QdsStudioPage: React.FC = () => {
               2
             </span>
             <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
-              Verify Teleportation Signature (Receiver Bob)
+              Verify Teleportation Signature (Receiver)
             </h2>
           </div>
 

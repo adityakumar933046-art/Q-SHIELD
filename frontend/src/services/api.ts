@@ -189,5 +189,43 @@ export const api = {
   getAuditLogs: async (): Promise<AuditTrailRecord[]> => {
     const res = await apiClient.get('/audit/');
     return res.data.results || res.data;
+  },
+
+  // Signer Dashboard & Signing Requests API
+  getSigningRequests: async (): Promise<any[]> => {
+    const res = await apiClient.get('/qds/requests/');
+    return res.data.results || res.data;
+  },
+  createSigningRequest: async (params: {
+    signer_id: number;
+    purpose: string;
+    payload_content: string;
+    verifiers_count?: number;
+  }): Promise<any> => {
+    const res = await apiClient.post('/qds/requests/', params);
+    return res.data;
+  },
+  signRequest: async (
+    requestId: number | string,
+    params: {
+      quantum_state_basis: string;
+      bell_pair_type: string;
+    }
+  ): Promise<any> => {
+    const res = await apiClient.post(`/qds/requests/${requestId}/sign/`, params);
+    return res.data;
+  },
+  rejectRequest: async (requestId: number | string): Promise<any> => {
+    const res = await apiClient.post(`/qds/requests/${requestId}/reject/`);
+    return res.data;
+  },
+  getSignerDashboardStats: async (): Promise<any> => {
+    const res = await apiClient.get('/qds/dashboard-stats/');
+    return res.data;
+  },
+  getVerifierDashboardStats: async (): Promise<any> => {
+    const res = await apiClient.get('/verification/dashboard-stats/');
+    return res.data;
   }
 };
+
