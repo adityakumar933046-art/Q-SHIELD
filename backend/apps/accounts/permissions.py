@@ -3,49 +3,67 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class IsSuperAdmin(permissions.BasePermission):
+    """Allows access only to Super Admin users."""
+    def has_permission(self, request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ADMIN] or request.user.is_superuser)
+        )
+
+class IsOrganizationAdmin(permissions.BasePermission):
+    """Allows access to Organization Admins or Super Admins."""
+    def has_permission(self, request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.ADMIN] or request.user.is_superuser)
+        )
+
 class IsAdmin(permissions.BasePermission):
-    """Allows access only to Admin users."""
+    """Allows access to Admins (Super Admin or Organization Admin)."""
     def has_permission(self, request, view):
         return bool(
             request.user and
             request.user.is_authenticated and
-            (request.user.role == User.Role.ADMIN or request.user.is_superuser)
-        )
-
-class IsSigner(permissions.BasePermission):
-    """Allows access to Signer users or Admin."""
-    def has_permission(self, request, view):
-        return bool(
-            request.user and
-            request.user.is_authenticated and
-            (request.user.role in [User.Role.ADMIN, User.Role.SIGNER] or request.user.is_superuser)
-        )
-
-class IsVerifier(permissions.BasePermission):
-    """Allows access to Verifier users or Admin."""
-    def has_permission(self, request, view):
-        return bool(
-            request.user and
-            request.user.is_authenticated and
-            (request.user.role in [User.Role.ADMIN, User.Role.VERIFIER] or request.user.is_superuser)
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.ADMIN] or request.user.is_superuser)
         )
 
 class IsSecurityAnalyst(permissions.BasePermission):
-    """Allows access to Security Analyst users or Admin."""
+    """Allows access to Security Analyst users, Organization Admins, or Super Admins."""
     def has_permission(self, request, view):
         return bool(
             request.user and
             request.user.is_authenticated and
-            (request.user.role in [User.Role.ADMIN, User.Role.SECURITY_ANALYST] or request.user.is_superuser)
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.SECURITY_ANALYST, User.Role.ADMIN] or request.user.is_superuser)
+        )
+
+class IsSigner(permissions.BasePermission):
+    """Allows access to Signer users, Organization Admins, or Super Admins."""
+    def has_permission(self, request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.SIGNER, User.Role.ADMIN] or request.user.is_superuser)
+        )
+
+class IsVerifier(permissions.BasePermission):
+    """Allows access to Verifier users, Organization Admins, or Super Admins."""
+    def has_permission(self, request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.VERIFIER, User.Role.ADMIN] or request.user.is_superuser)
         )
 
 class IsSignerOrVerifier(permissions.BasePermission):
-    """Allows access to Signers, Verifiers, or Admin."""
+    """Allows access to Signers, Verifiers, Organization Admins, or Super Admins."""
     def has_permission(self, request, view):
         return bool(
             request.user and
             request.user.is_authenticated and
-            (request.user.role in [User.Role.ADMIN, User.Role.SIGNER, User.Role.VERIFIER] or request.user.is_superuser)
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.SIGNER, User.Role.VERIFIER, User.Role.ADMIN] or request.user.is_superuser)
         )
 
 class IsAdminOrSecurityAnalyst(permissions.BasePermission):
@@ -54,7 +72,7 @@ class IsAdminOrSecurityAnalyst(permissions.BasePermission):
         return bool(
             request.user and
             request.user.is_authenticated and
-            (request.user.role in [User.Role.ADMIN, User.Role.SECURITY_ANALYST] or request.user.is_superuser)
+            (request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.SECURITY_ANALYST, User.Role.ADMIN] or request.user.is_superuser)
         )
 
 class IsAdminOrReadOnly(permissions.BasePermission):
@@ -64,7 +82,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
             return False
         if request.method in permissions.SAFE_METHODS:
             return True
-        return bool(request.user.role == User.Role.ADMIN or request.user.is_superuser)
+        return bool(request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.ADMIN] or request.user.is_superuser)
 
 class IsAnalystOrReadOnly(permissions.BasePermission):
     """Allows read access to all authenticated users, write access to Security Analyst or Admin."""
@@ -73,4 +91,4 @@ class IsAnalystOrReadOnly(permissions.BasePermission):
             return False
         if request.method in permissions.SAFE_METHODS:
             return True
-        return bool(request.user.role in [User.Role.ADMIN, User.Role.SECURITY_ANALYST] or request.user.is_superuser)
+        return bool(request.user.role in [User.Role.SUPER_ADMIN, User.Role.ORGANIZATION_ADMIN, User.Role.SECURITY_ANALYST, User.Role.ADMIN] or request.user.is_superuser)

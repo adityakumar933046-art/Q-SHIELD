@@ -116,3 +116,34 @@ class QDSSecurityTestCase(TestCase):
         resp_admin = client.patch(f'/api/threats/rules/{self.rule.id}/', {'threshold_value': 0.05})
         self.assertEqual(resp_admin.status_code, status.HTTP_200_OK)
         self.assertEqual(resp_admin.data['threshold_value'], 0.05)
+
+    def test_signing_request_requires_step_up_token(self):
+        """Signing a request requires valid step-up token."""
+        from apps.qds.models import SigningRequest
+        from apps.accounts.models import StepUpToken
+
+        req = SigningRequest.objects.create(
+            request_id="REQ-TEST1",
+            requester=self.verifier_a,
+            signer=self.signer_a,
+            purpose="Test Signing Request",
+            payload_content="Sensitive Payload Content",
+            status="PENDING"
+        )
+
+        client = APIClient()
+        client.force_authenticate(user=self.signer_a)
+
+        # Attempt sign without step-up token (Forbidden)
+        resp_no_token = client.post(f'/api/qds/requests/{req.id}/sign/', {})
+        self.assertEqual(resp_no_token.status_code, status.HTTP_403_FORBIDDEN)
+
+        # Attempt sign with valid step-up token (Allowed)
+        step_up = StepUpToken.objects.create(user=self.signer_a)
+        resp_with_token = client.post(
+            f'/api/qds/requests/{req.id}/sign/',
+            {},
+            HTTP_X_STEP_UP_TOKEN=str(step_up.token)
+        )
+        self.assertEqual(resp_with_token.status_code, status.HTTP_200_OK)
+        self.assertEqual(resp_with_token.data['status'], 'success')

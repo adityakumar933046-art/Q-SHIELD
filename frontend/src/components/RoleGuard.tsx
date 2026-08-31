@@ -13,7 +13,18 @@ export const RoleGuard: React.FC<RoleGuardProps> = ({ currentUser, allowedRoles,
     return <UnauthorizedPage currentUser={currentUser} />;
   }
 
-  if (allowedRoles.includes(currentUser.role)) {
+  const role = currentUser.role;
+
+  // Handle Admin permission hierarchy
+  const isMatch = allowedRoles.some((allowed) => {
+    if (allowed === role) return true;
+    if (allowed === 'ADMIN' && (role === 'SUPER_ADMIN' || role === 'ORGANIZATION_ADMIN' || role === 'ADMIN')) return true;
+    if (allowed === 'SUPER_ADMIN' && (role === 'ADMIN' || role === 'SUPER_ADMIN')) return true;
+    if (allowed === 'ORGANIZATION_ADMIN' && (role === 'ADMIN' || role === 'SUPER_ADMIN' || role === 'ORGANIZATION_ADMIN')) return true;
+    return false;
+  });
+
+  if (isMatch) {
     return <>{children}</>;
   }
 

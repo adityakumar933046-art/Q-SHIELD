@@ -35,8 +35,22 @@ class QDSViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         # Enforce Signer role check
-        if request.user.role not in ['ADMIN', 'SIGNER', 'QUANTUM_OPERATOR'] and not request.user.is_superuser:
+        if request.user.role not in ['ADMIN', 'SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER', 'QUANTUM_OPERATOR'] and not request.user.is_superuser:
             return Response({'error': 'Only users with SIGNER or ADMIN role can create digital signatures.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Enforce Step-Up Authentication for sensitive signature creation
+        step_up_token_val = request.META.get('HTTP_X_STEP_UP_TOKEN') or request.data.get('step_up_token')
+        if not step_up_token_val:
+            return Response({'detail': 'Step-up authentication token is required to sign documents.'}, status=status.HTTP_403_FORBIDDEN)
+
+        from apps.accounts.models import StepUpToken
+        step_up_obj = StepUpToken.objects.filter(token=step_up_token_val, user=request.user).first()
+        if not step_up_obj or not step_up_obj.is_valid:
+            return Response({'detail': 'Invalid or expired step-up authentication token.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Mark token as consumed
+        step_up_obj.is_used = True
+        step_up_obj.save()
 
         serializer = CreateSignatureRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -228,6 +242,20 @@ class SigningRequestViewSet(viewsets.ModelViewSet):
         
         if req_obj.signer != request.user and request.user.role != 'ADMIN' and not request.user.is_superuser:
             return Response({'error': 'Only the designated signer can sign this request'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Enforce Step-Up Authentication for sensitive signature execution
+        step_up_token_val = request.META.get('HTTP_X_STEP_UP_TOKEN') or request.data.get('step_up_token')
+        if not step_up_token_val:
+            return Response({'detail': 'Step-up authentication token is required to sign documents.'}, status=status.HTTP_403_FORBIDDEN)
+
+        from apps.accounts.models import StepUpToken
+        step_up_obj = StepUpToken.objects.filter(token=step_up_token_val, user=request.user).first()
+        if not step_up_obj or not step_up_obj.is_valid:
+            return Response({'detail': 'Invalid or expired step-up authentication token.'}, status=status.HTTP_403_FORBIDDEN)
+
+        # Mark token as consumed
+        step_up_obj.is_used = True
+        step_up_obj.save()
 
         # Reuse signature creation logic
         basis = request.data.get('quantum_state_basis', '|+>')
