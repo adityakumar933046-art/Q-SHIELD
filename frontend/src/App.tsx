@@ -50,7 +50,7 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
     case 'VERIFIER':
       return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
-      return <Navigate to="/analyst/threats" replace />;
+      return <Navigate to="/analyst/dashboardcd" replace />;
     case 'ADMIN':
     default:
       return <Navigate to="/admin/dashboard" replace />;
@@ -175,11 +175,12 @@ export const App: React.FC = () => {
           <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
 
           {/* SECURITY ANALYST WORKSPACE ROUTES */}
+          <Route path="/analyst/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboard /></RoleGuard>} />
           <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
           <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
           <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
           <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-          <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
+          <Route path="/analyst" element={<Navigate to="/analyst/dashboard" replace />} />
 
           {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
           <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
@@ -189,12 +190,6 @@ export const App: React.FC = () => {
           <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
           <Route path="/users" element={<Navigate to="/admin/users" replace />} />
 
-              {/* SECURITY ANALYST WORKSPACE ROUTES */}
-              <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
-              <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
-              <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
-              <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-              <Route path="/analyst" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboard /></RoleGuard>} />
           {/* 403 / UNAUTHORIZED CATCH-ALL */}
           <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
         </Route>
