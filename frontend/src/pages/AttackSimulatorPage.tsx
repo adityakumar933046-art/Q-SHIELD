@@ -65,11 +65,13 @@ export const AttackSimulatorPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
-          <Cpu className="w-5 h-5 text-[#00C2FF]" />
+        <h1 className="text-xl font-extrabold text-white flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <Cpu className="w-4 h-4" />
+          </div>
           <span>QDS Cyber Attack Simulator Suite</span>
         </h1>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-400 mt-1">
           Simulate malicious attack vectors against Quantum Digital Signatures to evaluate statistical threshold detection efficacy.
         </p>
       </div>
@@ -83,19 +85,21 @@ export const AttackSimulatorPage: React.FC = () => {
             <button
               key={v.id}
               onClick={() => setSelectedAttack(v.id)}
-              className={`p-3.5 rounded-xl border text-left flex flex-col justify-between transition duration-200 shadow-sm ${
+              className={`p-4 rounded-2xl border text-left flex flex-col justify-between transition duration-200 shadow-sm relative overflow-hidden ${
                 isSelected
-                  ? 'bg-white border-[#00C2FF] ring-2 ring-[#00C2FF]/30 font-bold'
-                  : 'bg-white border-[#E2E8F0] hover:border-[#00C2FF]/50'
+                  ? 'bg-cyan-500/10 border-cyan-400 shadow-[0_0_20px_rgba(0,229,255,0.25)]'
+                  : 'glass-card border-white/10 hover:border-cyan-500/30'
               }`}
             >
-              <div className="space-y-2">
+              <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <Icon className={`w-5 h-5 ${isSelected ? 'text-[#00C2FF]' : 'text-slate-500'}`} />
-                  {isSelected && <span className="w-2 h-2 rounded-full bg-[#00C2FF]" />}
+                  <div className={`p-2 rounded-xl border ${isSelected ? 'bg-cyan-500/20 border-cyan-400/50 text-cyan-300' : 'bg-white/[0.04] border-white/10 text-slate-400'}`}>
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  {isSelected && <span className="w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_#00E5FF] animate-pulse" />}
                 </div>
-                <h3 className="text-xs font-bold text-[#0F172A]">{v.title}</h3>
-                <p className="text-[10px] text-slate-500 line-clamp-3 font-normal">{v.description}</p>
+                <h3 className={`text-xs font-bold ${isSelected ? 'text-cyan-300' : 'text-white'}`}>{v.title}</h3>
+                <p className="text-[10px] text-slate-400 line-clamp-3 font-normal leading-relaxed">{v.description}</p>
               </div>
             </button>
           );
@@ -103,17 +107,17 @@ export const AttackSimulatorPage: React.FC = () => {
       </div>
 
       {/* Simulation Controls & Launcher */}
-      <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-4 shadow-sm">
-        <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider flex items-center space-x-2">
-          <Zap className="w-4 h-4 text-[#00C2FF]" />
+      <div className="glass-card p-6 space-y-4">
+        <h2 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+          <Zap className="w-4 h-4 text-cyan-400" />
           <span>Configure Attack Injection Parameters</span>
         </h2>
 
         <form onSubmit={handleRunSimulation} className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end text-xs">
           <div>
-            <div className="flex justify-between text-slate-700 font-semibold mb-1">
+            <div className="flex justify-between text-slate-300 font-semibold mb-2">
               <span>Attack Channel Noise Intensity</span>
-              <span className="text-[#F59E0B] font-mono font-bold">{(intensity * 100).toFixed(0)}%</span>
+              <span className="text-amber-400 font-mono font-bold">{(intensity * 100).toFixed(0)}%</span>
             </div>
             <input
               type="range"
@@ -122,30 +126,30 @@ export const AttackSimulatorPage: React.FC = () => {
               step="0.05"
               value={intensity}
               onChange={(e) => setIntensity(parseFloat(e.target.value))}
-              className="w-full bg-slate-200 accent-[#00C2FF] h-1.5 rounded-lg cursor-pointer"
+              className="w-full bg-slate-800 accent-cyan-400 h-2 rounded-lg cursor-pointer"
             />
           </div>
 
           <div>
-            <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Quantum Circuit Shots</label>
+            <label className="block text-slate-300 font-semibold mb-2 uppercase text-[11px]">Quantum Circuit Shots</label>
             <select
               value={shots}
               onChange={(e) => setShots(parseInt(e.target.value))}
-              className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-mono text-xs focus:outline-none focus:border-[#00C2FF]"
+              className="w-full glass-input p-2.5 text-white font-mono text-xs focus:outline-none bg-[#0B1220]"
             >
-              <option value="1024">1,024 Shots (Standard)</option>
-              <option value="4096">4,096 Shots (High Precision)</option>
-              <option value="8192">8,192 Shots (Deep Tomography)</option>
+              <option value="1024" className="bg-slate-900 text-white">1,024 Shots (Standard)</option>
+              <option value="4096" className="bg-slate-900 text-white">4,096 Shots (High Precision)</option>
+              <option value="8192" className="bg-slate-900 text-white">8,192 Shots (Deep Tomography)</option>
             </select>
           </div>
 
           <button
             type="submit"
             disabled={isSimulating}
-            className="w-full bg-[#0B1220] hover:bg-[#131E33] text-white font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm"
+            className="w-full btn-cyan-gradient py-2.5 rounded-xl flex items-center justify-center space-x-2 transition cursor-pointer"
           >
-            <Cpu className="w-4 h-4 text-[#00C2FF]" />
-            <span>{isSimulating ? 'Executing Attack In Qiskit...' : `Launch ${selectedAttack} Attack`}</span>
+            <Cpu className="w-4 h-4 text-black" />
+            <span className="font-bold">{isSimulating ? 'Executing In Qiskit...' : `Launch ${selectedAttack} Attack`}</span>
           </button>
         </form>
       </div>
@@ -153,9 +157,9 @@ export const AttackSimulatorPage: React.FC = () => {
       {/* Output Results & Detection Details */}
       {simulationOutput && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
-            <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider flex items-center space-x-2">
-              <Terminal className="w-4 h-4 text-[#00C2FF]" />
+          <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <h2 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+              <Terminal className="w-4 h-4 text-cyan-400" />
               <span>Attack Simulation Telemetry Output</span>
             </h2>
             <StatusBadge status={simulationOutput.threat_detection.threat_category || 'SECURE'} />
@@ -171,51 +175,51 @@ export const AttackSimulatorPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Statistical Physics Analysis */}
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-mono shadow-sm">
-              <div className="text-[#00C2FF] font-bold font-sans uppercase">Non-ML Statistical Hypothesis Testing</div>
-              <div className="space-y-1 text-slate-700">
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">QBER Measured:</span>
-                  <span className="text-[#F59E0B] font-bold">{(simulationOutput.statistical_analysis.qber * 100).toFixed(2)}%</span>
+            <div className="glass-card p-5 space-y-3 text-xs font-mono">
+              <div className="text-cyan-400 font-bold font-sans uppercase tracking-wider">Non-ML Statistical Hypothesis Testing</div>
+              <div className="space-y-1 text-slate-300">
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">QBER Measured:</span>
+                  <span className="text-amber-400 font-bold">{(simulationOutput.statistical_analysis.qber * 100).toFixed(2)}%</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">State Fidelity:</span>
-                  <span className="text-[#10B981] font-bold">{(simulationOutput.statistical_analysis.fidelity * 100).toFixed(2)}%</span>
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">State Fidelity:</span>
+                  <span className="text-emerald-400 font-bold">{(simulationOutput.statistical_analysis.fidelity * 100).toFixed(2)}%</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">Chi-Square p-value:</span>
-                  <span>{simulationOutput.statistical_analysis.chi_square.p_value.toExponential(4)}</span>
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">Chi-Square p-value:</span>
+                  <span className="text-white">{simulationOutput.statistical_analysis.chi_square.p_value.toExponential(4)}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">Adversary Forgery Prob:</span>
-                  <span className="text-[#F59E0B] font-bold">{(simulationOutput.statistical_analysis.forgery_probability * 100).toFixed(4)}%</span>
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">Adversary Forgery Prob:</span>
+                  <span className="text-rose-400 font-bold">{(simulationOutput.statistical_analysis.forgery_probability * 100).toFixed(4)}%</span>
                 </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-slate-500">SPRT Decision:</span>
-                  <span className="text-[#0B1220] font-bold">{simulationOutput.statistical_analysis.sprt.decision}</span>
+                <div className="flex justify-between py-1.5">
+                  <span className="text-slate-400">SPRT Decision:</span>
+                  <span className="text-cyan-400 font-bold">{simulationOutput.statistical_analysis.sprt.decision}</span>
                 </div>
               </div>
             </div>
 
             {/* Detection & Incident Created */}
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-mono shadow-sm">
-              <div className="text-[#0B1220] font-bold font-sans uppercase">Threat Evaluator Result</div>
-              <div className="space-y-1.5 text-slate-700">
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">Threat Flagged:</span>
-                  <span className="font-bold text-[#0B1220]">{simulationOutput.threat_detection.threat_detected ? 'YES (BREACH DETECTED)' : 'NO'}</span>
+            <div className="glass-card p-5 space-y-3 text-xs font-mono">
+              <div className="text-white font-bold font-sans uppercase tracking-wider">Threat Evaluator Result</div>
+              <div className="space-y-1.5 text-slate-300">
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">Threat Flagged:</span>
+                  <span className="font-bold text-rose-400">{simulationOutput.threat_detection.threat_detected ? 'YES (BREACH DETECTED)' : 'NO'}</span>
                 </div>
-                <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                  <span className="text-slate-500">Rules Triggered:</span>
-                  <span className="text-[#F59E0B] text-[11px] font-bold">{simulationOutput.threat_detection.rules_triggered.join(', ')}</span>
+                <div className="flex justify-between py-1.5 border-b border-white/5">
+                  <span className="text-slate-400">Rules Triggered:</span>
+                  <span className="text-amber-400 text-[11px] font-bold">{simulationOutput.threat_detection.rules_triggered.join(', ')}</span>
                 </div>
                 {simulationOutput.threat_detection.incident_id && (
-                  <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
-                    <span className="text-slate-500">Incident Generated:</span>
-                    <span className="text-[#00C2FF] font-bold">{simulationOutput.threat_detection.incident_id}</span>
+                  <div className="flex justify-between py-1.5 border-b border-white/5">
+                    <span className="text-slate-400">Incident Generated:</span>
+                    <span className="text-cyan-400 font-bold">{simulationOutput.threat_detection.incident_id}</span>
                   </div>
                 )}
-                <div className="text-[11px] text-slate-500 pt-1 font-sans italic">
+                <div className="text-[11px] text-slate-400 pt-1 font-sans italic">
                   {simulationOutput.threat_detection.explanation}
                 </div>
               </div>

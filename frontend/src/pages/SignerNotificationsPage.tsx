@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bell, ShieldAlert, Key, MessageSquare, Info } from 'lucide-react';
+import { Bell, ShieldAlert, Key, Info } from 'lucide-react';
 
 export const SignerNotificationsPage: React.FC = () => {
   const notifications = [
@@ -10,7 +10,7 @@ export const SignerNotificationsPage: React.FC = () => {
       time: '10 mins ago',
       type: 'request',
       icon: Key,
-      color: 'bg-blue-50 text-blue-500 border-blue-100',
+      color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-[0_0_12px_rgba(0,229,255,0.15)]',
     },
     {
       id: 2,
@@ -19,7 +19,7 @@ export const SignerNotificationsPage: React.FC = () => {
       time: '1 hour ago',
       type: 'warning',
       icon: ShieldAlert,
-      color: 'bg-amber-50 text-amber-500 border-amber-100',
+      color: 'bg-amber-500/10 text-amber-400 border-amber-500/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]',
     },
     {
       id: 3,
@@ -28,7 +28,7 @@ export const SignerNotificationsPage: React.FC = () => {
       time: '2 hours ago',
       type: 'request',
       icon: Key,
-      color: 'bg-blue-50 text-blue-500 border-blue-100',
+      color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-[0_0_12px_rgba(0,229,255,0.15)]',
     },
     {
       id: 4,
@@ -37,39 +37,41 @@ export const SignerNotificationsPage: React.FC = () => {
       time: '1 day ago',
       type: 'info',
       icon: Info,
-      color: 'bg-emerald-50 text-emerald-500 border-emerald-100',
+      color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]',
     }
   ];
 
   return (
-    <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
-          <Bell className="w-5 h-5 text-[#00C2FF]" />
+        <h1 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <Bell className="w-4 h-4" />
+          </div>
           <span>Security & Portal Notifications</span>
         </h1>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-400 mt-1">
           Stay up to date with QDS requests, quantum node telemetry alarms, and organizational security alerts.
         </p>
       </div>
 
-      <div className="max-w-2xl bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden p-6 space-y-4">
+      <div className="max-w-2xl glass-card p-6 space-y-4">
         {notifications.map((notif) => {
           const Icon = notif.icon;
           return (
             <div 
               key={notif.id} 
-              className={`flex items-start space-x-4 p-4 border rounded-xl transition hover:shadow-sm ${notif.color}`}
+              className={`flex items-start space-x-4 p-4 border rounded-2xl transition hover:border-cyan-400/50 ${notif.color}`}
             >
-              <div className="p-2 rounded-lg bg-white shadow-inner flex-shrink-0">
+              <div className="p-2 rounded-xl bg-white/[0.06] border border-white/10 flex-shrink-0">
                 <Icon className="w-5 h-5" />
               </div>
-              <div className="space-y-1">
+              <div className="space-y-1 flex-1">
                 <div className="flex justify-between items-baseline">
-                  <h3 className="font-extrabold text-slate-800 text-xs">{notif.title}</h3>
-                  <span className="text-[10px] text-slate-400 font-semibold">{notif.time}</span>
+                  <h3 className="font-extrabold text-white text-xs">{notif.title}</h3>
+                  <span className="text-[10px] text-slate-400 font-mono font-medium">{notif.time}</span>
                 </div>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">{notif.message}</p>
+                <p className="text-xs text-slate-300 leading-relaxed">{notif.message}</p>
               </div>
             </div>
           );

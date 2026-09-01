@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Lock, CheckCircle, AlertCircle, Key } from 'lucide-react';
+import { Shield, CheckCircle, AlertCircle, Key } from 'lucide-react';
 import { api } from '../services/api';
 
 export const ResetPasswordPage: React.FC = () => {
@@ -45,23 +45,27 @@ export const ResetPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070C14] text-white flex items-center justify-center p-4">
-      <div className="bg-[#0B1220] border border-[#1F2E4D] rounded-2xl max-w-md w-full p-8 shadow-2xl space-y-6">
+    <div className="min-h-screen bg-[#070B14] text-white flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Glows */}
+      <div className="fixed top-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="fixed bottom-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="glass-panel-glow rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 relative z-10">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center p-3 bg-[#00C2FF]/10 border border-[#00C2FF]/30 rounded-xl text-[#00C2FF] mb-2">
+          <div className="inline-flex items-center justify-center p-3 bg-cyan-500/15 border border-cyan-400/40 rounded-2xl text-cyan-400 mb-2 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
             <Shield className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-wide">Set New Password</h1>
-          <p className="text-xs text-slate-400">Secure Account Credentials Reset</p>
+          <h1 className="text-2xl font-extrabold tracking-wide text-white">Set New Password</h1>
+          <p className="text-xs text-cyan-400 font-mono">Secure Account Credentials Reset</p>
         </div>
 
         {successMsg ? (
-          <div className="bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl p-5 space-y-4 text-center">
-            <CheckCircle className="w-8 h-8 text-[#10B981] mx-auto" />
+          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-5 space-y-4 text-center">
+            <CheckCircle className="w-8 h-8 text-emerald-400 mx-auto" />
             <p className="text-xs text-slate-200 leading-relaxed font-medium">{successMsg}</p>
             <a
-              href="/"
-              className="inline-block px-4 py-2.5 bg-[#00C2FF] text-[#0B1220] text-xs font-bold rounded-xl shadow-md hover:bg-[#00A8DE] transition"
+              href="/login"
+              className="inline-block px-5 py-2.5 btn-cyan-gradient text-xs font-bold rounded-xl shadow-md cursor-pointer"
             >
               Go to Login Screen
             </a>
@@ -69,14 +73,14 @@ export const ResetPasswordPage: React.FC = () => {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             {errorMsg && (
-              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-3 rounded-lg text-xs flex items-center space-x-2 font-medium">
+              <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-3 rounded-xl text-xs flex items-center space-x-2 font-medium">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-wider">
                 Reset Authorization Token
               </label>
               <input
@@ -85,12 +89,12 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="Enter or paste token"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full glass-input px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-wider">
                 New Password (min 8 chars)
               </label>
               <input
@@ -100,12 +104,12 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="••••••••"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full glass-input px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-wider">
                 Confirm New Password
               </label>
               <input
@@ -115,16 +119,16 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full glass-input px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting || !token || !newPassword || !confirmPassword}
-              className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-3 rounded-xl text-xs flex items-center justify-center space-x-2 transition shadow-lg disabled:opacity-50"
+              className="w-full btn-cyan-gradient font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 transition shadow-lg disabled:opacity-50 cursor-pointer"
             >
-              <Key className="w-4 h-4" />
+              <Key className="w-4 h-4 text-black" />
               <span>{isSubmitting ? 'Resetting Password...' : 'Confirm Password Reset'}</span>
             </button>
           </form>
@@ -133,3 +137,5 @@ export const ResetPasswordPage: React.FC = () => {
     </div>
   );
 };
+
+export default ResetPasswordPage;
