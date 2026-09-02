@@ -57,6 +57,54 @@ export const api = {
     const res = await apiClient.get('/auth/me/');
     return res.data;
   },
+  forgotPassword: async (email: string) => {
+    const res = await apiClient.post('/auth/forgot-password/', { email });
+    return res.data;
+  },
+  resetPassword: async (token: string, new_password: string, confirm_password: string) => {
+    const res = await apiClient.post('/auth/reset-password/', { token, new_password, confirm_password });
+    return res.data;
+  },
+  changePassword: async (old_password: string, new_password: string, confirm_password: string) => {
+    const res = await apiClient.post('/auth/change-password/', { old_password, new_password, confirm_password });
+    return res.data;
+  },
+  setupMfa: async () => {
+    const res = await apiClient.post('/auth/mfa/setup/');
+    return res.data;
+  },
+  verifyMfa: async (code: string) => {
+    const res = await apiClient.post('/auth/mfa/verify/', { code });
+    return res.data;
+  },
+  disableMfa: async (code?: string, password?: string) => {
+    const res = await apiClient.post('/auth/mfa/disable/', { code, password });
+    return res.data;
+  },
+  verifyMfaLogin: async (mfa_challenge: string, code?: string, recovery_code?: string) => {
+    const res = await apiClient.post('/auth/mfa/login/verify/', { mfa_challenge, code, recovery_code });
+    if (res.data.access) {
+      localStorage.setItem('qshield_token', res.data.access);
+      localStorage.setItem('qshield_refresh', res.data.refresh);
+    }
+    return res.data;
+  },
+  generateRecoveryCodes: async (): Promise<{ message: string; recovery_codes: string[] }> => {
+    const res = await apiClient.post('/auth/mfa/recovery-codes/generate/');
+    return res.data;
+  },
+  verifyStepUp: async (code?: string, password?: string): Promise<{ step_up_token: string; expires_at: string }> => {
+    const res = await apiClient.post('/auth/step-up/verify/', { code, password });
+    return res.data;
+  },
+  getSessions: async (): Promise<any[]> => {
+    const res = await apiClient.get('/auth/sessions/');
+    return res.data;
+  },
+  revokeSession: async (jti?: string, revoke_all_others?: boolean) => {
+    const res = await apiClient.post('/auth/sessions/revoke/', { jti, revoke_all_others });
+    return res.data;
+  },
   getUsers: async (): Promise<User[]> => {
     const res = await apiClient.get('/auth/users/');
     return res.data.results || res.data;

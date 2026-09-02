@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Key, Lock, User as UserIcon, X, Check, LogOut } from 'lucide-react';
+import { Shield, Key, Lock, User as UserIcon, X, Check, LogOut, Smartphone, RefreshCw } from 'lucide-react';
 import { api } from '../services/api';
 import { User } from '../types';
 
@@ -21,6 +21,12 @@ export const LoginModal: React.FC<LoginModalProps> = ({
   const [errorMsg, setErrorMsg] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // MFA Challenge State
+  const [mfaChallenge, setMfaChallenge] = useState<string | null>(null);
+  const [mfaCode, setMfaCode] = useState('');
+  const [recoveryCode, setRecoveryCode] = useState('');
+  const [useRecoveryCode, setUseRecoveryCode] = useState(false);
+
   if (!isOpen) return null;
 
   const demoAccounts = [
@@ -35,12 +41,41 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     setErrorMsg('');
     setIsSubmitting(true);
     try {
-      await api.login(username, password);
+      const res = await api.login(username, password);
+      if (res.mfa_required) {
+        setMfaChallenge(res.mfa_challenge);
+      } else {
+        const user = await api.getCurrentUser();
+        onUserChanged(user);
+        onClose();
+      }
+    } catch (err: any) {
+      setErrorMsg(err.response?.data?.detail || 'Invalid username or password. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleVerifyMfa = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!mfaChallenge) return;
+    setErrorMsg('');
+    setIsSubmitting(true);
+    try {
+      await api.verifyMfaLogin(
+        mfaChallenge,
+        useRecoveryCode ? undefined : mfaCode,
+        useRecoveryCode ? recoveryCode : undefined
+      );
       const user = await api.getCurrentUser();
       onUserChanged(user);
       onClose();
+      // Reset MFA state
+      setMfaChallenge(null);
+      setMfaCode('');
+      setRecoveryCode('');
     } catch (err: any) {
-      setErrorMsg('Invalid username or password. Please try again.');
+      setErrorMsg(err.response?.data?.detail || 'Invalid MFA verification code or recovery code.');
     } finally {
       setIsSubmitting(false);
     }
@@ -50,12 +85,16 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     setErrorMsg('');
     setIsSubmitting(true);
     try {
-      await api.login(user, pass);
-      const u = await api.getCurrentUser();
-      onUserChanged(u);
-      onClose();
+      const res = await api.login(user, pass);
+      if (res.mfa_required) {
+        setMfaChallenge(res.mfa_challenge);
+      } else {
+        const u = await api.getCurrentUser();
+        onUserChanged(u);
+        onClose();
+      }
     } catch (err: any) {
-      setErrorMsg(`Failed to authenticate as ${user}.`);
+      setErrorMsg(err.response?.data?.detail || `Failed to authenticate as ${user}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -65,6 +104,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     await api.logout();
     onUserChanged(null);
     onClose();
+  };
+
+  const handleCancelMfa = () => {
+    setMfaChallenge(null);
+    setMfaCode('');
+    setRecoveryCode('');
+    setErrorMsg('');
   };
 
   return (
@@ -85,7 +131,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             <h2 className="text-lg font-extrabold tracking-wide">Q-SHIELD Authentication Console</h2>
           </div>
           <p className="text-xs text-slate-400">
-            JWT-Based Authentication with Role-Based Access Control (RBAC) & Tenant Isolation.
+            JWT-Based Authentication with TOTP MFA, Role-Based Access Control & Active Session Security.
           </p>
         </div>
 
@@ -114,77 +160,154 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               </button>
             </div>
           </div>
-        ) : null}
-
-        {/* Demo Quick-Switch Accounts */}
-        <div className="space-y-2">
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Quick-Switch SIH Demo Roles
-          </label>
-          <div className="grid grid-cols-2 gap-2">
-            {demoAccounts.map((acc) => {
-              const isActive = currentUser?.username === acc.user;
-              return (
-                <button
-                  key={acc.user}
-                  onClick={() => handleQuickLogin(acc.user, acc.pass)}
-                  disabled={isSubmitting}
-                  className={`p-3 rounded-lg border text-left text-xs transition flex items-center justify-between ${
-                    isActive
-                      ? 'bg-[#00C2FF]/10 border-[#00C2FF] text-[#00C2FF] font-bold'
-                      : 'bg-[#131E33] border-[#1F2E4D] text-slate-200 hover:border-[#00C2FF]/50'
-                  }`}
-                >
-                  <span className="text-white font-semibold">{acc.label}</span>
-                  {isActive && <Check className="w-4 h-4 text-[#00C2FF] flex-shrink-0" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Custom Login Form */}
-        <form onSubmit={handleCustomLogin} className="space-y-3 pt-2 border-t border-[#1A263D]">
-          <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-            Or Login with Custom Credentials
-          </label>
-
-          {errorMsg && (
-            <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
-              ⚠ {errorMsg}
+        ) : mfaChallenge ? (
+          /* Step 2: MFA Verification Challenge Screen */
+          <form onSubmit={handleVerifyMfa} className="space-y-4 bg-[#131E33] border border-[#00C2FF]/30 p-5 rounded-xl">
+            <div className="flex items-center space-x-2 text-[#00C2FF]">
+              <Smartphone className="w-5 h-5" />
+              <h3 className="text-sm font-bold uppercase tracking-wider">Multi-Factor Authentication</h3>
             </div>
-          )}
+            <p className="text-xs text-slate-300">
+              {useRecoveryCode
+                ? 'Enter an unused 8-character single-use recovery code (e.g. XXXX-XXXX).'
+                : 'Enter the 6-digit TOTP verification code from your authenticator app.'}
+            </p>
 
-          <div className="space-y-2 text-xs">
-            <div>
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
-              />
-            </div>
-          </div>
+            {errorMsg && (
+              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
+                ⚠ {errorMsg}
+              </div>
+            )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting || !username || !password}
-            className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm"
-          >
-            <Key className="w-4 h-4" />
-            <span>{isSubmitting ? 'Authenticating...' : 'Sign In with JWT'}</span>
-          </button>
-        </form>
+            {!useRecoveryCode ? (
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  6-Digit Verification Code
+                </label>
+                <input
+                  type="text"
+                  maxLength={6}
+                  placeholder="000000"
+                  value={mfaCode}
+                  onChange={(e) => setMfaCode(e.target.value.replace(/\D/g, ''))}
+                  className="w-full bg-[#0B1220] border border-[#1F2E4D] rounded-lg p-3 text-center text-xl tracking-[0.5em] font-mono text-[#00C2FF] focus:outline-none focus:border-[#00C2FF]"
+                  autoFocus
+                />
+              </div>
+            ) : (
+              <div>
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Recovery Code (XXXX-XXXX)
+                </label>
+                <input
+                  type="text"
+                  placeholder="XXXX-XXXX"
+                  value={recoveryCode}
+                  onChange={(e) => setRecoveryCode(e.target.value.toUpperCase())}
+                  className="w-full bg-[#0B1220] border border-[#1F2E4D] rounded-lg p-3 text-center text-lg tracking-widest font-mono text-[#00C2FF] focus:outline-none focus:border-[#00C2FF]"
+                  autoFocus
+                />
+              </div>
+            )}
+
+            <div className="flex items-center justify-between pt-1">
+              <button
+                type="button"
+                onClick={() => setUseRecoveryCode(!useRecoveryCode)}
+                className="text-xs text-[#00C2FF] hover:underline flex items-center space-x-1"
+              >
+                <RefreshCw className="w-3 h-3" />
+                <span>{useRecoveryCode ? 'Use 6-Digit Authenticator App Code' : 'Use Single-Use Recovery Code'}</span>
+              </button>
+            </div>
+
+            <div className="flex space-x-2 pt-2">
+              <button
+                type="button"
+                onClick={handleCancelMfa}
+                className="w-1/3 bg-[#0B1220] hover:bg-black text-slate-300 font-bold py-2.5 rounded-lg border border-[#1F2E4D] text-xs transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting || (!useRecoveryCode && mfaCode.length < 6) || (useRecoveryCode && !recoveryCode)}
+                className="w-2/3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg text-xs flex items-center justify-center space-x-2 transition shadow-sm"
+              >
+                <Key className="w-4 h-4" />
+                <span>{isSubmitting ? 'Verifying MFA...' : 'Complete Login'}</span>
+              </button>
+            </div>
+          </form>
+        ) : (
+          /* Step 1: Demo Accounts & Custom Password Login */
+          <>
+            <div className="space-y-2">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                Quick-Switch SIH Demo Roles
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {demoAccounts.map((acc) => (
+                  <button
+                    key={acc.user}
+                    onClick={() => handleQuickLogin(acc.user, acc.pass)}
+                    disabled={isSubmitting}
+                    className="p-3 rounded-lg border text-left text-xs transition flex items-center justify-between bg-[#131E33] border-[#1F2E4D] text-slate-200 hover:border-[#00C2FF]/50"
+                  >
+                    <span className="text-white font-semibold">{acc.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <form onSubmit={handleCustomLogin} className="space-y-3 pt-2 border-t border-[#1A263D]">
+              <div className="flex justify-between items-center">
+                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                  Or Login with Custom Credentials
+                </label>
+                <a href="/forgot-password" onClick={onClose} className="text-[11px] text-[#00C2FF] hover:underline font-medium">
+                  Forgot Password?
+                </a>
+              </div>
+
+              {errorMsg && (
+                <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
+                  ⚠ {errorMsg}
+                </div>
+              )}
+
+              <div className="space-y-2 text-xs">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Username or Email"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting || !username || !password}
+                className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm text-xs"
+              >
+                <Key className="w-4 h-4" />
+                <span>{isSubmitting ? 'Authenticating...' : 'Sign In with JWT'}</span>
+              </button>
+            </form>
+          </>
+        )}
       </div>
     </div>
   );

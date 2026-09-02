@@ -1,4 +1,6 @@
-export type UserRole = 'ADMIN' | 'SIGNER' | 'VERIFIER' | 'SECURITY_ANALYST';
+export type UserRole = 'SUPER_ADMIN' | 'ORGANIZATION_ADMIN' | 'SECURITY_ANALYST' | 'SIGNER' | 'VERIFIER' | 'ADMIN';
+
+export type AccountStatus = 'PENDING' | 'ACTIVE' | 'SUSPENDED' | 'LOCKED' | 'DISABLED';
 
 export interface User {
   id: number;
@@ -7,12 +9,36 @@ export interface User {
   first_name: string;
   last_name: string;
   role: UserRole;
+  status?: AccountStatus;
   organization: number | null;
   organization_name?: string;
   department: string;
   is_mfa_enabled: boolean;
+  requires_mfa?: boolean;
   is_active?: boolean;
   created_at?: string;
+}
+
+export interface MfaChallengeResponse {
+  mfa_required: true;
+  mfa_challenge: string;
+  user_id: number;
+  message: string;
+}
+
+export interface StepUpTokenResponse {
+  step_up_token: string;
+  expires_at: string;
+}
+
+export interface UserSessionInfo {
+  id: number;
+  refresh_token_jti: string;
+  ip_address: string;
+  user_agent: string;
+  last_active: string;
+  is_active: boolean;
+  created_at: string;
 }
 
 export interface Organization {
@@ -185,4 +211,20 @@ export interface AnalyticsSummary {
     category: string;
     count: number;
   }>;
+}
+
+export interface UserSessionInfo {
+  id: number;
+  refresh_token_jti: string;
+  ip_address: string;
+  user_agent: string;
+  device_type?: string;
+  browser?: string;
+  os?: string;
+  location_hint?: string;
+  is_active: boolean;
+  revocation_reason?: string;
+  revoked_at?: string;
+  created_at: string;
+  last_active: string;
 }

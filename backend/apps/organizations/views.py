@@ -1,11 +1,15 @@
 from rest_framework import viewsets, permissions
 from .models import Organization
 from .serializers import OrganizationSerializer
-from apps.accounts.permissions import IsAdminOrReadOnly
+from apps.accounts.permissions import IsSuperAdmin
 
 class OrganizationViewSet(viewsets.ModelViewSet):
     serializer_class = OrganizationSerializer
-    permission_classes = [IsAdminOrReadOnly]  # Only Admin can create/edit orgs; others read-only
+
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.IsAuthenticated()]
+        return [IsSuperAdmin()]
 
     def get_queryset(self):
         user = self.request.user

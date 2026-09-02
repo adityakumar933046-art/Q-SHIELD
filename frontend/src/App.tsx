@@ -39,10 +39,14 @@ import { VerifierNavbar } from './components/VerifierNavbar';
 
 import { api } from './services/api';
 import { User } from './types';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
+import { SecuritySettingsPage } from './pages/SecuritySettingsPage';
+import { LoginPage } from './pages/LoginPage';
 
 // Role-Based Default Landing Component
 const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ currentUser }) => {
-  if (!currentUser) return <Navigate to="/admin/dashboard" replace />;
+  if (!currentUser) return <Navigate to="/login" replace />;
   
   switch (currentUser.role) {
     case 'SIGNER':
@@ -50,7 +54,10 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
     case 'VERIFIER':
       return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
-      return <Navigate to="/analyst/dashboardcd" replace />;
+       return <Navigate to="/analyst/dashboard" replace />;
+    case 'ORGANIZATION_ADMIN':
+       return <Navigate to="/admin/dashboard" replace />;
+    case 'SUPER_ADMIN':
     case 'ADMIN':
     default:
       return <Navigate to="/admin/dashboard" replace />;
@@ -132,6 +139,11 @@ export const App: React.FC = () => {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
+        <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+
         {/* Default Landing */}
         <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
 
@@ -161,6 +173,8 @@ export const App: React.FC = () => {
           <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AnalyticsPage /></RoleGuard>} />
           <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecurityRulesPage /></RoleGuard>} />
           <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AuditPage /></RoleGuard>} />
+          <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 
           {/* SIGNER WORKSPACE ROUTES */}
