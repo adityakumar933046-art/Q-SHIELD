@@ -44,7 +44,9 @@ class User(AbstractUser):
 
     @property
     def requires_mfa(self):
-        return bool(self.is_mfa_enabled and self.mfa_secret)
+        # MFA is mandatory for SUPER_ADMIN, ORGANIZATION_ADMIN, SECURITY_ANALYST, and SIGNER roles, or if enabled on account
+        mandatory_roles = [self.Role.SUPER_ADMIN, self.Role.ORGANIZATION_ADMIN, self.Role.SECURITY_ANALYST, self.Role.SIGNER, self.Role.ADMIN]
+        return self.is_mfa_enabled or (self.role in mandatory_roles)
 
     @property
     def is_account_locked(self):
