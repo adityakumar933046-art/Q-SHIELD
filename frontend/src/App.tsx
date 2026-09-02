@@ -4,6 +4,8 @@ import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { LoginModal } from './components/LoginModal';
 import { RoleGuard } from './components/RoleGuard';
+
+// Organization Admin workspace pages
 import { DashboardPage } from './pages/DashboardPage';
 import { UserManagementPage } from './pages/UserManagementPage';
 import { OrganizationsPage } from './pages/OrganizationsPage';
@@ -14,6 +16,8 @@ import { ThreatsPage } from './pages/ThreatsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { AuditPage } from './pages/AuditPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
+
+// Signer workspace pages
 import { SignerDashboardPage } from './pages/SignerDashboardPage';
 import { MyQdsPage } from './pages/MyQdsPage';
 import { SigningRequestsPage } from './pages/SigningRequestsPage';
@@ -21,7 +25,7 @@ import { SignerProfilePage } from './pages/SignerProfilePage';
 import { SignerNotificationsPage } from './pages/SignerNotificationsPage';
 import { SignerSettingsPage } from './pages/SignerSettingsPage';
 
-// Verifier workspace pages
+// Verifier workspace pages & components
 import { VerifierDashboardPage } from './pages/VerifierDashboardPage';
 import { VerifyQdsPage } from './pages/VerifyQdsPage';
 import { MyVerificationsPage } from './pages/MyVerificationsPage';
@@ -31,11 +35,19 @@ import { VerifierAnalyticsPage } from './pages/VerifierAnalyticsPage';
 import { VerifierAuditPage } from './pages/VerifierAuditPage';
 import { VerifierNotificationsPage } from './pages/VerifierNotificationsPage';
 import { VerifierSettingsPage } from './pages/VerifierSettingsPage';
-
-// Verifier layout components
 import { VerifierSidebar } from './components/VerifierSidebar';
 import { VerifierNavbar } from './components/VerifierNavbar';
 
+// Super Admin workspace pages & layout
+import { SuperAdminLayout } from './components/superadmin/SuperAdminLayout';
+import { SuperAdminDashboardPage } from './pages/superadmin/SuperAdminDashboardPage';
+import { SuperAdminOrganizationsPage } from './pages/superadmin/SuperAdminOrganizationsPage';
+import { SuperAdminOrgDetailsPage } from './pages/superadmin/SuperAdminOrgDetailsPage';
+import { SuperAdminSecurityOverviewPage } from './pages/superadmin/SuperAdminSecurityOverviewPage';
+import { SuperAdminAuditLogsPage } from './pages/superadmin/SuperAdminAuditLogsPage';
+import { SuperAdminSettingsPage } from './pages/superadmin/SuperAdminSettingsPage';
+
+// Auth pages
 import { api } from './services/api';
 import { User } from './types';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
@@ -48,22 +60,23 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
   if (!currentUser) return <Navigate to="/login" replace />;
   
   switch (currentUser.role) {
+    case 'SUPER_ADMIN':
+      return <Navigate to="/super-admin/dashboard" replace />;
+    case 'ORGANIZATION_ADMIN':
+      return <Navigate to="/admin/dashboard" replace />;
     case 'SIGNER':
       return <Navigate to="/signer/dashboard" replace />;
     case 'VERIFIER':
       return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
       return <Navigate to="/analyst/threats" replace />;
-    case 'ORGANIZATION_ADMIN':
-      return <Navigate to="/admin/dashboard" replace />;
-    case 'SUPER_ADMIN':
     case 'ADMIN':
     default:
-      return <Navigate to="/admin/dashboard" replace />;
+      return <Navigate to="/super-admin/dashboard" replace />;
   }
 };
 
-// Standard dark-themed layout for Admin, Signer, and Analyst
+// Standard dark-themed layout for Org Admin, Signer, and Analyst
 const StandardLayout: React.FC<{
   currentUser: User | null;
   onLogout: () => void;
@@ -88,7 +101,7 @@ const StandardLayout: React.FC<{
   );
 };
 
-// Light-themed layout for the Verifier portal matching the screenshot
+// Light-themed layout for the Verifier portal
 const VerifierLayout: React.FC<{
   currentUser: User | null;
   onLogout: () => void;
@@ -116,7 +129,7 @@ export const App: React.FC = () => {
       setCurrentUser(u);
     } catch (err) {
       try {
-        await api.login('admin', 'admin123');
+        await api.login('super_admin', 'SuperPassword123!');
         const u = await api.getCurrentUser();
         setCurrentUser(u);
       } catch (loginErr) {
@@ -146,6 +159,17 @@ export const App: React.FC = () => {
         {/* Default Landing */}
         <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
 
+        {/* SUPER ADMIN WORKSPACE ROUTES (Dedicated Global Platform Layout & Sidebar) */}
+        <Route element={<SuperAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
+          <Route path="/super-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminDashboardPage /></RoleGuard>} />
+          <Route path="/super-admin/organizations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminOrganizationsPage /></RoleGuard>} />
+          <Route path="/super-admin/organizations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminOrgDetailsPage /></RoleGuard>} />
+          <Route path="/super-admin/security-overview" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminSecurityOverviewPage /></RoleGuard>} />
+          <Route path="/super-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminAuditLogsPage /></RoleGuard>} />
+          <Route path="/super-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN']}><SuperAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/super-admin" element={<Navigate to="/super-admin/dashboard" replace />} />
+        </Route>
+
         {/* VERIFIER WORKSPACE ROUTES (Custom green/light theme layout) */}
         <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
           <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierDashboardPage /></RoleGuard>} />
@@ -162,17 +186,17 @@ export const App: React.FC = () => {
 
         {/* OTHER WORKSPACE ROUTES (Standard cyber-bg theme layout) */}
         <Route element={<StandardLayout currentUser={currentUser} onLogout={handleLogout} onLoginClick={() => setIsLoginModalOpen(true)} />}>
-          {/* ADMIN WORKSPACE ROUTES */}
-          <Route path="/admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><DashboardPage /></RoleGuard>} />
-          <Route path="/admin/users" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><UserManagementPage /></RoleGuard>} />
-          <Route path="/admin/orgs" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><OrganizationsPage /></RoleGuard>} />
-          <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><ThreatsPage /></RoleGuard>} />
-          <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
-          <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><QdsStudioPage /></RoleGuard>} />
-          <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AnalyticsPage /></RoleGuard>} />
-          <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecurityRulesPage /></RoleGuard>} />
-          <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><AuditPage /></RoleGuard>} />
-          <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
+          {/* ORGANIZATION ADMIN WORKSPACE ROUTES */}
+          <Route path="/admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><DashboardPage /></RoleGuard>} />
+          <Route path="/admin/users" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><UserManagementPage /></RoleGuard>} />
+          <Route path="/admin/orgs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrganizationsPage /></RoleGuard>} />
+          <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><ThreatsPage /></RoleGuard>} />
+          <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
+          <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><QdsStudioPage /></RoleGuard>} />
+          <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AnalyticsPage /></RoleGuard>} />
+          <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecurityRulesPage /></RoleGuard>} />
+          <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AuditPage /></RoleGuard>} />
+          <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
           <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
 

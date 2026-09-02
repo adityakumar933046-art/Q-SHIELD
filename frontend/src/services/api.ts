@@ -137,6 +137,20 @@ export const api = {
     const res = await apiClient.get('/organizations/');
     return res.data.results || res.data;
   },
+  createOrganization: async (orgData: { name: string; domain?: string; description?: string; max_quantum_nodes?: number; is_active?: boolean }): Promise<Organization> => {
+    const res = await apiClient.post('/organizations/', orgData);
+    return res.data;
+  },
+  updateOrganization: async (id: number, orgData: Partial<Organization>): Promise<Organization> => {
+    const res = await apiClient.patch(`/organizations/${id}/`, orgData);
+    return res.data;
+  },
+  clientPost: async (url: string, data?: any) => {
+    return apiClient.post(url, data);
+  },
+  clientPatch: async (url: string, data?: any) => {
+    return apiClient.patch(url, data);
+  },
 
   // Analytics
   getAnalyticsSummary: async (): Promise<AnalyticsSummary> => {
