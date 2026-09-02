@@ -14,6 +14,7 @@ import { ThreatsPage } from './pages/ThreatsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { AuditPage } from './pages/AuditPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
+import { SecurityAnalystDashboard } from './pages/SecurityAnalystDashboard';
 import { SignerDashboardPage } from './pages/SignerDashboardPage';
 import { MyQdsPage } from './pages/MyQdsPage';
 import { SigningRequestsPage } from './pages/SigningRequestsPage';
@@ -53,9 +54,9 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
     case 'VERIFIER':
       return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
-      return <Navigate to="/analyst/threats" replace />;
+       return <Navigate to="/analyst/dashboard" replace />;
     case 'ORGANIZATION_ADMIN':
-      return <Navigate to="/admin/dashboard" replace />;
+       return <Navigate to="/admin/dashboard" replace />;
     case 'SUPER_ADMIN':
     case 'ADMIN':
     default:
@@ -188,11 +189,12 @@ export const App: React.FC = () => {
           <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
 
           {/* SECURITY ANALYST WORKSPACE ROUTES */}
+          <Route path="/analyst/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboard /></RoleGuard>} />
           <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
           <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
           <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
           <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-          <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
+          <Route path="/analyst" element={<Navigate to="/analyst/dashboard" replace />} />
 
           {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
           <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
