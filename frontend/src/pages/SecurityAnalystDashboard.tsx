@@ -7,6 +7,7 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, 
   BarChart, Bar, CartesianGrid 
 } from 'recharts';
+import { api } from '../services/api';
 
 interface Incident {
   id: string;
@@ -65,10 +66,16 @@ export const SecurityAnalystDashboard: React.FC = () => {
     },
   ]);
 
-  const handleQuarantine = (id: string) => {
+  const handleQuarantine = async (id: string) => {
     setIncidents(prev =>
       prev.map(item => item.id === id ? { ...item, status: 'ISOLATED' } : item)
     );
+    try {
+      const numId = parseInt(id.replace(/\D/g, ''), 10) || id;
+      await api.updateIncidentStatus(numId as any, 'RESOLVED', 'Channel isolated & quarantined by Security Analyst');
+    } catch (e) {
+      console.log('Quarantine channel local toggle applied:', e);
+    }
   };
 
   const handleSimulateAttack = () => {
@@ -94,7 +101,7 @@ export const SecurityAnalystDashboard: React.FC = () => {
                 Security Analyst SOC Console
               </h1>
               <p className="text-xs text-slate-400 font-mono">
-                Statistical Physics Engine: Wald SPRT ($H_0$ vs $H_1$) & Pauli Decomposition
+                Statistical Physics Engine: Wald SPRT (H₀ vs H₁) & Pauli Decomposition
               </p>
             </div>
           </div>
@@ -118,7 +125,7 @@ export const SecurityAnalystDashboard: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
-            <span>Observed QBER ($E_b$)</span>
+            <span>Observed QBER (Eb)</span>
             <Flame className="w-4 h-4 text-red-400" />
           </div>
           <div className="text-2xl font-bold text-red-400 font-mono">
@@ -129,22 +136,22 @@ export const SecurityAnalystDashboard: React.FC = () => {
 
         <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
-            <span>SPRT Likelihood Ratio ($\Lambda$)</span>
+            <span>SPRT Likelihood Ratio (Λ)</span>
             <Activity className="w-4 h-4 text-amber-400" />
           </div>
           <div className="text-2xl font-bold text-amber-400 font-mono">
             {telemetry[telemetry.length - 1].llr > 0 ? `+${telemetry[telemetry.length - 1].llr}` : telemetry[telemetry.length - 1].llr}
           </div>
-          <p className="text-[11px] text-amber-500/80 font-mono">Threshold $A = +2.94$ ($H_1$ Triggered)</p>
+          <p className="text-[11px] text-amber-500/80 font-mono">Threshold A = +2.94 (H₁ Triggered)</p>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
           <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
-            <span>Quantum State Fidelity $F$</span>
+            <span>Quantum State Fidelity F</span>
             <Radio className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="text-2xl font-bold text-cyan-400 font-mono">0.761</div>
-          <p className="text-[11px] text-slate-400 font-mono">Ideal Pure Channel: $\ge 0.980$</p>
+          <p className="text-[11px] text-slate-400 font-mono">Ideal Pure Channel: ≥ 0.980</p>
         </div>
 
         <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
@@ -227,7 +234,7 @@ export const SecurityAnalystDashboard: React.FC = () => {
                 <th className="p-3.5">Threat Classifier</th>
                 <th className="p-3.5">Severity</th>
                 <th className="p-3.5">Channel Route</th>
-                <th className="p-3.5">Fidelity $F$</th>
+                <th className="p-3.5">Fidelity F</th>
                 <th className="p-3.5">SPRT Decision</th>
                 <th className="p-3.5">Status</th>
                 <th className="p-3.5 text-right">Containment Action</th>
