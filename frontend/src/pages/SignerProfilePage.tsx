@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User as UserIcon, Building, Mail, Shield, ShieldCheck, Activity } from 'lucide-react';
+import { User as UserIcon, Building, Mail, ShieldCheck, Activity } from 'lucide-react';
 import { api } from '../services/api';
 
 export const SignerProfilePage: React.FC = () => {
@@ -25,8 +25,8 @@ export const SignerProfilePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
-        <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
+      <div className="p-12 text-center text-slate-400 flex items-center justify-center space-x-3 font-mono">
+        <Activity className="w-5 h-5 animate-spin text-cyan-400" />
         <span>PULLING PROFILE PROTOCOLS...</span>
       </div>
     );
@@ -35,73 +35,76 @@ export const SignerProfilePage: React.FC = () => {
   const userOrg = organizations.find(o => o.id === currentUser?.organization) || currentUser?.organization;
 
   return (
-    <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
-          <UserIcon className="w-5 h-5 text-[#00C2FF]" />
+        <h1 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
+          <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+            <UserIcon className="w-4 h-4" />
+          </div>
           <span>My Profile & Credentials</span>
         </h1>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-400 mt-1">
           Manage your role permissions and cryptography credential profiles.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Profile Card */}
-        <div className="bg-white border border-[#E2E8F0] p-6 rounded-xl shadow-sm space-y-4 md:col-span-1 text-center">
-          <div className="w-24 h-24 rounded-full bg-[#0B1220] text-[#00C2FF] font-bold text-3xl flex items-center justify-center border-4 border-slate-100 shadow-inner mx-auto">
-            {currentUser?.username[0].toUpperCase()}
+        <div className="glass-card p-6 space-y-4 md:col-span-1 text-center">
+          <div className="w-24 h-24 rounded-full bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border-2 border-cyan-400/50 text-cyan-400 font-extrabold text-3xl flex items-center justify-center shadow-[0_0_20px_rgba(0,229,255,0.3)] mx-auto relative overflow-hidden">
+            <div className="absolute inset-0 bg-cyan-400/10 animate-pulse" />
+            <span className="relative z-10">{currentUser?.username[0].toUpperCase()}</span>
           </div>
           <div>
-            <h2 className="text-base font-black text-slate-800">
+            <h2 className="text-base font-extrabold text-white">
               {currentUser?.first_name && currentUser?.last_name 
                 ? `${currentUser.first_name} ${currentUser.last_name}` 
                 : currentUser?.username}
             </h2>
-            <span className="bg-[#00C2FF]/10 text-[#00C2FF] text-[10px] font-bold px-2 py-0.5 rounded border border-[#00C2FF]/30 uppercase tracking-wider mt-1 inline-block">
+            <span className="bg-cyan-500/10 text-cyan-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-cyan-500/30 uppercase tracking-wider mt-1.5 inline-block font-mono shadow-[0_0_8px_rgba(0,229,255,0.2)]">
               {currentUser?.role}
             </span>
           </div>
 
-          <div className="pt-4 border-t border-slate-100 text-left text-xs space-y-3">
-            <div className="flex items-center space-x-2.5 text-slate-600">
-              <Mail className="w-4 h-4 text-slate-400" />
-              <span>{currentUser?.email || ''}</span>
+          <div className="pt-4 border-t border-white/10 text-left text-xs space-y-3">
+            <div className="flex items-center space-x-2.5 text-slate-300">
+              <Mail className="w-4 h-4 text-cyan-400" />
+              <span>{currentUser?.email || 'signer@qshield.quantum'}</span>
             </div>
-            <div className="flex items-center space-x-2.5 text-slate-600">
-              <Building className="w-4 h-4 text-slate-400" />
-              <span>{currentUser?.department || 'Quantum Physics Lab'}</span>
+            <div className="flex items-center space-x-2.5 text-slate-300">
+              <Building className="w-4 h-4 text-cyan-400" />
+              <span>{currentUser?.department || 'Quantum Cryptography Lab'}</span>
             </div>
           </div>
         </div>
 
         {/* Node & Organization settings */}
-        <div className="bg-white border border-[#E2E8F0] p-6 rounded-xl shadow-sm space-y-6 md:col-span-2">
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Organization Integrity Details</h3>
-            <div className="bg-slate-50 border border-slate-100 rounded-xl p-4 space-y-2.5 text-xs">
-              <div className="flex justify-between">
+        <div className="glass-card p-6 space-y-6 md:col-span-2">
+          <div className="space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">Organization Integrity Details</h3>
+            <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-4 space-y-2.5 text-xs font-mono">
+              <div className="flex justify-between py-1 border-b border-white/5">
                 <span className="text-slate-400">Organization Name:</span>
-                <span className="font-bold text-slate-800">{userOrg?.name || 'Defense Quantum Cyber Command'}</span>
+                <span className="font-bold text-white">{userOrg?.name || 'Defense Quantum Cyber Command'}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-slate-400">Domain Domain Name:</span>
-                <span className="font-bold text-slate-800">{userOrg?.domain || 'quantum.defense.gov'}</span>
+              <div className="flex justify-between py-1 border-b border-white/5">
+                <span className="text-slate-400">Domain Node Name:</span>
+                <span className="font-bold text-cyan-400">{userOrg?.domain || 'quantum.defense.gov'}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between py-1">
                 <span className="text-slate-400">Max Quantum Nodes:</span>
-                <span className="font-bold text-slate-800">{userOrg?.max_quantum_nodes || '25'}</span>
+                <span className="font-bold text-emerald-400">{userOrg?.max_quantum_nodes || '25'} Nodes</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">Security Credentials</h3>
-            <div className="flex items-start space-x-3 bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-emerald-800 text-xs">
-              <ShieldCheck className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white">Security Credentials</h3>
+            <div className="flex items-start space-x-3 bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl text-slate-300 text-xs shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+              <ShieldCheck className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
               <div>
-                <strong className="block mb-0.5">Role Verified:</strong>
-                <span>You have permissions as a digital signer. This allows you to generate Pauli eigenstates for quantum digital signature teleportation keys.</span>
+                <strong className="block mb-0.5 text-emerald-400">Role Verified:</strong>
+                <span>You have permissions as a verified digital signer. This allows you to generate Pauli eigenstates for quantum digital signature teleportation keys.</span>
               </div>
             </div>
           </div>

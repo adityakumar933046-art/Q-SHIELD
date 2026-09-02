@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Key, ShieldCheck } from 'lucide-react';
+import { Key, ShieldCheck, Zap } from 'lucide-react';
 import { QuantumCircuitVisualizer } from '../components/QuantumCircuitVisualizer';
 import { StatusBadge } from '../components/StatusBadge';
 import { api } from '../services/api';
@@ -78,38 +78,40 @@ export const QdsStudioPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
-          <Key className="w-5 h-5 text-[#00C2FF]" />
+        <h1 className="text-2xl font-extrabold text-white flex items-center space-x-3">
+          <div className="p-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+            <Key className="w-6 h-6" />
+          </div>
           <span>QDS Studio & Quantum Teleportation Verifier</span>
         </h1>
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-slate-400 mt-1">
           Generate Quantum Digital Signatures using Pauli Eigenstate sequences & verify teleportation fidelity in Qiskit.
         </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Step 1: Issue Quantum Digital Signature */}
-        <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-4 shadow-sm">
-          <div className="flex items-center space-x-3 border-b border-[#E2E8F0] pb-3">
-            <span className="w-6 h-6 rounded-full bg-[#0B1220] text-white font-extrabold text-xs flex items-center justify-center">
+        <div className="glass-panel p-6 space-y-4 rounded-3xl">
+          <div className="flex items-center space-x-3 border-b border-white/10 pb-3">
+            <span className="w-6 h-6 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-cyan-400 font-extrabold text-xs flex items-center justify-center shadow-[0_0_8px_rgba(0,229,255,0.3)]">
               1
             </span>
-            <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+            <h2 className="text-xs font-bold text-white uppercase tracking-wider">
               Issue Quantum Digital Signature (Sender)
             </h2>
           </div>
 
           <form onSubmit={handleCreateSignature} className="space-y-4 text-xs">
             <div>
-              <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Payload Message / Document Content</label>
+              <label className="block text-slate-400 font-semibold mb-1 uppercase text-[10px] tracking-wider">Payload Message / Document Content</label>
               <textarea
                 value={payload}
                 onChange={(e) => setPayload(e.target.value)}
                 rows={3}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] focus:ring-1 focus:ring-[#00C2FF] font-mono text-xs"
+                className="w-full glass-input p-3 text-white focus:border-cyan-400 font-mono text-xs"
                 placeholder="Enter payload string..."
                 required
               />
@@ -117,32 +119,32 @@ export const QdsStudioPage: React.FC = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Pauli State Basis</label>
+                <label className="block text-slate-400 font-semibold mb-1 uppercase text-[10px] tracking-wider">Pauli State Basis</label>
                 <select
                   value={quantumStateBasis}
                   onChange={(e) => setQuantumStateBasis(e.target.value)}
-                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full glass-input p-2.5 text-white focus:border-cyan-400 font-mono text-xs"
                 >
-                  <option value="|+>">|+&gt; (X basis +1)</option>
-                  <option value="|->">|-&gt; (X basis -1)</option>
-                  <option value="|0>">|0&gt; (Z basis +1)</option>
-                  <option value="|1>">|1&gt; (Z basis -1)</option>
-                  <option value="|+i>">|+i&gt; (Y basis +1)</option>
-                  <option value="|-i>">|-i&gt; (Y basis -1)</option>
+                  <option value="|+>" className="bg-slate-900">|+&gt; (X basis +1)</option>
+                  <option value="|->" className="bg-slate-900">|-&gt; (X basis -1)</option>
+                  <option value="|0>" className="bg-slate-900">|0&gt; (Z basis +1)</option>
+                  <option value="|1>" className="bg-slate-900">|1&gt; (Z basis -1)</option>
+                  <option value="|+i>" className="bg-slate-900">|+i&gt; (Y basis +1)</option>
+                  <option value="|-i>" className="bg-slate-900">|-i&gt; (Y basis -1)</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Entangled Bell State</label>
+                <label className="block text-slate-400 font-semibold mb-1 uppercase text-[10px] tracking-wider">Entangled Bell State</label>
                 <select
                   value={bellPairType}
                   onChange={(e) => setBellPairType(e.target.value)}
-                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full glass-input p-2.5 text-white focus:border-cyan-400 font-mono text-xs"
                 >
-                  <option value="PHI_PLUS">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
-                  <option value="PHI_MINUS">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
-                  <option value="PSI_PLUS">|&Psi;+&gt; (|01&gt;+|10&gt;)/&radic;2</option>
-                  <option value="PSI_MINUS">|&Psi;-&gt; (|01&gt;-|10&gt;)/&radic;2</option>
+                  <option value="PHI_PLUS" className="bg-slate-900">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
+                  <option value="PHI_MINUS" className="bg-slate-900">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
+                  <option value="PSI_PLUS" className="bg-slate-900">|&Psi;+&gt; (|01&gt;+|10&gt;)/&radic;2</option>
+                  <option value="PSI_MINUS" className="bg-slate-900">|&Psi;-&gt; (|01&gt;-|10&gt;)/&radic;2</option>
                 </select>
               </div>
             </div>
@@ -150,17 +152,17 @@ export const QdsStudioPage: React.FC = () => {
             <button
               type="submit"
               disabled={isSigning}
-              className="w-full bg-[#0B1220] hover:bg-[#131E33] text-white font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm"
+              className="w-full btn-cyan-gradient py-3 rounded-2xl flex items-center justify-center space-x-2 font-bold text-xs"
             >
-              <Key className="w-4 h-4 text-[#00C2FF]" />
+              <Key className="w-4 h-4 text-black" />
               <span>{isSigning ? 'Executing Qiskit Teleportation Key Prep...' : 'Sign Payload & Distribute QDS'}</span>
             </button>
           </form>
 
           {lastSignature && (
-            <div className="bg-[#0B1220] text-white rounded-lg p-4 text-xs space-y-2 font-mono">
+            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 text-xs space-y-2 font-mono text-white">
               <div className="flex justify-between items-center font-bold">
-                <span className="text-[#00C2FF]">Signature Issued Successfully!</span>
+                <span className="text-cyan-400">Signature Issued Successfully!</span>
                 <StatusBadge status={lastSignature.status} />
               </div>
               <div className="text-slate-200">ID: {lastSignature.signature_id}</div>
@@ -171,19 +173,19 @@ export const QdsStudioPage: React.FC = () => {
         </div>
 
         {/* Step 2: Verify Teleportation Signature */}
-        <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-4 shadow-sm">
-          <div className="flex items-center space-x-3 border-b border-[#E2E8F0] pb-3">
-            <span className="w-6 h-6 rounded-full bg-[#00C2FF] text-[#0B1220] font-extrabold text-xs flex items-center justify-center">
+        <div className="glass-panel p-6 space-y-4 rounded-3xl">
+          <div className="flex items-center space-x-3 border-b border-white/10 pb-3">
+            <span className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/50 text-emerald-400 font-extrabold text-xs flex items-center justify-center shadow-[0_0_8px_rgba(16,185,129,0.3)]">
               2
             </span>
-            <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+            <h2 className="text-xs font-bold text-white uppercase tracking-wider">
               Verify Teleportation Signature (Receiver)
             </h2>
           </div>
 
           <form onSubmit={handleVerifySignature} className="space-y-4 text-xs">
             <div>
-              <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Select Signature to Verify</label>
+              <label className="block text-slate-400 font-semibold mb-1 uppercase text-[10px] tracking-wider">Select Signature to Verify</label>
               <select
                 value={selectedSigId}
                 onChange={(e) => {
@@ -191,10 +193,10 @@ export const QdsStudioPage: React.FC = () => {
                   const found = signatures.find(s => s.signature_id === e.target.value);
                   if (found) setVerifyPayload(found.payload_summary);
                 }}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono text-xs"
+                className="w-full glass-input p-2.5 text-white focus:border-cyan-400 font-mono text-xs"
               >
                 {signatures.map((s) => (
-                  <option key={s.signature_id} value={s.signature_id}>
+                  <option key={s.signature_id} value={s.signature_id} className="bg-slate-900">
                     {s.signature_id} ({s.status}) - Hash: {s.message_digest.slice(0, 8)}...
                   </option>
                 ))}
@@ -202,19 +204,19 @@ export const QdsStudioPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-slate-700 font-semibold mb-1 uppercase text-[11px]">Provided Payload Content</label>
+              <label className="block text-slate-400 font-semibold mb-1 uppercase text-[10px] tracking-wider">Provided Payload Content</label>
               <textarea
                 value={verifyPayload}
                 onChange={(e) => setVerifyPayload(e.target.value)}
                 rows={2}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono text-xs"
+                className="w-full glass-input p-2.5 text-white focus:border-cyan-400 font-mono text-xs"
               />
             </div>
 
             <div>
-              <div className="flex justify-between text-slate-700 font-semibold mb-1">
+              <div className="flex justify-between text-slate-400 font-semibold mb-1 text-[10px] uppercase tracking-wider">
                 <span>Simulate Channel Noise Level</span>
-                <span className="text-[#00C2FF] font-mono font-bold">{(verifyNoise * 100).toFixed(0)}%</span>
+                <span className="text-cyan-400 font-mono font-bold">{(verifyNoise * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -223,16 +225,16 @@ export const QdsStudioPage: React.FC = () => {
                 step="0.05"
                 value={verifyNoise}
                 onChange={(e) => setVerifyNoise(parseFloat(e.target.value))}
-                className="w-full bg-slate-200 accent-[#00C2FF] h-1.5 rounded-lg cursor-pointer"
+                className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-cyan-400"
               />
             </div>
 
             <button
               type="submit"
               disabled={isVerifying || !selectedSigId}
-              className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm"
+              className="w-full btn-glass py-3 rounded-2xl flex items-center justify-center space-x-2 font-bold text-xs"
             >
-              <ShieldCheck className="w-4 h-4" />
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
               <span>{isVerifying ? 'Running Projective Measurement Check...' : 'Verify Signature & QBER Bounds'}</span>
             </button>
           </form>
@@ -242,7 +244,7 @@ export const QdsStudioPage: React.FC = () => {
       {/* Circuit & Verification Results Visualization */}
       {(lastExecution || verificationResult) && (
         <div className="space-y-4">
-          <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
+          <h2 className="text-xs font-bold text-white uppercase tracking-wider">
             Quantum Teleportation & Statistical Verification Output
           </h2>
 
@@ -255,30 +257,30 @@ export const QdsStudioPage: React.FC = () => {
           />
 
           {verificationResult && (
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-3 font-mono text-xs shadow-sm">
-              <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-2">
-                <span className="text-[#0F172A] font-bold font-sans">Verification Result:</span>
+            <div className="glass-panel p-6 rounded-3xl space-y-3 font-mono text-xs">
+              <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                <span className="text-white font-bold font-sans">Verification Result:</span>
                 <StatusBadge status={verificationResult.verification_attempt.verification_result} />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-                <div className="bg-[#F8FAFC] p-3 rounded-lg border border-[#E2E8F0]">
-                  <span className="text-slate-500">Digest Hash Check:</span>
-                  <div className={`font-bold mt-1 ${verificationResult.verification_attempt.hash_match ? 'text-[#10B981]' : 'text-[#0B1220]'}`}>
+                <div className="bg-white/[0.03] p-3 rounded-xl border border-white/10">
+                  <span className="text-slate-400 block text-[10px] uppercase">Digest Hash Check:</span>
+                  <div className={`font-bold mt-1 ${verificationResult.verification_attempt.hash_match ? 'text-emerald-400' : 'text-rose-400'}`}>
                     {verificationResult.verification_attempt.hash_match ? 'MATCHED SHA-256' : 'HASH MISMATCH BREACH'}
                   </div>
                 </div>
 
-                <div className="bg-[#F8FAFC] p-3 rounded-lg border border-[#E2E8F0]">
-                  <span className="text-slate-500">Chi-Square p-value:</span>
-                  <div className="font-bold text-slate-800 mt-1">
+                <div className="bg-white/[0.03] p-3 rounded-xl border border-white/10">
+                  <span className="text-slate-400 block text-[10px] uppercase">Chi-Square p-value:</span>
+                  <div className="font-bold text-cyan-400 mt-1">
                     {verificationResult.statistical_analysis.chi_square.p_value.toExponential(4)}
                   </div>
                 </div>
 
-                <div className="bg-[#F8FAFC] p-3 rounded-lg border border-[#E2E8F0]">
-                  <span className="text-slate-500">Adversary Forgery Prob:</span>
-                  <div className={`font-bold mt-1 ${verificationResult.statistical_analysis.forgery_probability <= 0.05 ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
+                <div className="bg-white/[0.03] p-3 rounded-xl border border-white/10">
+                  <span className="text-slate-400 block text-[10px] uppercase">Adversary Forgery Prob:</span>
+                  <div className={`font-bold mt-1 ${verificationResult.statistical_analysis.forgery_probability <= 0.05 ? 'text-emerald-400' : 'text-amber-400'}`}>
                     {(verificationResult.statistical_analysis.forgery_probability * 100).toFixed(4)}%
                   </div>
                 </div>

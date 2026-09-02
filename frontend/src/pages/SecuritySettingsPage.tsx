@@ -121,13 +121,15 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
   const isMandatoryMfaRole = currentUser?.requires_mfa;
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
       {/* Page Title */}
-      <div className="flex items-center justify-between border-b border-[#1F2E4D] pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
         <div className="space-y-1">
-          <div className="flex items-center space-x-2">
-            <Shield className="w-6 h-6 text-[#00C2FF]" />
-            <h1 className="text-xl font-extrabold text-white">Security & Authentication Controls</h1>
+          <div className="flex items-center space-x-3">
+            <div className="p-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+              <Shield className="w-6 h-6" />
+            </div>
+            <h1 className="text-2xl font-extrabold text-white tracking-tight">Security & Authentication Controls</h1>
           </div>
           <p className="text-xs text-slate-400">
             Device-Aware Session Security, TOTP Multi-Factor Controls & Audit Trail
@@ -135,19 +137,19 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
         </div>
 
         {currentUser && (
-          <div className="flex items-center space-x-3 bg-[#131E33] border border-[#1F2E4D] px-3.5 py-2 rounded-xl text-xs">
+          <div className="flex items-center space-x-3 bg-white/[0.04] border border-white/10 px-4 py-2 rounded-2xl text-xs">
             <span className="text-slate-400">Account Role:</span>
-            <span className="font-mono font-bold text-[#00C2FF] uppercase">{currentUser.role}</span>
+            <span className="font-mono font-bold text-cyan-400 uppercase">{currentUser.role}</span>
           </div>
         )}
       </div>
 
       {msg && (
-        <div className={`p-4 rounded-xl border text-xs flex items-center justify-between ${
-          msg.type === 'success' ? 'bg-[#10B981]/10 border-[#10B981]/40 text-[#10B981]' : 'bg-[#F59E0B]/10 border-[#F59E0B]/40 text-[#F59E0B]'
+        <div className={`p-4 rounded-2xl border text-xs flex items-center justify-between font-mono ${
+          msg.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
         }`}>
           <span>{msg.text}</span>
-          <button onClick={() => setMsg(null)} className="font-bold underline ml-4 text-[11px]">Dismiss</button>
+          <button onClick={() => setMsg(null)} className="font-bold underline ml-4 text-[11px] text-slate-400 hover:text-white">Dismiss</button>
         </div>
       )}
 
@@ -155,17 +157,17 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
         {/* Left Column: Active Sessions & Device Security */}
         <div className="lg:col-span-2 space-y-6">
           {/* Active Sessions Panel */}
-          <div className="bg-[#0B1220] border border-[#1F2E4D] rounded-xl p-5 space-y-4">
+          <div className="glass-panel p-6 rounded-3xl space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Laptop className="w-5 h-5 text-[#00C2FF]" />
+                <Laptop className="w-5 h-5 text-cyan-400" />
                 <h2 className="text-sm font-bold text-white uppercase tracking-wider">Active Device Sessions</h2>
               </div>
               <div className="flex items-center space-x-2">
                 <button
                   onClick={fetchSessions}
                   disabled={loadingSessions}
-                  className="p-1.5 bg-[#131E33] hover:bg-[#1A263D] text-slate-300 rounded-lg border border-[#1F2E4D] transition"
+                  className="p-2 btn-glass rounded-xl text-slate-300"
                   title="Refresh Active Sessions"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loadingSessions ? 'animate-spin' : ''}`} />
@@ -173,9 +175,9 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                 {sessions.length > 1 && (
                   <button
                     onClick={handleRevokeAllOthers}
-                    className="px-3 py-1.5 bg-[#EF4444]/10 hover:bg-[#EF4444]/20 border border-[#EF4444]/40 text-[#EF4444] text-xs font-bold rounded-lg transition"
+                    className="px-3.5 py-1.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-400 text-xs font-bold rounded-xl transition"
                   >
-                    Revoke All Other Sessions
+                    Revoke Other Sessions
                   </button>
                 )}
               </div>
@@ -183,9 +185,9 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
 
             <div className="space-y-2.5">
               {sessions.map((sess) => (
-                <div key={sess.id} className="bg-[#131E33] border border-[#1F2E4D] rounded-xl p-4 flex items-center justify-between">
+                <div key={sess.id} className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 flex items-center justify-between">
                   <div className="flex items-center space-x-3.5">
-                    <div className="p-2.5 bg-[#0B1220] border border-[#1F2E4D] rounded-xl text-[#00C2FF]">
+                    <div className="p-2.5 bg-white/[0.04] border border-white/10 rounded-xl text-cyan-400">
                       <Laptop className="w-5 h-5" />
                     </div>
                     <div className="space-y-0.5">
@@ -194,7 +196,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                           {sess.browser || 'Browser'} on {sess.os || 'OS'} ({sess.device_type || 'Desktop'})
                         </span>
                         {sess.is_active && (
-                          <span className="px-2 py-0.5 bg-[#10B981]/20 text-[#10B981] text-[9px] font-mono font-bold rounded-full border border-[#10B981]/40 uppercase">
+                          <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 text-[9px] font-mono font-bold rounded-full border border-emerald-500/30 uppercase">
                             Active
                           </span>
                         )}
@@ -209,7 +211,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
 
                   <button
                     onClick={() => handleRevokeSession(sess.refresh_token_jti)}
-                    className="px-3 py-1.5 bg-[#0B1220] hover:bg-[#EF4444]/20 text-slate-400 hover:text-[#EF4444] border border-[#1F2E4D] hover:border-[#EF4444]/40 rounded-lg text-xs font-bold transition flex items-center space-x-1"
+                    className="px-3 py-1.5 btn-glass hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 hover:border-rose-500/30 rounded-xl text-xs font-bold flex items-center space-x-1"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Revoke</span>
@@ -226,18 +228,18 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
           </div>
 
           {/* Audit Event Stream */}
-          <div className="bg-[#0B1220] border border-[#1F2E4D] rounded-xl p-5 space-y-4">
+          <div className="glass-panel p-6 rounded-3xl space-y-4">
             <div className="flex items-center space-x-2">
-              <Clock className="w-5 h-5 text-[#00C2FF]" />
+              <Clock className="w-5 h-5 text-cyan-400" />
               <h2 className="text-sm font-bold text-white uppercase tracking-wider">Recent Authentication Security Events</h2>
             </div>
 
             <div className="space-y-2 font-mono text-xs">
               {recentAudits.map((audit) => (
-                <div key={audit.id} className="bg-[#131E33] border border-[#1F2E4D] p-3 rounded-lg flex items-center justify-between">
+                <div key={audit.id} className="bg-white/[0.03] border border-white/5 p-3 rounded-2xl flex items-center justify-between">
                   <div className="space-y-0.5">
-                    <span className="text-[#00C2FF] font-bold">{audit.action_type}</span>
-                    <p className="text-[11px] text-slate-400">{audit.user_identifier} • {audit.target_resource}</p>
+                    <span className="text-cyan-400 font-bold">{audit.action_type}</span>
+                    <p className="text-[11px] text-slate-400 font-sans">{audit.user_identifier} • {audit.target_resource}</p>
                   </div>
                   <span className="text-[10px] text-slate-500">{new Date(audit.created_at).toLocaleTimeString()}</span>
                 </div>
@@ -249,17 +251,17 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
         {/* Right Column: MFA & Password Hardening */}
         <div className="space-y-6">
           {/* MFA Policy & Recovery Panel */}
-          <div className="bg-[#0B1220] border border-[#1F2E4D] rounded-xl p-5 space-y-4">
-            <div className="flex items-center space-x-2 text-[#00C2FF]">
+          <div className="glass-panel p-6 rounded-3xl space-y-4">
+            <div className="flex items-center space-x-2 text-cyan-400">
               <Smartphone className="w-5 h-5" />
               <h2 className="text-sm font-bold text-white uppercase tracking-wider">Multi-Factor Authentication</h2>
             </div>
 
-            <div className="bg-[#131E33] border border-[#1F2E4D] p-3.5 rounded-xl space-y-2">
+            <div className="bg-white/[0.03] border border-white/10 p-4 rounded-2xl space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-300 font-medium">TOTP Status:</span>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded text-[10px] ${
-                  currentUser?.is_mfa_enabled ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40' : 'bg-[#F59E0B]/20 text-[#F59E0B] border border-[#F59E0B]/40'
+                <span className={`font-mono font-bold px-2 py-0.5 rounded-full text-[10px] ${
+                  currentUser?.is_mfa_enabled ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30' : 'bg-amber-500/15 text-amber-400 border border-amber-500/30'
                 }`}>
                   {currentUser?.is_mfa_enabled ? 'ENABLED' : 'NOT VERIFIED'}
                 </span>
@@ -277,14 +279,14 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                 {!mfaQrUri ? (
                   <button
                     onClick={handleSetupMfa}
-                    className="w-full py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold rounded-xl text-xs transition shadow-md"
+                    className="w-full py-2.5 btn-cyan-gradient rounded-2xl text-xs font-bold"
                   >
                     Setup TOTP Authenticator
                   </button>
                 ) : (
-                  <form onSubmit={handleVerifyMfaSetup} className="space-y-3 bg-[#131E33] p-3.5 rounded-xl border border-[#00C2FF]/40">
+                  <form onSubmit={handleVerifyMfaSetup} className="space-y-3 bg-white/[0.03] p-4 rounded-2xl border border-cyan-500/30">
                     <p className="text-[11px] text-slate-300">
-                      Scan in Google Authenticator or manual key: <code className="font-mono text-[#00C2FF]">{mfaSecret}</code>
+                      Scan in Authenticator or manual key: <code className="font-mono text-cyan-400">{mfaSecret}</code>
                     </p>
                     <input
                       type="text"
@@ -292,11 +294,11 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                       placeholder="000000"
                       value={mfaCode}
                       onChange={(e) => setMfaCode(e.target.value)}
-                      className="w-full bg-[#0B1220] border border-[#1F2E4D] rounded-lg p-2.5 text-center text-lg font-mono text-[#00C2FF]"
+                      className="w-full glass-input p-2.5 text-center text-lg font-mono text-cyan-400 focus:border-cyan-400"
                     />
                     <button
                       type="submit"
-                      className="w-full py-2 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs rounded-lg transition"
+                      className="w-full py-2 btn-cyan-gradient text-xs font-bold rounded-xl"
                     >
                       Confirm MFA Setup
                     </button>
@@ -306,23 +308,23 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
             )}
 
             {/* Recovery Codes */}
-            <div className="pt-2 border-t border-[#1F2E4D] space-y-3">
+            <div className="pt-2 border-t border-white/10 space-y-3">
               <button
                 onClick={handleGenerateRecoveryCodes}
-                className="w-full py-2 bg-[#131E33] hover:bg-[#1A263D] text-slate-200 border border-[#1F2E4D] font-bold rounded-xl text-xs transition flex items-center justify-center space-x-2"
+                className="w-full py-2 btn-glass font-bold rounded-2xl text-xs flex items-center justify-center space-x-2"
               >
-                <Key className="w-3.5 h-3.5 text-[#00C2FF]" />
+                <Key className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Generate Recovery Codes</span>
               </button>
 
               {recoveryCodes.length > 0 && (
-                <div className="bg-[#0B1220] border border-[#00C2FF]/40 p-3.5 rounded-xl space-y-2">
-                  <span className="block text-[10px] font-bold text-[#00C2FF] uppercase tracking-wider">
+                <div className="bg-white/[0.03] border border-cyan-500/30 p-4 rounded-2xl space-y-2">
+                  <span className="block text-[10px] font-bold text-cyan-400 uppercase tracking-wider">
                     Single-Use Recovery Codes (Save Now)
                   </span>
                   <div className="grid grid-cols-1 gap-1.5 font-mono text-xs text-white">
                     {recoveryCodes.map((c, idx) => (
-                      <div key={idx} className="bg-[#131E33] p-1.5 rounded text-center border border-[#1F2E4D]">
+                      <div key={idx} className="bg-white/[0.04] p-1.5 rounded-xl text-center border border-white/10">
                         {c}
                       </div>
                     ))}
@@ -333,8 +335,8 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
           </div>
 
           {/* Change Password Panel */}
-          <form onSubmit={handleChangePassword} className="bg-[#0B1220] border border-[#1F2E4D] rounded-xl p-5 space-y-4">
-            <div className="flex items-center space-x-2 text-[#00C2FF]">
+          <form onSubmit={handleChangePassword} className="glass-panel p-6 rounded-3xl space-y-4">
+            <div className="flex items-center space-x-2 text-cyan-400">
               <Lock className="w-5 h-5" />
               <h2 className="text-sm font-bold text-white uppercase tracking-wider">Password Hardening</h2>
             </div>
@@ -349,7 +351,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   required
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full glass-input p-2.5 text-white font-mono focus:border-cyan-400"
                 />
               </div>
 
@@ -363,7 +365,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   minLength={8}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full glass-input p-2.5 text-white font-mono focus:border-cyan-400"
                 />
               </div>
 
@@ -377,7 +379,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   minLength={8}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full glass-input p-2.5 text-white font-mono focus:border-cyan-400"
                 />
               </div>
             </div>
@@ -385,9 +387,9 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
             <button
               type="submit"
               disabled={!oldPassword || !newPassword || !confirmPassword}
-              className="w-full py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold rounded-xl text-xs transition shadow-md disabled:opacity-50"
+              className="w-full py-2.5 btn-cyan-gradient rounded-2xl text-xs font-bold disabled:opacity-50"
             >
-              Update Password & Revoke Other Sessions
+              Update Password & Revoke Sessions
             </button>
           </form>
         </div>

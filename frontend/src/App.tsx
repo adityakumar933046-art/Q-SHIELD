@@ -42,6 +42,7 @@ import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { SecuritySettingsPage } from './pages/SecuritySettingsPage';
 import { LoginPage } from './pages/LoginPage';
+import { LandingPage } from './pages/LandingPage';
 
 // Role-Based Default Landing Component
 const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ currentUser }) => {
@@ -63,6 +64,8 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
   }
 };
 
+import { LeftIconRail } from './components/LeftIconRail';
+
 // Standard dark-themed layout for Admin, Signer, and Analyst
 const StandardLayout: React.FC<{
   currentUser: User | null;
@@ -70,17 +73,25 @@ const StandardLayout: React.FC<{
   onLoginClick: () => void;
 }> = ({ currentUser, onLogout, onLoginClick }) => {
   return (
-    <div className="min-h-screen bg-cyber-bg flex flex-col font-sans">
+    <div className="min-h-screen bg-[#070B14] text-slate-100 flex flex-col font-sans relative selection:bg-cyan-400 selection:text-black overflow-x-hidden">
+      {/* Ambient background cosmic nebula glow accents */}
+      <div className="fixed top-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -z-0" />
+      <div className="fixed bottom-10 left-1/3 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-0" />
+      <div className="fixed top-1/3 left-10 w-96 h-96 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none -z-0" />
+      
       <Navbar
         currentUser={currentUser}
         onLoginClick={onLoginClick}
       />
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative z-10">
+        <div className="hidden lg:flex shrink-0">
+          <LeftIconRail />
+        </div>
         <Sidebar
           currentUser={currentUser}
           onLogout={onLogout}
         />
-        <main className="flex-1 p-6 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-6 lg:p-7 overflow-y-auto max-w-[1750px] w-full mx-auto">
           <Outlet />
         </main>
       </div>
@@ -88,17 +99,24 @@ const StandardLayout: React.FC<{
   );
 };
 
-// Light-themed layout for the Verifier portal matching the screenshot
+// Verifier layout updated to match the cohesive dark cyber-glassmorphism theme
 const VerifierLayout: React.FC<{
   currentUser: User | null;
   onLogout: () => void;
 }> = ({ currentUser, onLogout }) => {
   return (
-    <div className="min-h-screen bg-[#F3F4F6] flex font-sans text-slate-800">
-      <VerifierSidebar currentUser={currentUser} onLogout={onLogout} />
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        <VerifierNavbar currentUser={currentUser} />
-        <main className="flex-1 p-6 overflow-y-auto bg-[#F3F4F6]">
+    <div className="min-h-screen bg-[#070B14] text-slate-100 flex flex-col font-sans relative selection:bg-cyan-400 selection:text-black overflow-x-hidden">
+      {/* Ambient background glow accents */}
+      <div className="fixed top-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -z-0" />
+      <div className="fixed bottom-10 left-1/3 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[140px] pointer-events-none -z-0" />
+      
+      <VerifierNavbar currentUser={currentUser} />
+      <div className="flex flex-1 relative z-10">
+        <div className="hidden lg:flex shrink-0">
+          <LeftIconRail />
+        </div>
+        <VerifierSidebar currentUser={currentUser} onLogout={onLogout} />
+        <main className="flex-1 p-4 md:p-6 lg:p-7 overflow-y-auto max-w-[1750px] w-full mx-auto">
           <Outlet />
         </main>
       </div>
@@ -139,12 +157,15 @@ export const App: React.FC = () => {
     <Router>
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/intro" element={<LandingPage />} />
+        <Route path="/landing" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-        {/* Default Landing */}
-        <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+        {/* Workspace redirect fallback */}
+        <Route path="/app" element={<DefaultLandingRedirect currentUser={currentUser} />} />
 
         {/* VERIFIER WORKSPACE ROUTES (Custom green/light theme layout) */}
         <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>

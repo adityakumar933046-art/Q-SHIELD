@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FileSearch, Loader2, Shield } from 'lucide-react';
+import { Shield, Activity } from 'lucide-react';
 import { api } from '../services/api';
 import { AuditTrailRecord } from '../types';
+import { StatusBadge } from '../components/StatusBadge';
 
 export const VerifierAuditPage: React.FC = () => {
   const [logs, setLogs] = useState<AuditTrailRecord[]>([]);
@@ -28,8 +29,12 @@ export const VerifierAuditPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
+      <div className="min-h-[50vh] flex flex-col items-center justify-center space-y-4 font-mono">
+        <div className="relative">
+          <Activity className="w-8 h-8 animate-spin text-cyan-400" />
+          <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-lg animate-pulse" />
+        </div>
+        <span className="text-xs text-slate-400 tracking-widest uppercase">LOADING AUDIT TRAIL LOGS...</span>
       </div>
     );
   }
@@ -37,47 +42,45 @@ export const VerifierAuditPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 select-none">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Audit Trail Logs</h1>
-        <p className="text-xs text-slate-400 font-medium">
+        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center space-x-3">
+          <div className="p-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
+            <Shield className="w-6 h-6" />
+          </div>
+          <span>Audit Trail Logs</span>
+        </h1>
+        <p className="text-xs text-slate-400 mt-1">
           Immutably tracked system activity logs mapping to quantum verification attempts, security alerts, and node sessions.
         </p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden text-xs font-semibold">
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-          <span className="text-slate-500 font-bold">Node Security Audit Records ({logs.length})</span>
-          <Shield className="w-4 h-4 text-green-600" />
+      <div className="glass-card p-6 space-y-4">
+        <div className="pb-3 border-b border-white/10 flex items-center justify-between">
+          <span className="text-slate-300 font-bold text-xs">Node Security Audit Records ({logs.length})</span>
+          <Shield className="w-4 h-4 text-cyan-400" />
         </div>
 
-        <div className="divide-y divide-slate-100 max-h-[60vh] overflow-y-auto">
+        <div className="divide-y divide-white/5 max-h-[60vh] overflow-y-auto font-mono text-xs">
           {logs.map((log) => {
-            const isBreach = log.status.includes('REJECTED') || log.status.includes('UNAUTHORIZED') || log.status.includes('COMPROMISED');
             return (
-              <div key={log.id} className="p-4 hover:bg-slate-50/50 transition space-y-2">
+              <div key={log.id} className="py-4 hover:bg-white/[0.03] transition space-y-2">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                   <div className="flex items-center space-x-2">
-                    <span className="font-mono text-slate-800 font-black tracking-wide">{log.action_type}</span>
-                    <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold ${
-                      isBreach 
-                        ? 'bg-red-50 text-red-700 border border-red-200' 
-                        : 'bg-green-50 text-green-700 border border-green-200'
-                    }`}>
-                      {log.status}
-                    </span>
+                    <span className="font-mono text-cyan-400 font-bold tracking-wide">{log.action_type}</span>
+                    <StatusBadge status={log.status} />
                   </div>
-                  <span className="text-[10px] text-slate-400 mt-1 sm:mt-0 font-medium">
+                  <span className="text-[10px] text-slate-400 mt-1 sm:mt-0 font-sans">
                     {new Date(log.created_at).toLocaleString()}
                   </span>
                 </div>
 
-                <div className="text-slate-500 text-[11px] font-medium flex flex-wrap gap-x-6 gap-y-1">
-                  <span>Operator: <strong className="text-slate-700 font-bold">{log.user_identifier}</strong></span>
-                  <span>Target Resource: <strong className="text-slate-700 font-bold">{log.target_resource}</strong></span>
-                  {log.ip_address && <span>IP: <strong className="text-slate-700 font-bold">{log.ip_address}</strong></span>}
+                <div className="text-slate-400 text-[11px] font-sans flex flex-wrap gap-x-6 gap-y-1">
+                  <span>Operator: <strong className="text-white font-bold">{log.user_identifier}</strong></span>
+                  <span>Target Resource: <strong className="text-white font-bold">{log.target_resource}</strong></span>
+                  {log.ip_address && <span>IP: <strong className="text-cyan-400 font-bold">{log.ip_address}</strong></span>}
                 </div>
 
                 {log.details && Object.keys(log.details).length > 0 && (
-                  <div className="mt-2 bg-slate-50 p-2.5 rounded border border-slate-100 font-mono text-[10px] text-slate-500 overflow-x-auto">
+                  <div className="mt-2 bg-black/40 p-2.5 rounded-xl border border-white/10 font-mono text-[10px] text-slate-300 overflow-x-auto">
                     {JSON.stringify(log.details, null, 2)}
                   </div>
                 )}
@@ -85,7 +88,7 @@ export const VerifierAuditPage: React.FC = () => {
             );
           })}
           {logs.length === 0 && (
-            <div className="py-12 text-center text-slate-400">
+            <div className="py-12 text-center text-slate-400 font-sans">
               No audit logs captured for this node.
             </div>
           )}
@@ -94,3 +97,5 @@ export const VerifierAuditPage: React.FC = () => {
     </div>
   );
 };
+
+export default VerifierAuditPage;
