@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { 
   LayoutDashboard, 
+  ShieldAlert, 
   ShieldCheck, 
   ListTodo, 
   MailWarning, 
@@ -11,7 +12,7 @@ import {
   Bell, 
   Settings, 
   LogOut,
-  ChevronDown
+  Shield
 } from 'lucide-react';
 import { User } from '../types';
 
@@ -33,37 +34,26 @@ export const VerifierSidebar: React.FC<VerifierSidebarProps> = ({ currentUser, o
     { to: '/verifier/settings', label: 'Settings', icon: Settings },
   ];
 
-  const userInitial = (currentUser?.first_name || currentUser?.username || 'V')[0].toUpperCase();
-  const displayName = currentUser?.first_name && currentUser?.last_name 
-    ? `${currentUser.first_name} ${currentUser.last_name}` 
-    : currentUser?.username || 'Verifier Lead';
-  const displayId = currentUser?.id ? `ID: 942-X0${currentUser.id}` : 'ID: 942-X02';
-
   return (
-    <aside className="w-64 glass-panel border-r border-white/10 min-h-[calc(100vh-65px)] p-4 flex flex-col justify-between select-none shrink-0 m-3 my-4 ml-4 rounded-3xl relative z-20">
-      <div className="space-y-6">
-        {/* User Profile Pill Capsule */}
-        <div className="flex items-center justify-between p-2 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-cyan-500/40 transition">
-          <div className="flex items-center space-x-3 min-w-0">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500/30 to-emerald-600/30 border border-cyan-400/50 flex items-center justify-center text-white font-bold text-sm shadow-[0_0_12px_rgba(0,229,255,0.35)] shrink-0 overflow-hidden relative">
-              <div className="absolute inset-0 bg-emerald-400/10 animate-pulse" />
-              <span>{userInitial}</span>
+    <aside className="w-64 bg-[#15803D] text-white min-h-screen flex flex-col justify-between select-none shadow-lg">
+      <div className="p-4 space-y-6">
+        {/* Brand Header */}
+        <div className="flex items-center space-x-3 px-2 py-4 border-b border-white/20">
+          <div className="p-2 bg-white/10 rounded-lg flex items-center justify-center text-white">
+            <Shield className="w-6 h-6" />
+          </div>
+          <div>
+            <div className="font-black text-lg tracking-wider">
+              <span>Q-SHIELD</span>
             </div>
-            <div className="min-w-0">
-              <div className="text-xs font-bold text-white truncate">{displayName}</div>
-              <div className="text-[10px] font-mono text-slate-400">{displayId}</div>
+            <div className="text-[10px] uppercase font-bold tracking-wider text-green-100 opacity-90">
+              Verifier Portal
             </div>
           </div>
-          <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
         </div>
 
         {/* Navigation Items */}
-        <div className="space-y-1.5">
-          <div className="flex items-center space-x-2 px-3 py-1">
-            <span className="text-[11px] font-medium text-slate-400">Verifier Workspace</span>
-            <div className="h-px bg-white/10 flex-1" />
-          </div>
-
+        <nav className="space-y-1">
           {menuItems.map((item) => {
             const Icon = item.icon;
             return (
@@ -71,41 +61,39 @@ export const VerifierSidebar: React.FC<VerifierSidebarProps> = ({ currentUser, o
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition duration-200 ${
+                  `flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold transition duration-150 ${
                     isActive
-                      ? 'cyber-active-pill font-bold'
-                      : 'text-slate-400 hover:text-white hover:bg-white/[0.06] border border-transparent'
+                      ? 'bg-white text-[#15803D] font-bold shadow-sm'
+                      : 'text-green-50 hover:bg-white/10 hover:text-white'
                   }`
                 }
               >
-                {({ isActive }) => (
-                  <>
-                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
-                    <span className="truncate">{item.label}</span>
-                  </>
-                )}
+                <Icon className="w-5 h-5 shrink-0" />
+                <span>{item.label}</span>
               </NavLink>
             );
           })}
-        </div>
-      </div>
 
-      {/* Footer */}
-      <div className="pt-4 border-t border-white/10 space-y-2">
-        <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/[0.03] border border-white/5 text-[11px]">
-          <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34D399]" />
-            <span className="font-mono text-emerald-400 font-bold uppercase tracking-wider">VERIFIER</span>
-          </div>
+          {/* Logout Button */}
           {onLogout && (
             <button
               onClick={onLogout}
-              title="Logout"
-              className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition"
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-sm font-semibold text-green-50 hover:bg-white/10 hover:text-white transition duration-150 text-left"
             >
-              <LogOut className="w-3.5 h-3.5" />
+              <LogOut className="w-5 h-5 shrink-0" />
+              <span>Logout</span>
             </button>
           )}
+        </nav>
+      </div>
+
+      {/* Sidebar Footer */}
+      <div className="p-4 border-t border-white/20">
+        <div className="bg-white/10 rounded-xl p-3 text-xs">
+          <div className="font-bold text-white">{currentUser?.first_name && currentUser?.last_name ? `${currentUser.first_name} ${currentUser.last_name}` : currentUser?.username || 'Guest'}</div>
+          <div className="text-[10px] text-green-100 font-mono font-bold uppercase mt-0.5">
+            {currentUser?.role || 'VERIFIER'} PORTAL
+          </div>
         </div>
       </div>
     </aside>

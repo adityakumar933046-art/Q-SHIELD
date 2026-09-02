@@ -25,28 +25,24 @@ export const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#070B14] text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Glows */}
-      <div className="fixed top-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="fixed bottom-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="glass-panel-glow rounded-3xl max-w-md w-full p-8 shadow-2xl space-y-6 relative z-10">
+    <div className="min-h-screen bg-[#070C14] text-white flex items-center justify-center p-4">
+      <div className="bg-[#0B1220] border border-[#1F2E4D] rounded-2xl max-w-md w-full p-8 shadow-2xl space-y-6 relative">
         {/* Header Branding */}
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center p-3 bg-cyan-500/15 border border-cyan-400/40 rounded-2xl text-cyan-400 mb-2 shadow-[0_0_15px_rgba(0,229,255,0.3)]">
+          <div className="inline-flex items-center justify-center p-3 bg-[#00C2FF]/10 border border-[#00C2FF]/30 rounded-xl text-[#00C2FF] mb-2">
             <Shield className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-wide text-white">Q-SHIELD Security</h1>
-          <p className="text-xs text-cyan-400 font-mono">Password Recovery Portal</p>
+          <h1 className="text-2xl font-extrabold tracking-wide">Q-SHIELD Security</h1>
+          <p className="text-xs text-slate-400">Password Recovery Portal</p>
         </div>
 
         {successMsg ? (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-5 space-y-3 text-center">
-            <CheckCircle className="w-8 h-8 text-emerald-400 mx-auto" />
+          <div className="bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl p-5 space-y-3 text-center">
+            <CheckCircle className="w-8 h-8 text-[#10B981] mx-auto" />
             <p className="text-xs text-slate-200 leading-relaxed font-medium">{successMsg}</p>
             <a
-              href="/login"
-              className="inline-block mt-2 text-xs text-cyan-400 hover:underline font-bold"
+              href="/"
+              className="inline-block mt-2 text-xs text-[#00C2FF] hover:underline font-bold"
             >
               Return to Login Page
             </a>
@@ -58,25 +54,25 @@ export const ForgotPasswordPage: React.FC = () => {
             </p>
 
             {errorMsg && (
-              <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-3 rounded-xl text-xs flex items-center space-x-2 font-medium">
+              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-3 rounded-lg text-xs flex items-center space-x-2 font-medium">
                 <AlertCircle className="w-4 h-4 flex-shrink-0" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                 Account Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
                 <input
                   type="email"
                   required
                   placeholder="user@organization.gov"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full glass-input pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
                 />
               </div>
             </div>
@@ -84,15 +80,15 @@ export const ForgotPasswordPage: React.FC = () => {
             <button
               type="submit"
               disabled={isSubmitting || !email}
-              className="w-full btn-cyan-gradient font-bold py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 transition shadow-lg disabled:opacity-50 cursor-pointer"
+              className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-3 rounded-xl text-xs flex items-center justify-center space-x-2 transition shadow-lg disabled:opacity-50"
             >
               <span>{isSubmitting ? 'Sending Reset Request...' : 'Send Password Reset Authorization'}</span>
             </button>
           </form>
         )}
 
-        <div className="pt-4 border-t border-white/10 text-center">
-          <a href="/login" className="inline-flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition">
+        <div className="pt-4 border-t border-[#1F2E4D]/50 text-center">
+          <a href="/" className="inline-flex items-center space-x-1.5 text-xs text-slate-400 hover:text-white transition">
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Main Login</span>
           </a>
@@ -101,5 +97,3 @@ export const ForgotPasswordPage: React.FC = () => {
     </div>
   );
 };
-
-export default ForgotPasswordPage;

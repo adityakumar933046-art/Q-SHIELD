@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Search, Filter, Calendar, Activity } from 'lucide-react';
+import { ShieldCheck, Loader2, Search, Filter, Calendar } from 'lucide-react';
 import { api } from '../services/api';
 import { SignatureVerificationAttempt } from '../types';
-import { StatusBadge } from '../components/StatusBadge';
 
 export const MyVerificationsPage: React.FC = () => {
   const [verifications, setVerifications] = useState<SignatureVerificationAttempt[]>([]);
@@ -38,12 +37,8 @@ export const MyVerificationsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[50vh] flex flex-col items-center justify-center space-y-4 font-mono">
-        <div className="relative">
-          <Activity className="w-8 h-8 animate-spin text-cyan-400" />
-          <div className="absolute inset-0 bg-cyan-400/20 rounded-full blur-lg animate-pulse" />
-        </div>
-        <span className="text-xs text-slate-400 tracking-widest uppercase">LOADING VERIFICATIONS...</span>
+      <div className="min-h-[50vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
       </div>
     );
   }
@@ -51,26 +46,21 @@ export const MyVerificationsPage: React.FC = () => {
   return (
     <div className="space-y-6 select-none max-w-6xl mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center space-x-3">
-          <div className="p-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-            <ShieldCheck className="w-6 h-6" />
-          </div>
-          <span>My Verifications</span>
-        </h1>
-        <p className="text-xs text-slate-400 mt-1">
+        <h1 className="text-2xl font-black text-slate-800 tracking-tight">My Verifications</h1>
+        <p className="text-xs text-slate-400 font-medium">
           A list of all Quantum Digital Signature verification transactions performed by your node.
         </p>
       </div>
 
       {/* Filters Bar */}
-      <div className="flex flex-col sm:flex-row gap-4 glass-card p-4 text-xs font-semibold">
+      <div className="flex flex-col sm:flex-row gap-4 bg-white border border-slate-200 rounded-xl p-4 shadow-sm text-xs font-semibold">
         <div className="flex-1 relative">
           <input
             type="text"
             placeholder="Search by Verification ID, QDS ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full glass-input pl-9 pr-4 py-2 text-white font-mono text-xs focus:border-cyan-400"
+            className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-4 py-2 text-slate-700 focus:outline-none focus:ring-1 focus:ring-green-600 focus:border-green-600"
           />
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
         </div>
@@ -80,11 +70,11 @@ export const MyVerificationsPage: React.FC = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="glass-input px-3 py-2 text-white cursor-pointer bg-[#0B1220] font-mono text-xs"
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-650 focus:outline-none focus:ring-1 focus:ring-green-600 cursor-pointer"
           >
-            <option value="ALL" className="bg-slate-900">All Results</option>
-            <option value="SUCCESS" className="bg-slate-900">Successful Only</option>
-            <option value="FAILED" className="bg-slate-900">Failed Only</option>
+            <option value="ALL">All Results</option>
+            <option value="SUCCESS">Successful Only</option>
+            <option value="FAILED">Failed Only</option>
           </select>
         </div>
       </div>
@@ -92,37 +82,44 @@ export const MyVerificationsPage: React.FC = () => {
       {/* Verification List Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {filteredVerifications.map((item) => {
+          const isSuccess = item.verification_result === 'PASSED';
           return (
-            <div key={item.id} className="glass-card p-6 space-y-4 hover:border-cyan-500/40 transition">
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+            <div key={item.id} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4 hover:border-slate-350 hover:shadow-md transition">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
-                  <span className="font-mono text-cyan-400 font-bold text-sm">{item.verification_id}</span>
-                  <span className="text-[10px] text-slate-400 block mt-0.5 font-mono">QDS ID: {item.signature_id}</span>
+                  <span className="font-mono text-slate-800 font-black text-sm">{item.verification_id}</span>
+                  <span className="text-[10px] text-slate-400 block mt-0.5">QDS ID: {item.signature_id}</span>
                 </div>
-                <StatusBadge status={item.verification_result} />
+                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                  isSuccess 
+                    ? 'bg-green-55 bg-green-50 text-green-700 border border-green-200' 
+                    : 'bg-red-50 text-red-700 border border-red-200'
+                }`}>
+                  {isSuccess ? 'Passed' : 'Failed'}
+                </span>
               </div>
 
               <div className="grid grid-cols-2 gap-4 text-xs">
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">Signer (Sender)</span>
-                  <span className="text-white font-bold">{(item as any).signer_full_name || 'Signer Lead'}</span>
+                  <span className="text-slate-700 font-bold">{(item as any).signer_full_name || ''}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">Fidelity</span>
-                  <span className="font-mono text-emerald-400 font-bold">{(item.quantum_fidelity * 100).toFixed(2)}%</span>
+                  <span className="font-mono text-slate-700 font-bold">{(item.quantum_fidelity * 100).toFixed(2)}%</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">QBER Measured</span>
-                  <span className="font-mono text-cyan-400 font-bold">{(item.qber * 100).toFixed(2)}%</span>
+                  <span className="font-mono text-slate-700 font-bold">{(item.qber * 100).toFixed(2)}%</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">Threat Category</span>
-                  <span className="font-mono text-slate-300 font-bold truncate max-w-[150px]">{item.threat_category || 'NONE'}</span>
+                  <span className="font-mono text-slate-700 font-bold truncate max-w-[150px]">{item.threat_category || 'NONE'}</span>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 text-[10px] text-slate-400 pt-2 border-t border-white/10 font-mono">
-                <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+              <div className="flex items-center space-x-2 text-[10px] text-slate-400 pt-2 border-t border-slate-100">
+                <Calendar className="w-3.5 h-3.5 text-slate-400" />
                 <span>{new Date(item.created_at).toLocaleString()}</span>
               </div>
             </div>
@@ -130,7 +127,7 @@ export const MyVerificationsPage: React.FC = () => {
         })}
 
         {filteredVerifications.length === 0 && (
-          <div className="col-span-2 glass-card p-12 text-center text-slate-400 text-xs font-semibold">
+          <div className="col-span-2 bg-white border border-slate-200 rounded-xl p-12 text-center text-slate-400 text-xs font-semibold shadow-sm">
             No verifications matching criteria.
           </div>
         )}
@@ -138,5 +135,3 @@ export const MyVerificationsPage: React.FC = () => {
     </div>
   );
 };
-
-export default MyVerificationsPage;

@@ -46,19 +46,14 @@ export const VerifierNotificationsPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6 select-none">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center space-x-3">
-            <div className="p-2 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-              <Bell className="w-6 h-6" />
-            </div>
-            <span>System Notifications</span>
-          </h1>
-          <p className="text-xs text-slate-400 mt-1">
+          <h1 className="text-2xl font-black text-slate-800 tracking-tight">System Notifications</h1>
+          <p className="text-xs text-slate-400 font-medium">
             Real-time security warnings, state collapse events, and protocol update flags.
           </p>
         </div>
         <button
           onClick={markAllRead}
-          className="text-xs font-bold text-cyan-400 hover:text-cyan-300 transition"
+          className="text-xs font-bold text-green-700 hover:text-green-800 transition"
         >
           Mark all as read
         </button>
@@ -72,23 +67,23 @@ export const VerifierNotificationsPage: React.FC = () => {
           return (
             <div 
               key={item.id} 
-              className={`glass-card p-5 flex items-start space-x-4 hover:border-cyan-500/40 transition relative ${
-                !item.read ? 'border-l-4 border-l-cyan-400' : ''
+              className={`bg-white border rounded-xl p-5 shadow-sm flex items-start space-x-4 hover:border-slate-350 transition relative ${
+                !item.read ? 'border-l-4 border-l-green-600' : 'border-slate-200'
               }`}
             >
               <div className="shrink-0">
                 {isWarning && (
-                  <div className="p-2 bg-rose-500/15 text-rose-400 border border-rose-500/30 rounded-xl">
+                  <div className="p-2 bg-red-50 text-red-650 rounded-lg">
                     <ShieldAlert className="w-5 h-5" />
                   </div>
                 )}
                 {isSuccess && (
-                  <div className="p-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-xl">
+                  <div className="p-2 bg-green-50 text-green-700 rounded-lg">
                     <CheckCircle2 className="w-5 h-5" />
                   </div>
                 )}
                 {item.type === 'INFO' && (
-                  <div className="p-2 bg-cyan-500/15 text-cyan-400 border border-cyan-500/30 rounded-xl">
+                  <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
                     <Info className="w-5 h-5" />
                   </div>
                 )}
@@ -96,13 +91,13 @@ export const VerifierNotificationsPage: React.FC = () => {
 
               <div className="flex-1 space-y-1">
                 <div className="flex items-center justify-between text-xs font-semibold">
-                  <h4 className="text-white font-bold">{item.title}</h4>
-                  <div className="flex items-center space-x-1.5 text-slate-400 font-mono text-[10px]">
-                    <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+                  <h4 className="text-slate-800 font-bold">{item.title}</h4>
+                  <div className="flex items-center space-x-1.5 text-slate-400 font-medium text-[10px]">
+                    <Calendar className="w-3.5 h-3.5" />
                     <span>{item.timestamp}</span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <p className="text-xs text-slate-500 font-medium leading-relaxed">
                   {item.message}
                 </p>
               </div>
@@ -113,5 +108,3 @@ export const VerifierNotificationsPage: React.FC = () => {
     </div>
   );
 };
-
-export default VerifierNotificationsPage;
