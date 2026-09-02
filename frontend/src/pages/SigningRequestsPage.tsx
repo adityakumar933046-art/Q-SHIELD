@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Key, Activity, X } from 'lucide-react';
+import { Key, Activity, Clock, CheckCircle2, AlertOctagon } from 'lucide-react';
 import { api } from '../services/api';
 import { StatusBadge } from '../components/StatusBadge';
 import { QuantumCircuitVisualizer } from '../components/QuantumCircuitVisualizer';
@@ -77,37 +77,35 @@ export const SigningRequestsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-12 text-center text-slate-400 flex items-center justify-center space-x-3 font-mono">
-        <Activity className="w-5 h-5 animate-spin text-cyan-400" />
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+        <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>PULLING OUTGOING SIGNATURE REQUESTS...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-extrabold text-white tracking-tight flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-            <Key className="w-4 h-4" />
-          </div>
+        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+          <Key className="w-5 h-5 text-[#00C2FF]" />
           <span>Signing Requests Inbox</span>
         </h1>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-slate-500">
           Sign document requests sent to you using your secure Quantum Teleportation Key.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-white/10 text-xs font-bold space-x-6">
+      <div className="flex border-b border-slate-200 text-xs font-bold space-x-6">
         {(['ALL', 'PENDING', 'COMPLETED', 'REJECTED'] as const).map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`pb-3 px-1 border-b-2 transition uppercase tracking-wider ${
+            className={`pb-2.5 px-1 border-b-2 transition uppercase ${
               activeTab === tab 
-                ? 'border-cyan-400 text-cyan-400 font-bold shadow-[0_2px_10px_rgba(0,229,255,0.4)]' 
-                : 'border-transparent text-slate-400 hover:text-white'
+                ? 'border-[#00C2FF] text-[#00C2FF] font-black' 
+                : 'border-transparent text-slate-400 hover:text-slate-600'
             }`}
           >
             {tab.toLowerCase()} ({requests.filter(r => tab === 'ALL' || r.status === tab).length})
@@ -116,61 +114,60 @@ export const SigningRequestsPage: React.FC = () => {
       </div>
 
       {/* Request Table */}
-      <div className="glass-card p-6 space-y-4">
-        <div className="overflow-x-auto rounded-2xl border border-white/10">
-          <table className="table-cyber">
-            <thead>
+      <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-slate-50 border-b border-[#E2E8F0] text-slate-400 font-semibold uppercase text-[10px]">
               <tr>
-                <th>Request ID</th>
-                <th>Requested By</th>
-                <th>Purpose</th>
-                <th className="text-center">Verifiers Required</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th className="text-right">Actions</th>
+                <th className="px-6 py-4">Request ID</th>
+                <th className="px-6 py-4">Requested By</th>
+                <th className="px-6 py-4">Purpose</th>
+                <th className="px-6 py-4 text-center">Verifiers Required</th>
+                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-mono">
               {filteredRequests.length > 0 ? (
                 filteredRequests.map((r) => (
-                  <tr key={r.id}>
-                    <td className="font-bold text-cyan-400 font-mono">{r.request_id}</td>
-                    <td className="text-slate-300 font-sans">{r.requester_username || ''}</td>
-                    <td className="text-white font-bold">{r.purpose}</td>
-                    <td className="text-center text-slate-200">{r.verifiers_count}</td>
-                    <td className="text-slate-400 text-[11px] font-mono">
+                  <tr key={r.id} className="hover:bg-slate-50 transition">
+                    <td className="px-6 py-4 font-bold text-slate-900">{r.request_id}</td>
+                    <td className="px-6 py-4 text-slate-500 font-sans">{r.requester_username || ''}</td>
+                    <td className="px-6 py-4 text-slate-800 font-sans font-bold">{r.purpose}</td>
+                    <td className="px-6 py-4 text-center text-slate-800">{r.verifiers_count}</td>
+                    <td className="px-6 py-4 text-slate-400 font-sans text-[11px]">
                       {new Date(r.created_at).toLocaleString([], { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' })}
                     </td>
-                    <td>
+                    <td className="px-6 py-4 font-sans">
                       <StatusBadge status={r.status} />
                     </td>
-                    <td className="text-right">
+                    <td className="px-6 py-4 text-right font-sans space-x-2">
                       {r.status === 'PENDING' ? (
-                        <div className="flex items-center justify-end space-x-2">
+                        <>
                           <button
                             onClick={() => handleReject(r)}
-                            className="btn-glass-danger px-3 py-1 rounded-xl text-xs font-semibold"
+                            className="bg-slate-50 hover:bg-red-50 text-red-500 font-bold px-3 py-1.5 rounded-lg border border-slate-200 hover:border-red-200 transition text-[11px]"
                           >
                             Reject
                           </button>
                           <button
                             onClick={() => handleOpenSign(r)}
-                            className="btn-cyan-gradient px-4 py-1.5 rounded-xl text-xs flex items-center space-x-1.5 cursor-pointer"
+                            className="bg-[#0B1220] hover:bg-[#131E33] text-[#00C2FF] font-bold px-4 py-1.5 rounded-lg border border-[#00C2FF]/30 transition text-[11px]"
                           >
-                            <Key className="w-3.5 h-3.5 text-black" />
-                            <span>Sign</span>
+                            Sign
                           </button>
-                        </div>
+                        </>
                       ) : (
-                        <span className="text-slate-500 font-mono text-[11px]">Processed</span>
+                        <span className="text-[11px] text-slate-400 font-semibold uppercase">Closed</span>
                       )}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="py-8 text-center text-slate-400 font-sans">
-                    No requests found in this view category.
+                  <td colSpan={7} className="px-6 py-8 text-center text-slate-400 font-sans font-normal">
+                    No signature requests found in this folder.
                   </td>
                 </tr>
               )}
@@ -179,37 +176,37 @@ export const SigningRequestsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Signing Request Modal */}
+      {/* Signing modal */}
       {signingRequest && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="glass-panel-glow border border-white/15 rounded-3xl p-6 max-w-xl w-full shadow-2xl space-y-5 overflow-y-auto max-h-[90vh]">
-            <div className="flex justify-between items-center border-b border-white/10 pb-3">
-              <h2 className="text-sm font-bold text-white uppercase flex items-center space-x-2">
-                <Key className="w-4 h-4 text-cyan-400" />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 max-w-xl w-full shadow-2xl space-y-4 overflow-y-auto max-h-[90vh]">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h2 className="text-sm font-black text-slate-800 uppercase flex items-center space-x-2">
+                <Key className="w-4 h-4 text-[#00C2FF]" />
                 <span>Issue QDS: {signingRequest.request_id}</span>
               </h2>
               <button 
                 onClick={() => setSigningRequest(null)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/10"
+                className="text-slate-400 hover:text-slate-600 font-black text-sm"
               >
-                <X className="w-4 h-4" />
+                ✕
               </button>
             </div>
 
             {!signingResult ? (
               <div className="space-y-4 text-xs">
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 space-y-2 font-mono">
+                <div className="bg-slate-50 border border-slate-100 rounded-xl p-3 space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Requested By:</span>
-                    <span className="font-bold text-white">{signingRequest.requester_username}</span>
+                    <span className="text-slate-500">Requested By:</span>
+                    <span className="font-bold text-slate-700">{signingRequest.requester_username}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Document Purpose:</span>
-                    <span className="font-bold text-cyan-400">{signingRequest.purpose}</span>
+                    <span className="text-slate-500">Document Purpose:</span>
+                    <span className="font-bold text-slate-700">{signingRequest.purpose}</span>
                   </div>
-                  <div className="flex flex-col space-y-1 pt-2 border-t border-white/10">
-                    <span className="text-slate-400">Payload Message Content:</span>
-                    <p className="text-[11px] bg-black/40 border border-white/10 p-3 rounded-xl text-slate-200 truncate">
+                  <div className="flex flex-col space-y-1 pt-1 border-t border-slate-200">
+                    <span className="text-slate-500">Payload Message Content:</span>
+                    <p className="font-mono text-[11px] bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 truncate">
                       {signingRequest.payload_content}
                     </p>
                   </div>
@@ -218,32 +215,32 @@ export const SigningRequestsPage: React.FC = () => {
                 {/* Pauli & Bell Config */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-slate-300 font-bold mb-1 uppercase text-[10px]">Pauli State Basis</label>
+                    <label className="block text-slate-700 font-bold mb-1 uppercase text-[10px]">Pauli State Basis</label>
                     <select
                       value={signingBasis}
                       onChange={(e) => setSigningBasis(e.target.value)}
-                      className="w-full glass-input p-2.5 text-white font-mono text-xs bg-[#0B1220]"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
                     >
-                      <option value="|+>" className="bg-slate-900">|+&gt; (X basis +1)</option>
-                      <option value="|->" className="bg-slate-900">|-&gt; (X basis -1)</option>
-                      <option value="|0>" className="bg-slate-900">|0&gt; (Z basis +1)</option>
-                      <option value="|1>" className="bg-slate-900">|1&gt; (Z basis -1)</option>
-                      <option value="|+i>" className="bg-slate-900">|+i&gt; (Y basis +1)</option>
-                      <option value="|-i>" className="bg-slate-900">|-i&gt; (Y basis -1)</option>
+                      <option value="|+>">|+&gt; (X basis +1)</option>
+                      <option value="|->">|-&gt; (X basis -1)</option>
+                      <option value="|0>">|0&gt; (Z basis +1)</option>
+                      <option value="|1>">|1&gt; (Z basis -1)</option>
+                      <option value="|+i>">|+i&gt; (Y basis +1)</option>
+                      <option value="|-i>">|-i&gt; (Y basis -1)</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-slate-300 font-bold mb-1 uppercase text-[10px]">Entangled Bell State</label>
+                    <label className="block text-slate-700 font-bold mb-1 uppercase text-[10px]">Entangled Bell State</label>
                     <select
                       value={signingBell}
                       onChange={(e) => setSigningBell(e.target.value)}
-                      className="w-full glass-input p-2.5 text-white font-mono text-xs bg-[#0B1220]"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
                     >
-                      <option value="PHI_PLUS" className="bg-slate-900">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
-                      <option value="PHI_MINUS" className="bg-slate-900">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
-                      <option value="PSI_PLUS" className="bg-slate-900">|&Psi;+&gt; (|01&gt;+|10&gt;)/&radic;2</option>
-                      <option value="PSI_MINUS" className="bg-slate-900">|&Psi;-&gt; (|01&gt;-|10&gt;)/&radic;2</option>
+                      <option value="PHI_PLUS">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
+                      <option value="PHI_MINUS">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
+                      <option value="PSI_PLUS">|&Psi;+&gt; (|01&gt;+|10&gt;)/&radic;2</option>
+                      <option value="PSI_MINUS">|&Psi;-&gt; (|01&gt;-|10&gt;)/&radic;2</option>
                     </select>
                   </div>
                 </div>
@@ -251,42 +248,47 @@ export const SigningRequestsPage: React.FC = () => {
                 <div className="pt-2 flex space-x-3">
                   <button
                     onClick={() => setSigningRequest(null)}
-                    className="flex-1 btn-glass py-2.5 rounded-xl font-bold"
+                    className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-lg transition"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleExecuteSign}
                     disabled={isSigning}
-                    className="flex-1 btn-cyan-gradient py-2.5 rounded-xl flex items-center justify-center space-x-2 font-bold cursor-pointer"
+                    className="flex-1 bg-[#0B1220] hover:bg-[#131E33] text-[#00C2FF] font-bold py-2.5 rounded-lg transition flex items-center justify-center space-x-2 border border-[#00C2FF]/30 shadow-sm"
                   >
-                    <Key className="w-4 h-4 text-black" />
-                    <span>{isSigning ? 'Teleporting...' : 'Generate QDS'}</span>
+                    <Key className="w-4 h-4 text-[#00C2FF]" />
+                    <span>{isSigning ? 'Running Qiskit Prep...' : 'Confirm & Sign'}</span>
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4 text-xs font-mono">
-                <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 space-y-1 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                  <strong className="block text-emerald-400 font-bold">✓ Quantum Signature Generated Successfully!</strong>
-                  <div>Signature ID: <span className="font-bold text-white">{signingResult.signature.signature_id}</span></div>
-                  <div>QBER: <span className="font-bold text-white">{(signingResult.quantum_teleportation_key.qber * 100).toFixed(2)}%</span></div>
-                  <div>Fidelity: <span className="font-bold text-white">{(signingResult.quantum_teleportation_key.fidelity * 100).toFixed(2)}%</span></div>
+              <div className="space-y-4">
+                <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 text-center space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+                  <div className="text-emerald-700 font-extrabold text-sm">Signature Success!</div>
+                  <p className="text-[11px] text-emerald-600">
+                    Your QDS signature was generated and saved to the audit trail logs successfully.
+                  </p>
                 </div>
 
-                <QuantumCircuitVisualizer
-                  inputState={signingResult.quantum_teleportation_key.input_state_symbol}
-                  bellType={signingResult.quantum_teleportation_key.bell_state_type}
-                  fidelity={signingResult.quantum_teleportation_key.fidelity}
-                  qber={signingResult.quantum_teleportation_key.qber}
-                  attackInjected={false}
-                />
+                {/* Circuit Output */}
+                <div className="space-y-2">
+                  <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Quantum Teleportation Circuit</h4>
+                  <QuantumCircuitVisualizer
+                    inputState={signingResult.quantum_teleportation_key?.input_state_symbol || signingBasis}
+                    bellType={signingResult.quantum_teleportation_key?.bell_state_type || signingBell}
+                    fidelity={signingResult.quantum_teleportation_key?.fidelity || 1.0}
+                    qber={signingResult.quantum_teleportation_key?.qber || 0.0}
+                    attackInjected={false}
+                  />
+                </div>
 
                 <button
                   onClick={() => setSigningRequest(null)}
-                  className="w-full btn-cyan-gradient py-2.5 rounded-xl font-bold text-xs"
+                  className="w-full bg-[#0B1220] text-white font-bold py-2 rounded-lg text-xs"
                 >
-                  Done & Close
+                  Done
                 </button>
               </div>
             )}

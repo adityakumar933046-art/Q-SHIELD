@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Key, Lock, X, AlertTriangle, Smartphone } from 'lucide-react';
+import { Shield, Key, Lock, X, AlertTriangle, Smartphone } from 'lucide-react';
 import { api } from '../services/api';
 
 interface StepUpModalProps {
@@ -29,6 +29,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
       );
       onSuccess(res.step_up_token);
       onClose();
+      // Reset state
       setCode('');
       setPassword('');
     } catch (err: any) {
@@ -39,19 +40,19 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="glass-panel border border-amber-500/30 rounded-3xl max-w-md w-full p-6 text-white space-y-5 shadow-2xl relative">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-[#0B1220] border border-[#F59E0B]/40 rounded-xl max-w-md w-full p-6 text-white space-y-5 shadow-2xl relative">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1.5 rounded-full hover:bg-white/10 transition"
+          className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-[#131E33] transition"
         >
-          <X className="w-4 h-4" />
+          <X className="w-5 h-5" />
         </button>
 
         <div className="space-y-1">
-          <div className="flex items-center space-x-2 text-amber-400">
+          <div className="flex items-center space-x-2 text-[#F59E0B]">
             <AlertTriangle className="w-5 h-5" />
-            <h2 className="text-base font-bold tracking-wide">Step-Up Authentication Required</h2>
+            <h2 className="text-base font-extrabold tracking-wide">Step-Up Authentication Required</h2>
           </div>
           <p className="text-xs text-slate-300">
             Digital Signature Issuance is a privileged cryptographic operation. Re-authenticating is required before signing this payload.
@@ -59,18 +60,18 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
         </div>
 
         {errorMsg && (
-          <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-2.5 rounded-xl text-xs font-medium">
+          <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
             ⚠ {errorMsg}
           </div>
         )}
 
         {/* Method Toggle */}
-        <div className="flex border border-white/10 rounded-2xl p-1 bg-white/[0.03] text-xs font-semibold">
+        <div className="flex border border-[#1F2E4D] rounded-lg p-1 bg-[#131E33] text-xs font-semibold">
           <button
             type="button"
             onClick={() => setMethod('TOTP')}
-            className={`flex-1 py-2 rounded-xl transition flex items-center justify-center space-x-1.5 ${
-              method === 'TOTP' ? 'cyber-active-pill font-bold' : 'text-slate-400 hover:text-white'
+            className={`flex-1 py-1.5 rounded-md transition flex items-center justify-center space-x-1 ${
+              method === 'TOTP' ? 'bg-[#00C2FF] text-[#0B1220] font-bold' : 'text-slate-400 hover:text-white'
             }`}
           >
             <Smartphone className="w-3.5 h-3.5" />
@@ -79,8 +80,8 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
           <button
             type="button"
             onClick={() => setMethod('PASSWORD')}
-            className={`flex-1 py-2 rounded-xl transition flex items-center justify-center space-x-1.5 ${
-              method === 'PASSWORD' ? 'cyber-active-pill font-bold' : 'text-slate-400 hover:text-white'
+            className={`flex-1 py-1.5 rounded-md transition flex items-center justify-center space-x-1 ${
+              method === 'PASSWORD' ? 'bg-[#00C2FF] text-[#0B1220] font-bold' : 'text-slate-400 hover:text-white'
             }`}
           >
             <Lock className="w-3.5 h-3.5" />
@@ -100,7 +101,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
                 placeholder="000000"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full glass-input p-3 text-center text-xl tracking-[0.5em] font-mono text-cyan-400 focus:border-cyan-400"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-3 text-center text-xl tracking-[0.5em] font-mono text-[#00C2FF] focus:outline-none focus:border-[#00C2FF]"
                 autoFocus
               />
             </div>
@@ -114,7 +115,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full glass-input p-2.5 text-xs text-white focus:border-cyan-400 font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-mono"
                 autoFocus
               />
             </div>
@@ -124,16 +125,16 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
             <button
               type="button"
               onClick={onClose}
-              className="w-1/3 btn-glass font-bold py-2.5 rounded-xl text-xs"
+              className="w-1/3 bg-[#131E33] hover:bg-black text-slate-300 font-bold py-2.5 rounded-lg border border-[#1F2E4D] text-xs transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting || (method === 'TOTP' && code.length < 6) || (method === 'PASSWORD' && !password)}
-              className="w-2/3 btn-cyan-gradient py-2.5 rounded-xl text-xs flex items-center justify-center space-x-2 font-bold"
+              className="w-2/3 bg-[#F59E0B] hover:bg-[#D97706] text-[#0B1220] font-bold py-2.5 rounded-lg text-xs flex items-center justify-center space-x-2 transition shadow-md"
             >
-              <Key className="w-4 h-4 text-black" />
+              <Key className="w-4 h-4" />
               <span>{isSubmitting ? 'Verifying...' : 'Authorize Signature'}</span>
             </button>
           </div>

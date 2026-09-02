@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Shield, Zap, Search, Command, RefreshCw, Cpu, Activity, User as UserIcon } from 'lucide-react';
+import { Shield, Zap, Lock, User as UserIcon, LogOut } from 'lucide-react';
 import { User } from '../types';
 
 interface NavbarProps {
@@ -10,109 +9,66 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => {
   return (
-    <header className="sticky top-0 z-40 glass-panel border-b border-white/10 px-6 py-3 flex items-center justify-between mx-4 mt-3 rounded-2xl">
-      {/* Brand Header & Quick Action Pills */}
-      <div className="flex items-center space-x-6">
-        {/* Brand */}
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/20 border border-cyan-400/40 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(0,229,255,0.25)]">
-            <Shield className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-base tracking-wider text-white">
-                <span className="text-cyan-400">Q</span>-SHIELD
-              </span>
-              <span className="text-[10px] font-mono font-bold tracking-widest px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
-                v2.4
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Action Pills from Reference Template */}
-        <div className="hidden xl:flex items-center space-x-2 border-l border-white/10 pl-6">
-          <Link
-            to="/"
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 hover:text-white text-xs font-medium transition"
-          >
-            <span>✨ Intro Page</span>
-          </Link>
-          <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium transition">
-            <Zap className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Ingest</span>
-          </button>
-          <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium transition">
-            <Cpu className="w-3.5 h-3.5 text-blue-400" />
-            <span>Features</span>
-          </button>
-          <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-slate-300 hover:text-white text-xs font-medium transition">
-            <Activity className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Agents</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Center Search Input with ⌘K Shortcut Badge */}
-      <div className="hidden md:flex items-center flex-1 max-w-xs mx-6">
-        <div className="relative w-full">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-            <Search className="w-3.5 h-3.5" />
-          </div>
-          <input
-            type="text"
-            placeholder="Search signatures, qubits, anomalies..."
-            className="w-full bg-white/[0.04] border border-white/10 rounded-full pl-9 pr-12 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
-          />
-          <div className="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
-            <kbd className="flex items-center space-x-0.5 text-[10px] font-mono text-slate-400 bg-white/10 px-1.5 py-0.5 rounded border border-white/10">
-              <Command className="w-2.5 h-2.5" />
-              <span>K</span>
-            </kbd>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Status Indicator, Recalibrate / Action Button, & User Switch */}
+    <header className="sticky top-0 z-40 bg-[#0B1220] border-b border-[#1A263D] px-6 py-3 flex items-center justify-between shadow-md">
+      {/* Brand Header */}
       <div className="flex items-center space-x-3">
-        {/* Pipeline Live Pulse Pill (From Template Screenshot) */}
-        <div className="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-xs">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34D399]" />
-          <span className="text-emerald-400 font-medium text-[11px]">Pipeline live</span>
+        <div className="p-2 bg-[#131E33] border border-[#1F2E4D] rounded-lg flex items-center justify-center text-[#00C2FF]">
+          <Shield className="w-5 h-5" />
+        </div>
+        <div>
+          <div className="flex items-center space-x-2">
+            <span className="font-black text-xl tracking-wider">
+              <span className="text-[#00C2FF]">Q</span>
+              <span className="text-white">-SHIELD</span>
+            </span>
+            <span className="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded bg-[#00C2FF]/10 text-[#00C2FF] border border-[#00C2FF]/30">
+              QDS Threat Engine
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-400 font-medium">QUANTUM-INSPIRED CYBER THREAT DETECTION</p>
+        </div>
+      </div>
+
+      {/* Center Status Indicators */}
+      <div className="hidden md:flex items-center space-x-6">
+        <div className="flex items-center space-x-2 bg-[#131E33] px-3 py-1.5 rounded-lg border border-[#1F2E4D] text-xs">
+          <Zap className="w-4 h-4 text-[#10B981]" />
+          <span className="text-slate-400 font-medium">Qiskit Engine:</span>
+          <span className="text-[#10B981] font-mono font-bold">ONLINE</span>
         </div>
 
-        {/* Recalibrate / Action Gradient Pill Button (From Template Screenshot) */}
-        <button 
-          onClick={onLoginClick}
-          className="flex items-center space-x-2 px-4 py-1.5 rounded-full btn-cyan-gradient text-xs cursor-pointer"
-        >
-          <RefreshCw className="w-3.5 h-3.5 text-black" />
-          <span className="font-bold">Recalibrate</span>
-        </button>
+        <div className="flex items-center space-x-2 bg-[#131E33] px-3 py-1.5 rounded-lg border border-[#1F2E4D] text-xs">
+          <Lock className="w-4 h-4 text-[#00C2FF]" />
+          <span className="text-slate-400 font-medium">Detection:</span>
+          <span className="text-[#00C2FF] font-semibold">Non-ML Statistical Physics</span>
+        </div>
+      </div>
 
-        {/* User Pill Button */}
+      {/* User / Org Info & Login Trigger */}
+      <div className="flex items-center space-x-4">
         {currentUser ? (
           <button
             onClick={onLoginClick}
-            className="flex items-center space-x-2.5 px-3 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] border border-white/10 transition text-left"
+            className="flex items-center space-x-3 bg-[#131E33] hover:bg-[#1A2844] px-3.5 py-1.5 rounded-lg border border-[#1F2E4D] transition text-left"
           >
-            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 text-white font-bold text-xs flex items-center justify-center shadow-[0_0_8px_rgba(0,229,255,0.4)]">
-              {(currentUser.first_name || currentUser.username)[0].toUpperCase()}
+            <div className="w-7 h-7 rounded-full bg-[#00C2FF]/20 border border-[#00C2FF]/50 text-[#00C2FF] font-bold text-xs flex items-center justify-center">
+              {currentUser.username[0].toUpperCase()}
             </div>
-            <div className="text-left hidden lg:block">
-              <div className="font-semibold text-white text-xs leading-none">
-                {currentUser.first_name ? `${currentUser.first_name}` : currentUser.username}
+            <div className="text-left text-xs">
+              <div className="font-semibold text-white flex items-center space-x-1">
+                <span>{currentUser.username}</span>
+                <span className="text-[10px] text-slate-400">(Switch)</span>
               </div>
-              <div className="text-[9px] text-cyan-400 font-mono uppercase font-bold mt-0.5">{currentUser.role}</div>
+              <div className="text-[10px] text-[#00C2FF] font-mono uppercase font-bold">{currentUser.role}</div>
             </div>
           </button>
         ) : (
           <button
             onClick={onLoginClick}
-            className="flex items-center space-x-2 bg-white/10 hover:bg-white/20 text-white font-medium px-3.5 py-1.5 rounded-full text-xs border border-white/20 transition"
+            className="flex items-center space-x-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold px-4 py-2 rounded-lg text-xs transition duration-200 shadow-sm"
           >
-            <UserIcon className="w-3.5 h-3.5" />
-            <span>Login</span>
+            <UserIcon className="w-4 h-4" />
+            <span>Login / Switch Role</span>
           </button>
         )}
       </div>
