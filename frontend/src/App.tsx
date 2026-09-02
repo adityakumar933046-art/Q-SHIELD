@@ -161,9 +161,10 @@ export const App: React.FC = () => {
     <Router>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} />} />
+        <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} currentUser={currentUser} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/security-analyst/dashboard" element={<Navigate to="/analyst/threats" replace />} />
 
         {/* Default Landing */}
         <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
