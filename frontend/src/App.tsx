@@ -25,18 +25,13 @@ import { MySignaturesPage } from './pages/signer/MySignaturesPage';
 import { SignatureDetailsPage } from './pages/signer/SignatureDetailsPage';
 import { SignerProfilePage } from './pages/signer/SignerProfilePage';
 
-// Verifier workspace pages & components
-import { VerifierDashboardPage } from './pages/VerifierDashboardPage';
-import { VerifyQdsPage } from './pages/VerifyQdsPage';
-import { MyVerificationsPage } from './pages/MyVerificationsPage';
-import { VerificationRequestsPage } from './pages/VerificationRequestsPage';
-import { VerificationHistoryPage } from './pages/VerificationHistoryPage';
-import { VerifierAnalyticsPage } from './pages/VerifierAnalyticsPage';
-import { VerifierAuditPage } from './pages/VerifierAuditPage';
-import { VerifierNotificationsPage } from './pages/VerifierNotificationsPage';
-import { VerifierSettingsPage } from './pages/VerifierSettingsPage';
-import { VerifierSidebar } from './components/VerifierSidebar';
-import { VerifierNavbar } from './components/VerifierNavbar';
+// Verifier workspace pages & layout
+import { VerifierLayout } from './components/verifier/VerifierLayout';
+import { VerifierDashboardPage } from './pages/verifier/VerifierDashboardPage';
+import { PendingVerificationPage } from './pages/verifier/PendingVerificationPage';
+import { SignatureVerificationPage } from './pages/verifier/SignatureVerificationPage';
+import { VerificationHistoryPage } from './pages/verifier/VerificationHistoryPage';
+import { VerifierProfilePage } from './pages/verifier/VerifierProfilePage';
 
 // Super Admin workspace pages & layout
 import { SuperAdminLayout } from './components/superadmin/SuperAdminLayout';
@@ -110,24 +105,6 @@ const StandardLayout: React.FC<{
   );
 };
 
-// Light-themed layout for the Verifier portal
-const VerifierLayout: React.FC<{
-  currentUser: User | null;
-  onLogout: () => void;
-}> = ({ currentUser, onLogout }) => {
-  return (
-    <div className="min-h-screen bg-[#F3F4F6] flex font-sans text-slate-800">
-      <VerifierSidebar currentUser={currentUser} onLogout={onLogout} />
-      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
-        <VerifierNavbar currentUser={currentUser} />
-        <main className="flex-1 p-6 overflow-y-auto bg-[#F3F4F6]">
-          <Outlet />
-        </main>
-      </div>
-    </div>
-  );
-};
-
 export const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -138,7 +115,7 @@ export const App: React.FC = () => {
       setCurrentUser(u);
     } catch (err) {
       try {
-        await api.login('test_signer', 'SignerPassword123!');
+        await api.login('test_verifier', 'VerifierPassword123!');
         const u = await api.getCurrentUser();
         setCurrentUser(u);
       } catch (loginErr) {
@@ -181,6 +158,16 @@ export const App: React.FC = () => {
           <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
         </Route>
 
+        {/* VERIFIER WORKSPACE ROUTES (Dedicated Verifier Layout & Sidebar) */}
+        <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
+          <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierDashboardPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/verifier/pending" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><PendingVerificationPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/verifier/signatures/:id/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><SignatureVerificationPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/verifier/history" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerificationHistoryPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/verifier/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierProfilePage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/verifier" element={<Navigate to="/verifier/dashboard" replace />} />
+        </Route>
+
         {/* SUPER ADMIN WORKSPACE ROUTES (Dedicated Global Platform Layout & Sidebar) */}
         <Route element={<SuperAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
           <Route path="/super-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminDashboardPage /></RoleGuard>} />
@@ -201,20 +188,6 @@ export const App: React.FC = () => {
           <Route path="/org-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminAuditLogsPage currentUser={currentUser} /></RoleGuard>} />
           <Route path="/org-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
           <Route path="/org-admin" element={<Navigate to="/org-admin/dashboard" replace />} />
-        </Route>
-
-        {/* VERIFIER WORKSPACE ROUTES (Custom green/light theme layout) */}
-        <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierDashboardPage /></RoleGuard>} />
-          <Route path="/verifier/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifyQdsPage /></RoleGuard>} />
-          <Route path="/verifier/my-verifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><MyVerificationsPage /></RoleGuard>} />
-          <Route path="/verifier/requests" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerificationRequestsPage /></RoleGuard>} />
-          <Route path="/verifier/history" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerificationHistoryPage /></RoleGuard>} />
-          <Route path="/verifier/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierAnalyticsPage /></RoleGuard>} />
-          <Route path="/verifier/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierAuditPage /></RoleGuard>} />
-          <Route path="/verifier/notifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierNotificationsPage /></RoleGuard>} />
-          <Route path="/verifier/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'VERIFIER']}><VerifierSettingsPage /></RoleGuard>} />
-          <Route path="/verifier" element={<Navigate to="/verifier/dashboard" replace />} />
         </Route>
 
         {/* OTHER WORKSPACE ROUTES (Standard cyber-bg theme layout) */}

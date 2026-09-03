@@ -205,6 +205,11 @@ export const api = {
     const res = await apiClient.get('/verification/');
     return res.data.results || res.data;
   },
+  getPendingSignatures: async (): Promise<QuantumDigitalSignature[]> => {
+    const res = await apiClient.get('/qds/');
+    const all = res.data.results || res.data;
+    return all.filter((s: QuantumDigitalSignature) => s.status === 'ISSUED' && !s.is_consumed);
+  },
 
   // Attack Simulator
   simulateAttack: async (params: {
