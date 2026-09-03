@@ -1,12 +1,18 @@
 import uuid
 from django.conf import settings
+from django.utils import timezone
+import datetime
 from .models import ThresholdRule, ThreatEvaluationLog
 from apps.incidents.models import SecurityIncident
 from apps.audit.models import AuditTrailRecord
+from apps.qds.models import QuantumDigitalSignature
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class ThreatDetectionService:
     """
-    Non-Machine-Learning Threat Detector for Q-SHIELD.
+    Non-Machine-Learning Deterministic Threat Detector for Q-SHIELD.
     Evaluates quantum & statistical metrics strictly against configured thresholds.
     """
 
@@ -80,7 +86,7 @@ class ThreatDetectionService:
                 threat_cat = "QUANTUM_CHANNEL_MANIPULATION"
                 severity = "HIGH"
             else:
-                threat_cat = "QUANTUM_ANOMALY"
+                threat_cat = "QUANTUM_ANOMALY_BREACH"
                 severity = "MEDIUM"
 
         explanation = (
@@ -105,33 +111,75 @@ class ThreatDetectionService:
             explanation=explanation
         )
 
+        # Lookup related entities
+        sig_obj = QuantumDigitalSignature.objects.filter(signature_id=execution_id).first()
+        user_name = execution_context.get('user')
+        src_user = User.objects.filter(username=user_name).first() if user_name else (sig_obj.sender if sig_obj else None)
+        org_obj = sig_obj.sender.organization if (sig_obj and sig_obj.sender and sig_obj.sender.organization) else (src_user.organization if (src_user and src_user.organization) else None)
+
         incident_id = None
         if is_threat:
-            inc = SecurityIncident.objects.create(
-                incident_number=f"INC-{uuid.uuid4().hex[:8].upper()}",
-                title=f"Security Anomaly: {threat_cat}",
+            # Check for duplicate recent unresolved incident (5 min window)
+            recent_time = timezone.now() - datetime.timedelta(minutes=5)
+            existing = SecurityIncident.objects.filter(
                 category=threat_cat,
-                severity=severity,
-                status='OPEN',
-                qber=qber,
-                fidelity=fidelity,
-                forgery_probability=forgery_prob,
-                description=f"Automated threat detection alert for execution {execution_id}. {explanation}"
+                status__in=['OPEN', 'INVESTIGATING'],
+                created_at__gte=recent_time
             )
-            incident_id = inc.incident_number
+            if sig_obj:
+                existing = existing.filter(related_signature=sig_obj)
 
-            AuditTrailRecord.objects.create(
-                action_type='THREAT_DETECTED_INCIDENT_CREATED',
-                user_identifier=execution_context.get('user', 'SYSTEM'),
-                target_resource=execution_id,
-                status='ALERT',
-                details={
-                    'incident_number': inc.incident_number,
-                    'threat_category': threat_cat,
-                    'severity': severity,
-                    'rules': rules_triggered
+            dup_inc = existing.first()
+            if dup_inc:
+                dup_inc.description += f" [Update {timezone.now().strftime('%H:%M:%S')}: {explanation}]"
+                dup_inc.save()
+                incident_id = dup_inc.incident_number
+            else:
+                evidence = {
+                    'execution_id': execution_id,
+                    'rules_breached': rules_triggered,
+                    'qber': qber,
+                    'fidelity': fidelity,
+                    'forgery_probability': forgery_prob,
+                    'chi_square_pvalue': chi_p,
+                    'attack_context': execution_context,
+                    'quantum_basis': sig_obj.quantum_state_basis if sig_obj else '|+>',
+                    'bell_pair': sig_obj.bell_pair_type if sig_obj else 'PHI_PLUS',
+                    'message_digest': sig_obj.message_digest if sig_obj else 'N/A'
                 }
-            )
+
+                inc = SecurityIncident.objects.create(
+                    incident_number=f"INC-{uuid.uuid4().hex[:8].upper()}",
+                    title=f"Security Anomaly: {threat_cat}",
+                    category=threat_cat,
+                    severity=severity,
+                    status='OPEN',
+                    classification='CONFIRMED_THREAT',
+                    organization=org_obj,
+                    related_signature=sig_obj,
+                    source_user=src_user,
+                    detection_source=execution_context.get('detection_source', 'QDS Verification Engine'),
+                    qber=qber,
+                    fidelity=fidelity,
+                    forgery_probability=forgery_prob,
+                    description=f"Automated threat detection alert for execution {execution_id}. {explanation}",
+                    evidence_data=evidence
+                )
+                incident_id = inc.incident_number
+
+                AuditTrailRecord.objects.create(
+                    action_type='THREAT_DETECTED_INCIDENT_CREATED',
+                    user_identifier=user_name or 'SYSTEM',
+                    target_resource=execution_id,
+                    status='ALERT',
+                    details={
+                        'incident_number': inc.incident_number,
+                        'threat_category': threat_cat,
+                        'severity': severity,
+                        'rules': rules_triggered,
+                        'organization_id': org_obj.id if org_obj else None
+                    }
+                )
 
         return {
             'evaluation_id': eval_id,

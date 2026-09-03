@@ -142,17 +142,32 @@ export interface SignatureVerificationAttempt {
   created_at: string;
 }
 
+export interface InvestigationNote {
+  id: number;
+  incident: number;
+  author_username?: string;
+  note: string;
+  created_at: string;
+}
+
 export interface SecurityIncident {
   id: number;
   incident_number: string;
   title: string;
   category: string;
   severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
-  status: 'OPEN' | 'INVESTIGATING' | 'MITIGATED' | 'RESOLVED' | 'FALSE_POSITIVE';
+  status: 'OPEN' | 'INVESTIGATING' | 'CONTAINED' | 'MITIGATED' | 'RESOLVED' | 'FALSE_POSITIVE' | 'CLOSED';
+  classification?: 'CONFIRMED_THREAT' | 'FALSE_POSITIVE' | 'INCONCLUSIVE';
+  organization_name?: string;
+  signature_id?: string;
+  source_username?: string;
+  detection_source?: string;
   qber: number;
   fidelity: number;
   forgery_probability: number;
   description: string;
+  evidence_data?: Record<string, any>;
+  notes?: InvestigationNote[];
   assigned_to_username?: string;
   resolution_notes: string;
   created_at: string;

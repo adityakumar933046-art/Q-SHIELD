@@ -51,6 +51,16 @@ import { OrgAdminSecurityOverviewPage } from './pages/orgadmin/OrgAdminSecurityO
 import { OrgAdminAuditLogsPage } from './pages/orgadmin/OrgAdminAuditLogsPage';
 import { OrgAdminSettingsPage } from './pages/orgadmin/OrgAdminSettingsPage';
 
+// Security Analyst workspace pages & layout
+import { SecurityAnalystLayout } from './components/analyst/SecurityAnalystLayout';
+import { SecurityAnalystDashboardPage } from './pages/analyst/SecurityAnalystDashboardPage';
+import { ThreatMonitoringPage } from './pages/analyst/ThreatMonitoringPage';
+import { ThreatDetailsPage } from './pages/analyst/ThreatDetailsPage';
+import { InvestigationsPage } from './pages/analyst/InvestigationsPage';
+import { InvestigationDetailsPage } from './pages/analyst/InvestigationDetailsPage';
+import { SecurityAnalyticsPage } from './pages/analyst/SecurityAnalyticsPage';
+import { SecurityAnalystProfilePage } from './pages/analyst/SecurityAnalystProfilePage';
+
 // Auth pages
 import { api } from './services/api';
 import { User } from './types';
@@ -73,14 +83,14 @@ const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ curren
     case 'VERIFIER':
       return <Navigate to="/verifier/dashboard" replace />;
     case 'SECURITY_ANALYST':
-      return <Navigate to="/analyst/threats" replace />;
+      return <Navigate to="/security-analyst/dashboard" replace />;
     case 'ADMIN':
     default:
       return <Navigate to="/org-admin/dashboard" replace />;
   }
 };
 
-// Standard dark-themed layout for Admin, Signer, and Analyst
+// Standard dark-themed layout for Admin
 const StandardLayout: React.FC<{
   currentUser: User | null;
   onLogout: () => void;
@@ -115,7 +125,7 @@ export const App: React.FC = () => {
       setCurrentUser(u);
     } catch (err) {
       try {
-        await api.login('test_verifier', 'VerifierPassword123!');
+        await api.login('test_analyst', 'AnalystPassword123!');
         const u = await api.getCurrentUser();
         setCurrentUser(u);
       } catch (loginErr) {
@@ -141,10 +151,24 @@ export const App: React.FC = () => {
         <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} currentUser={currentUser} />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/security-analyst/dashboard" element={<Navigate to="/analyst/threats" replace />} />
 
         {/* Default Landing */}
         <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+
+        {/* SECURITY ANALYST WORKSPACE ROUTES (Dedicated Red/Dark Theme Layout & Sidebar) */}
+        <Route element={<SecurityAnalystLayout currentUser={currentUser} onLogout={handleLogout} />}>
+          <Route path="/security-analyst/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboardPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatMonitoringPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/threats/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatDetailsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/investigations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/investigations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationDetailsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalyticsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystProfilePage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/security-analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
+          <Route path="/analyst/threats" element={<Navigate to="/security-analyst/threats" replace />} />
+          <Route path="/analyst/dashboard" element={<Navigate to="/security-analyst/dashboard" replace />} />
+          <Route path="/analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
+        </Route>
 
         {/* SIGNER WORKSPACE ROUTES (Dedicated Signer Layout & Sidebar) */}
         <Route element={<SignerLayout currentUser={currentUser} onLogout={handleLogout} />}>
@@ -205,13 +229,6 @@ export const App: React.FC = () => {
           <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
           <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
           <Route path="/admin" element={<Navigate to="/org-admin/dashboard" replace />} />
-
-          {/* SECURITY ANALYST WORKSPACE ROUTES */}
-          <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
-          <Route path="/analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><ThreatsPage /></RoleGuard>} />
-          <Route path="/analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AnalyticsPage /></RoleGuard>} />
-          <Route path="/analyst/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AuditPage /></RoleGuard>} />
-          <Route path="/analyst" element={<Navigate to="/analyst/threats" replace />} />
 
           {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
           <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />

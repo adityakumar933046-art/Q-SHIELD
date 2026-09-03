@@ -242,13 +242,32 @@ export const api = {
     return res.data.results || res.data;
   },
 
-  // Incidents
+  // Incidents & Threat Investigations
   getIncidents: async (): Promise<SecurityIncident[]> => {
     const res = await apiClient.get('/incidents/');
     return res.data.results || res.data;
   },
-  updateIncidentStatus: async (id: number, status: string, notes: string) => {
-    const res = await apiClient.patch(`/incidents/${id}/`, { status, resolution_notes: notes });
+  getIncidentById: async (id: string | number): Promise<SecurityIncident> => {
+    const res = await apiClient.get(`/incidents/${id}/`);
+    return res.data;
+  },
+  addIncidentNote: async (id: string | number, note: string): Promise<any> => {
+    const res = await apiClient.post(`/incidents/${id}/add-note/`, { note });
+    return res.data;
+  },
+  updateIncidentWorkflow: async (
+    id: string | number,
+    params: { status?: string; classification?: string; resolution_notes?: string }
+  ): Promise<SecurityIncident> => {
+    const res = await apiClient.post(`/incidents/${id}/update-status/`, params);
+    return res.data;
+  },
+  updateIncidentStatus: async (id: number | string, status: string, notes: string) => {
+    const res = await apiClient.post(`/incidents/${id}/update-status/`, { status, resolution_notes: notes });
+    return res.data;
+  },
+  getAnalystDashboardStats: async (): Promise<any> => {
+    const res = await apiClient.get('/incidents/dashboard-stats/');
     return res.data;
   },
 
