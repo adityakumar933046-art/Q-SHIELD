@@ -16,7 +16,7 @@ from apps.accounts.permissions import IsVerifier, IsSignerOrVerifier
 
 class VerificationViewSet(viewsets.ModelViewSet):
     serializer_class = SignatureVerificationAttemptSerializer
-    permission_classes = [IsSignerOrVerifier]
+    permission_classes = [IsVerifier]
 
     def get_queryset(self):
         user = self.request.user
