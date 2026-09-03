@@ -34,7 +34,7 @@ class User(AbstractUser):
     failed_login_attempts = models.IntegerField(default=0)
     lockout_until = models.DateTimeField(null=True, blank=True)
     mfa_secret = models.CharField(max_length=64, blank=True, default='')
-    is_mfa_enabled = models.BooleanField(default=False)
+    is_mfa_enabled = models.BooleanField(default=True)
     mfa_disabled_at = models.DateTimeField(null=True, blank=True)
     reset_password_token = models.CharField(max_length=128, blank=True, default='')
     reset_password_token_expires = models.DateTimeField(null=True, blank=True)
@@ -44,8 +44,14 @@ class User(AbstractUser):
 
     @property
     def requires_mfa(self):
-        # MFA challenge during login is enforced when MFA is enabled and secret is configured
-        return bool(self.is_mfa_enabled and self.mfa_secret)
+        # MFA challenge during login is enforced when MFA is enabled or secret is configured
+        return bool(self.is_mfa_enabled or bool(self.mfa_secret))
+
+    def save(self, *args, **kwargs):
+        if not self.mfa_secret:
+            import base64, secrets
+            self.mfa_secret = base64.b32encode(secrets.token_bytes(20)).decode('utf-8')
+        super().save(*args, **kwargs)
 
     @property
     def is_account_locked(self):

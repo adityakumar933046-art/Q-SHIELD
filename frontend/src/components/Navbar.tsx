@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Zap, Lock, User as UserIcon, LogOut } from 'lucide-react';
+import { Shield, Zap, Lock, User as UserIcon } from 'lucide-react';
 import { User } from '../types';
 
 interface NavbarProps {
@@ -55,21 +55,20 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => 
               {currentUser.username[0].toUpperCase()}
             </div>
             <div className="text-left text-xs">
-              <div className="font-semibold text-white flex items-center space-x-1">
-                <span>{currentUser.username}</span>
-                <span className="text-[10px] text-slate-400">(Switch)</span>
+              <div className="font-semibold text-white font-mono">
+                {currentUser.username}
               </div>
               <div className="text-[10px] text-[#00C2FF] font-mono uppercase font-bold">{currentUser.role}</div>
             </div>
           </button>
         ) : (
-          <button
-            onClick={onLoginClick}
-            className="flex items-center space-x-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold px-4 py-2 rounded-lg text-xs transition duration-200 shadow-sm"
+          <a
+            href="/login"
+            className="flex items-center space-x-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold px-4 py-2 rounded-lg text-xs transition duration-200 shadow-sm uppercase font-mono"
           >
             <UserIcon className="w-4 h-4" />
-            <span>Login / Switch Role</span>
-          </button>
+            <span>Sign In</span>
+          </a>
         )}
       </div>
     </header>

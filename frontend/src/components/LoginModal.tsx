@@ -29,13 +29,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({
 
   if (!isOpen) return null;
 
-  const demoAccounts = [
-    { role: 'ADMIN', user: 'admin', pass: 'admin123', label: 'Admin' },
-    { role: 'SIGNER', user: 'signer_alice', pass: 'alice123', label: 'Signer' },
-    { role: 'VERIFIER', user: 'verifier_bob', pass: 'bob123', label: 'Verifier' },
-    { role: 'SECURITY_ANALYST', user: 'analyst_carol', pass: 'analyst123', label: 'Security Analyst' },
-  ];
-
   const handleCustomLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
@@ -81,29 +74,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     }
   };
 
-  const handleQuickLogin = async (user: string, pass: string) => {
-    setErrorMsg('');
-    setIsSubmitting(true);
-    try {
-      const res = await api.login(user, pass);
-      if (res.mfa_required) {
-        setMfaChallenge(res.mfa_challenge);
-      } else {
-        const u = await api.getCurrentUser();
-        onUserChanged(u);
-        onClose();
-      }
-    } catch (err: any) {
-      setErrorMsg(err.response?.data?.detail || `Failed to authenticate as ${user}.`);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   const handleLogout = async () => {
     await api.logout();
     onUserChanged(null);
     onClose();
+    window.location.href = '/login';
   };
 
   const handleCancelMfa = () => {
@@ -130,8 +105,8 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             <Shield className="w-5 h-5 text-[#00C2FF]" />
             <h2 className="text-lg font-extrabold tracking-wide">Q-SHIELD Authentication Console</h2>
           </div>
-          <p className="text-xs text-slate-400">
-            JWT-Based Authentication with TOTP MFA, Role-Based Access Control & Active Session Security.
+          <p className="text-xs text-slate-400 font-mono">
+            JWT-Based Enterprise Authentication with TOTP MFA & Role-Based Access Control.
           </p>
         </div>
 
@@ -150,13 +125,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             </div>
 
             <div className="pt-2 border-t border-[#1A263D] flex justify-between items-center">
-              <span className="text-xs text-slate-400">Switch role or invalidate active session:</span>
+              <span className="text-xs text-slate-400 font-mono">Active Session Credentials</span>
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#0B1220] hover:bg-black text-white text-xs font-bold rounded-lg border border-[#1F2E4D] transition"
+                className="flex items-center space-x-1.5 px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white text-xs font-bold rounded-lg border border-red-500/30 transition"
               >
                 <LogOut className="w-3.5 h-3.5" />
-                <span>Logout</span>
+                <span>Log Out</span>
               </button>
             </div>
           </div>
@@ -167,21 +142,21 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               <Smartphone className="w-5 h-5" />
               <h3 className="text-sm font-bold uppercase tracking-wider">Multi-Factor Authentication</h3>
             </div>
-            <p className="text-xs text-slate-300">
+            <p className="text-xs text-slate-300 font-mono">
               {useRecoveryCode
                 ? 'Enter an unused 8-character single-use recovery code (e.g. XXXX-XXXX).'
                 : 'Enter the 6-digit TOTP verification code from your authenticator app.'}
             </p>
 
             {errorMsg && (
-              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
+              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium font-mono">
                 ⚠ {errorMsg}
               </div>
             )}
 
             {!useRecoveryCode ? (
               <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 font-mono">
                   6-Digit Verification Code
                 </label>
                 <input
@@ -196,7 +171,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               </div>
             ) : (
               <div>
-                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 font-mono">
                   Recovery Code (XXXX-XXXX)
                 </label>
                 <input
@@ -214,7 +189,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               <button
                 type="button"
                 onClick={() => setUseRecoveryCode(!useRecoveryCode)}
-                className="text-xs text-[#00C2FF] hover:underline flex items-center space-x-1"
+                className="text-xs text-[#00C2FF] hover:underline flex items-center space-x-1 font-mono"
               >
                 <RefreshCw className="w-3 h-3" />
                 <span>{useRecoveryCode ? 'Use 6-Digit Authenticator App Code' : 'Use Single-Use Recovery Code'}</span>
@@ -225,14 +200,14 @@ export const LoginModal: React.FC<LoginModalProps> = ({
               <button
                 type="button"
                 onClick={handleCancelMfa}
-                className="w-1/3 bg-[#0B1220] hover:bg-black text-slate-300 font-bold py-2.5 rounded-lg border border-[#1F2E4D] text-xs transition"
+                className="w-1/3 bg-[#0B1220] hover:bg-black text-slate-300 font-bold py-2.5 rounded-lg border border-[#1F2E4D] text-xs transition font-mono"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting || (!useRecoveryCode && mfaCode.length < 6) || (useRecoveryCode && !recoveryCode)}
-                className="w-2/3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg text-xs flex items-center justify-center space-x-2 transition shadow-sm"
+                className="w-2/3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg text-xs flex items-center justify-center space-x-2 transition shadow-sm font-mono"
               >
                 <Key className="w-4 h-4" />
                 <span>{isSubmitting ? 'Verifying MFA...' : 'Complete Login'}</span>
@@ -240,73 +215,57 @@ export const LoginModal: React.FC<LoginModalProps> = ({
             </div>
           </form>
         ) : (
-          /* Step 1: Demo Accounts & Custom Password Login */
-          <>
-            <div className="space-y-2">
+          /* Professional Enterprise Login Form */
+          <form onSubmit={handleCustomLogin} className="space-y-4 font-mono">
+            <div className="flex justify-between items-center">
               <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                Quick-Switch SIH Demo Roles
+                Enter Credentials
               </label>
-              <div className="grid grid-cols-2 gap-2">
-                {demoAccounts.map((acc) => (
-                  <button
-                    key={acc.user}
-                    onClick={() => handleQuickLogin(acc.user, acc.pass)}
-                    disabled={isSubmitting}
-                    className="p-3 rounded-lg border text-left text-xs transition flex items-center justify-between bg-[#131E33] border-[#1F2E4D] text-slate-200 hover:border-[#00C2FF]/50"
-                  >
-                    <span className="text-white font-semibold">{acc.label}</span>
-                  </button>
-                ))}
+              <a href="/forgot-password" onClick={onClose} className="text-[11px] text-[#00C2FF] hover:underline font-medium">
+                Forgot Password?
+              </a>
+            </div>
+
+            {errorMsg && (
+              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
+                ⚠ {errorMsg}
+              </div>
+            )}
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="block text-[10px] text-slate-400 mb-1">Username or Email</label>
+                <input
+                  type="text"
+                  placeholder="user@qshield.gov or username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] text-slate-400 mb-1">Password</label>
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF]"
+                  required
+                />
               </div>
             </div>
 
-            <form onSubmit={handleCustomLogin} className="space-y-3 pt-2 border-t border-[#1A263D]">
-              <div className="flex justify-between items-center">
-                <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-400">
-                  Or Login with Custom Credentials
-                </label>
-                <a href="/forgot-password" onClick={onClose} className="text-[11px] text-[#00C2FF] hover:underline font-medium">
-                  Forgot Password?
-                </a>
-              </div>
-
-              {errorMsg && (
-                <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-2.5 rounded-lg text-xs font-medium">
-                  ⚠ {errorMsg}
-                </div>
-              )}
-
-              <div className="space-y-2 text-xs">
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Username or Email"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
-                  />
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting || !username || !password}
-                className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm text-xs"
-              >
-                <Key className="w-4 h-4" />
-                <span>{isSubmitting ? 'Authenticating...' : 'Sign In with JWT'}</span>
-              </button>
-            </form>
-          </>
+            <button
+              type="submit"
+              disabled={isSubmitting || !username || !password}
+              className="w-full bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-black py-2.5 rounded-lg flex items-center justify-center space-x-2 transition shadow-sm text-xs uppercase tracking-wider disabled:opacity-50"
+            >
+              <Key className="w-4 h-4" />
+              <span>{isSubmitting ? 'Authenticating...' : 'Sign In'}</span>
+            </button>
+          </form>
         )}
       </div>
     </div>
