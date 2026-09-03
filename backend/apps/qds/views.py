@@ -182,6 +182,34 @@ class QDSViewSet(viewsets.ModelViewSet):
             'creation_trend': trend
         })
 
+    @action(detail=False, methods=['get'], url_path='verifiers')
+    def available_verifiers(self, request):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({'error': 'Unauthorized'}, status=401)
+        
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+
+        if user.role in ['ADMIN', 'SUPER_ADMIN'] or user.is_superuser:
+            qs = User.objects.filter(role__in=['VERIFIER', 'ADMIN', 'ORGANIZATION_ADMIN'], is_active=True)
+        elif user.organization:
+            qs = User.objects.filter(organization=user.organization, role__in=['VERIFIER', 'ADMIN', 'ORGANIZATION_ADMIN'], is_active=True)
+        else:
+            qs = User.objects.filter(role__in=['VERIFIER', 'ADMIN', 'ORGANIZATION_ADMIN'], is_active=True)
+
+        data = [{
+            'id': u.id,
+            'username': u.username,
+            'email': u.email,
+            'first_name': u.first_name,
+            'last_name': u.last_name,
+            'organization_name': u.organization.name if u.organization else 'System',
+            'role': u.role
+        } for u in qs]
+
+        return Response(data)
+
 
 class SigningRequestViewSet(viewsets.ModelViewSet):
     serializer_class = SigningRequestSerializer

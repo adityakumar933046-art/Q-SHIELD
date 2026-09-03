@@ -288,6 +288,14 @@ export const api = {
   getVerifierDashboardStats: async (): Promise<any> => {
     const res = await apiClient.get('/verification/dashboard-stats/');
     return res.data;
+  },
+  getAvailableVerifiers: async (): Promise<any[]> => {
+    const res = await apiClient.get('/qds/verifiers/');
+    return res.data.results || res.data;
+  },
+  getSignatureById: async (id: string | number): Promise<QuantumDigitalSignature> => {
+    const res = await apiClient.get(`/qds/${id}/`);
+    return res.data;
   }
 };
 

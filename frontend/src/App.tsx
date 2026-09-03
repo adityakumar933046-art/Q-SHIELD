@@ -17,13 +17,13 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { AuditPage } from './pages/AuditPage';
 import { UnauthorizedPage } from './pages/UnauthorizedPage';
 
-// Signer workspace pages
-import { SignerDashboardPage } from './pages/SignerDashboardPage';
-import { MyQdsPage } from './pages/MyQdsPage';
-import { SigningRequestsPage } from './pages/SigningRequestsPage';
-import { SignerProfilePage } from './pages/SignerProfilePage';
-import { SignerNotificationsPage } from './pages/SignerNotificationsPage';
-import { SignerSettingsPage } from './pages/SignerSettingsPage';
+// Signer workspace pages & layout
+import { SignerLayout } from './components/signer/SignerLayout';
+import { SignerDashboardPage } from './pages/signer/SignerDashboardPage';
+import { CreateSignaturePage } from './pages/signer/CreateSignaturePage';
+import { MySignaturesPage } from './pages/signer/MySignaturesPage';
+import { SignatureDetailsPage } from './pages/signer/SignatureDetailsPage';
+import { SignerProfilePage } from './pages/signer/SignerProfilePage';
 
 // Verifier workspace pages & components
 import { VerifierDashboardPage } from './pages/VerifierDashboardPage';
@@ -97,7 +97,7 @@ const StandardLayout: React.FC<{
         currentUser={currentUser}
         onLoginClick={onLoginClick}
       />
-      <div className="flex flex-[#1] flex-1">
+      <div className="flex flex-1">
         <Sidebar
           currentUser={currentUser}
           onLogout={onLogout}
@@ -138,7 +138,7 @@ export const App: React.FC = () => {
       setCurrentUser(u);
     } catch (err) {
       try {
-        await api.login('org_admin', 'OrgAdminPassword123!');
+        await api.login('test_signer', 'SignerPassword123!');
         const u = await api.getCurrentUser();
         setCurrentUser(u);
       } catch (loginErr) {
@@ -168,6 +168,18 @@ export const App: React.FC = () => {
 
         {/* Default Landing */}
         <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+
+        {/* SIGNER WORKSPACE ROUTES (Dedicated Signer Layout & Sidebar) */}
+        <Route element={<SignerLayout currentUser={currentUser} onLogout={handleLogout} />}>
+          <Route path="/signer/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerDashboardPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/signer/create-signature" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><CreateSignaturePage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/signer/create" element={<Navigate to="/signer/create-signature" replace />} />
+          <Route path="/signer/my-signatures" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><MySignaturesPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/signer/my-qds" element={<Navigate to="/signer/my-signatures" replace />} />
+          <Route path="/signer/signatures/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignatureDetailsPage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/signer/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerProfilePage currentUser={currentUser} /></RoleGuard>} />
+          <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
+        </Route>
 
         {/* SUPER ADMIN WORKSPACE ROUTES (Dedicated Global Platform Layout & Sidebar) */}
         <Route element={<SuperAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
@@ -220,17 +232,6 @@ export const App: React.FC = () => {
           <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
           <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
           <Route path="/admin" element={<Navigate to="/org-admin/dashboard" replace />} />
-
-          {/* SIGNER WORKSPACE ROUTES */}
-          <Route path="/signer/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerDashboardPage /></RoleGuard>} />
-          <Route path="/signer/create" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><QdsStudioPage /></RoleGuard>} />
-          <Route path="/signer/my-qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><MyQdsPage /></RoleGuard>} />
-          <Route path="/signer/requests" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SigningRequestsPage /></RoleGuard>} />
-          <Route path="/signer/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerProfilePage /></RoleGuard>} />
-          <Route path="/signer/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><AuditPage /></RoleGuard>} />
-          <Route path="/signer/notifications" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerNotificationsPage /></RoleGuard>} />
-          <Route path="/signer/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SIGNER']}><SignerSettingsPage /></RoleGuard>} />
-          <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
 
           {/* SECURITY ANALYST WORKSPACE ROUTES */}
           <Route path="/analyst/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['ADMIN', 'SECURITY_ANALYST']}><AttackSimulatorPage /></RoleGuard>} />
