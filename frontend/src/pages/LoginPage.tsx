@@ -24,7 +24,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, currentUse
     } else if (role === 'VERIFIER') {
       navigate('/verifier/dashboard', { replace: true });
     } else if (role === 'SECURITY_ANALYST') {
-      navigate('/analyst/threats', { replace: true });
+      navigate('/security-analyst/dashboard', { replace: true });
     } else if (role === 'ADMIN') {
       navigate('/org-admin/dashboard', { replace: true });
     } else {
