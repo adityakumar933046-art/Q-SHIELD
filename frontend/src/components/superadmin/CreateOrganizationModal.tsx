@@ -21,7 +21,7 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
   // Organization Admin User creation parameters
   const [adminName, setAdminName] = useState('');
   const [adminEmail, setAdminEmail] = useState('');
-  const [adminPassword, setAdminPassword] = useState('OrgAdminPassword123!');
+  const [adminPassword, setAdminPassword] = useState('');
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

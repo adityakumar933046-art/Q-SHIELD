@@ -19,7 +19,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<'SIGNER' | 'VERIFIER' | 'SECURITY_ANALYST'>('SIGNER');
-  const [password, setPassword] = useState('UserPassword123!');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -124,13 +124,7 @@ export const App: React.FC = () => {
       const u = await api.getCurrentUser();
       setCurrentUser(u);
     } catch (err) {
-      try {
-        await api.login('test_analyst', 'AnalystPassword123!');
-        const u = await api.getCurrentUser();
-        setCurrentUser(u);
-      } catch (loginErr) {
-        console.log("Login check failure:", loginErr);
-      }
+      setCurrentUser(null);
     }
   };
 
