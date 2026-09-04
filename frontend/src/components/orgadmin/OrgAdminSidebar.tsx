@@ -75,15 +75,15 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
               Org Admin
             </span>
           </div>
-
-          <button
-            onClick={onLogout}
-            title="Log Out"
-            className="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
         </div>
+
+        <button
+          onClick={onLogout}
+          className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-red-500/10 hover:bg-red-600 text-red-400 hover:text-white text-xs font-semibold rounded-xl border border-red-500/30 transition duration-150 shadow-sm"
+        >
+          <LogOut className="w-4 h-4" />
+          <span>Log Out</span>
+        </button>
       </div>
     </aside>
   );

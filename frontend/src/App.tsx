@@ -136,7 +136,7 @@ export const App: React.FC = () => {
   const handleLogout = async () => {
     await api.logout();
     setCurrentUser(null);
-    setIsLoginModalOpen(true);
+    window.location.href = '/login';
   };
 
   return (
