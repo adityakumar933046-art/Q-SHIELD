@@ -72,7 +72,7 @@ import { LoginPage } from './pages/LoginPage';
 
 // Role-Based Default Landing Component
 const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ currentUser }) => {
-  if (!currentUser) return <Navigate to="/super-admin/dashboard" replace />;
+  if (!currentUser) return <Navigate to="/login" replace />;
   
   switch (currentUser.role) {
     case 'SUPER_ADMIN':
@@ -134,7 +134,13 @@ export const App: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
-    await api.logout();
+    try {
+      await api.logout();
+    } catch (e) {
+      console.log('Logout API call error:', e);
+    }
+    localStorage.removeItem('qshield_token');
+    localStorage.removeItem('qshield_refresh');
     setCurrentUser(null);
     window.location.href = '/login';
   };
