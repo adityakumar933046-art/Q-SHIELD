@@ -72,7 +72,7 @@ import { LoginPage } from './pages/LoginPage';
 
 // Role-Based Default Landing Component
 const DefaultLandingRedirect: React.FC<{ currentUser: User | null }> = ({ currentUser }) => {
-  if (!currentUser) return <Navigate to="/login" replace />;
+  if (!currentUser) return <Navigate to="/super-admin/dashboard" replace />;
   
   switch (currentUser.role) {
     case 'SUPER_ADMIN':
