@@ -51,12 +51,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, currentUse
         {/* Mobile Header Logo Banner */}
         <div className="w-full max-w-md lg:hidden mb-6 pt-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-xl bg-[#00C2FF]/10 border border-[#00C2FF]/30 flex items-center justify-center text-[#00C2FF] font-black font-mono">
+            <div className="w-8 h-8 rounded-xl bg-[#00C2FF]/10 border border-[#00C2FF]/30 flex items-center justify-center text-[#00C2FF] font-bold font-sans">
               Q
             </div>
-            <span className="text-base font-black text-white tracking-wider">Q-SHIELD</span>
+            <span className="text-base font-bold text-white tracking-wider">Q-SHIELD</span>
           </div>
-          <span className="text-[10px] font-mono text-[#10B981] px-2 py-0.5 bg-[#10B981]/10 rounded border border-[#10B981]/30">
+          <span className="text-[10px] font-sans text-[#10B981] px-2 py-0.5 bg-[#10B981]/10 rounded border border-[#10B981]/30">
             System Online
           </span>
         </div>
@@ -70,7 +70,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, currentUse
         </div>
 
         {/* Mobile / Footer Copyright */}
-        <div className="w-full max-w-md mt-6 pb-4 text-center text-[11px] font-mono text-slate-500">
+        <div className="w-full max-w-md mt-6 pb-4 text-center text-[11px] font-sans text-slate-500">
           © {new Date().getFullYear()} Q-SHIELD Security Systems. All rights reserved.
         </div>
       </div>

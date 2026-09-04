@@ -61,7 +61,7 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
 
   if (!org) {
     return (
-      <div className="p-8 text-center text-slate-400 font-mono">
+      <div className="p-8 text-center text-slate-400 font-sans">
         Organization ID #{id} not found.{' '}
         <Link to="/super-admin/organizations" className="text-[#00C2FF] underline">
           Return to Organizations Directory
@@ -85,7 +85,7 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
       <div>
         <Link
           to="/super-admin/organizations"
-          className="inline-flex items-center space-x-2 text-xs font-mono text-slate-400 hover:text-[#00C2FF] transition mb-4"
+          className="inline-flex items-center space-x-2 text-xs font-sans text-slate-400 hover:text-[#00C2FF] transition mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Organizations Directory</span>
@@ -98,10 +98,10 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center space-x-3">
-                <h2 className="text-2xl font-black text-white">{org.name}</h2>
+                <h2 className="text-2xl font-bold text-white">{org.name}</h2>
                 <StatusBadge status={org.is_active ? 'ACTIVE' : 'INACTIVE'} />
               </div>
-              <p className="text-xs text-slate-400 font-mono mt-0.5">
+              <p className="text-xs text-slate-400 font-sans mt-0.5">
                 Org ID: ORG-{org.id.toString().padStart(4, '0')} • Domain: {org.domain || 'qshield.gov'}
               </p>
             </div>
@@ -158,12 +158,12 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
         
         {/* Left 6 Cols: Organization Information */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Building2 className="w-5 h-5 text-[#00C2FF]" />
             <span>Organization Profile & Domain Setup</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
               <span className="text-slate-400">Organization Name:</span>
               <span className="font-bold text-white">{org.name}</span>
@@ -195,12 +195,12 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
 
         {/* Right 6 Cols: Organization Admin Account Details */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <UserCheck className="w-5 h-5 text-purple-400" />
             <span>Organization Administrator Account</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
               <span className="text-slate-400">Admin Username:</span>
               <span className="font-bold text-purple-400">{orgAdmin.username}</span>
@@ -225,8 +225,8 @@ export const SuperAdminOrgDetailsPage: React.FC = () => {
           <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-start space-x-3 text-xs text-slate-300">
             <Lock className="w-5 h-5 text-[#00C2FF] shrink-0 mt-0.5" />
             <div>
-              <strong className="text-white block font-mono">User Hierarchy Rule Enforcement:</strong>
-              <p className="text-[11px] text-slate-400 font-mono mt-1 leading-relaxed">
+              <strong className="text-white block font-sans">User Hierarchy Rule Enforcement:</strong>
+              <p className="text-[11px] text-slate-400 font-sans mt-1 leading-relaxed">
                 The Super Admin manages the Organization and assigns the Organization Admin. Signers, Verifiers, and Security Analysts within {org.name} are managed directly by this Organization Admin.
               </p>
             </div>

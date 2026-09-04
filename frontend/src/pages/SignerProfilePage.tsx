@@ -25,7 +25,7 @@ export const SignerProfilePage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-sans">
         <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>PULLING PROFILE PROTOCOLS...</span>
       </div>
@@ -37,7 +37,7 @@ export const SignerProfilePage: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <UserIcon className="w-5 h-5 text-[#00C2FF]" />
           <span>My Profile & Credentials</span>
         </h1>
@@ -53,7 +53,7 @@ export const SignerProfilePage: React.FC = () => {
             {currentUser?.username[0].toUpperCase()}
           </div>
           <div>
-            <h2 className="text-base font-black text-slate-800">
+            <h2 className="text-base font-bold text-slate-800">
               {currentUser?.first_name && currentUser?.last_name 
                 ? `${currentUser.first_name} ${currentUser.last_name}` 
                 : currentUser?.username}

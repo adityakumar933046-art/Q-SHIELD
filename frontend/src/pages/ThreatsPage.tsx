@@ -45,7 +45,7 @@ export const ThreatsPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-slate-500 font-mono">Loading Threat Detection System...</div>;
+    return <div className="p-8 text-center text-slate-500 font-sans">Loading Threat Detection System...</div>;
   }
 
   return (
@@ -53,7 +53,7 @@ export const ThreatsPage: React.FC = () => {
       {/* Header & Tabs */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
+          <h1 className="text-xl font-bold text-[#0F172A] flex items-center space-x-2">
             <AlertTriangle className="w-5 h-5 text-[#F59E0B]" />
             <span>Statistical Threat Detection & Security Incidents</span>
           </h1>
@@ -97,7 +97,7 @@ export const ThreatsPage: React.FC = () => {
                   <th className="px-4 py-3 rounded-tr-lg">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-mono">
+              <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-sans">
                 {incidents.map((inc) => (
                   <tr key={inc.id} className="hover:bg-slate-50 transition">
                     <td className="px-4 py-3 font-bold text-[#0B1220]">{inc.incident_number}</td>
@@ -138,7 +138,7 @@ export const ThreatsPage: React.FC = () => {
             <div key={rule.id} className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-3 shadow-sm">
               <div className="flex justify-between items-start">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-mono text-[#00C2FF] uppercase font-bold">{rule.metric_type} METRIC RULE</span>
+                  <span className="text-[10px] font-sans text-[#00C2FF] uppercase font-bold">{rule.metric_type} METRIC RULE</span>
                   <h3 className="text-sm font-bold text-[#0F172A]">{rule.rule_name}</h3>
                 </div>
                 <StatusBadge status={rule.severity} />
@@ -146,7 +146,7 @@ export const ThreatsPage: React.FC = () => {
 
               <p className="text-xs text-slate-500">{rule.description}</p>
 
-              <div className="bg-[#F8FAFC] p-3 rounded-lg border border-[#E2E8F0] font-mono text-xs flex justify-between items-center">
+              <div className="bg-[#F8FAFC] p-3 rounded-lg border border-[#E2E8F0] font-sans text-xs flex justify-between items-center">
                 <span className="text-slate-500">Statistical Boundary:</span>
                 <span className="text-[#0B1220] font-bold text-sm">
                   {rule.metric_type} {rule.operator} {rule.threshold_value}
@@ -188,7 +188,7 @@ export const ThreatsPage: React.FC = () => {
                   value={resolutionNotes}
                   onChange={(e) => setResolutionNotes(e.target.value)}
                   rows={4}
-                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono text-xs"
+                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans text-xs"
                   placeholder="Enter mitigation procedures taken..."
                   required
                 />

@@ -75,7 +75,7 @@ export const VerifierAnalyticsPage: React.FC = () => {
     <div className="max-w-6xl mx-auto space-y-6 select-none">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-slate-800 tracking-tight">Quantum Statistical Analytics</h1>
+          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Quantum Statistical Analytics</h1>
           <p className="text-xs text-slate-400 font-medium">
             Entanglement fidelity profiles, QBER bounds, and signal outcome probability significance tests.
           </p>
@@ -144,7 +144,7 @@ export const VerifierAnalyticsPage: React.FC = () => {
               <div className="text-slate-400 text-xs font-semibold">No data available</div>
             )}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-2xl font-black text-slate-800">{total}</span>
+              <span className="text-2xl font-bold text-slate-800">{total}</span>
               <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Verifications</span>
             </div>
           </div>

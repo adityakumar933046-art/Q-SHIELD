@@ -74,7 +74,7 @@ export const VerifierNavbar: React.FC<VerifierNavbarProps> = ({ currentUser }) =
           {/* Avatar Icon */}
           <div className="w-9 h-9 rounded-full bg-green-100 border border-green-200 text-green-700 font-bold flex items-center justify-center overflow-hidden">
             {/* If there's an image we could render it, but a green avatar is shown in screenshot */}
-            <div className="w-6 h-6 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-xs font-black">
+            <div className="w-6 h-6 rounded-full bg-[#16A34A] text-white flex items-center justify-center text-xs font-bold">
               {currentUser?.first_name ? currentUser.first_name[0].toUpperCase() : 'B'}
             </div>
           </div>

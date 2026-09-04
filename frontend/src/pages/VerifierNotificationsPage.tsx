@@ -46,7 +46,7 @@ export const VerifierNotificationsPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6 select-none">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-slate-800 tracking-tight">System Notifications</h1>
+          <h1 className="text-2xl font-bold text-slate-800 tracking-tight">System Notifications</h1>
           <p className="text-xs text-slate-400 font-medium">
             Real-time security warnings, state collapse events, and protocol update flags.
           </p>

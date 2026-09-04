@@ -37,7 +37,7 @@ export const VerifierAuditPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 select-none">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Audit Trail Logs</h1>
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Audit Trail Logs</h1>
         <p className="text-xs text-slate-400 font-medium">
           Immutably tracked system activity logs mapping to quantum verification attempts, security alerts, and node sessions.
         </p>
@@ -56,7 +56,7 @@ export const VerifierAuditPage: React.FC = () => {
               <div key={log.id} className="p-4 hover:bg-slate-50/50 transition space-y-2">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                   <div className="flex items-center space-x-2">
-                    <span className="font-mono text-slate-800 font-black tracking-wide">{log.action_type}</span>
+                    <span className="font-sans text-slate-800 font-bold tracking-wide">{log.action_type}</span>
                     <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold ${
                       isBreach 
                         ? 'bg-red-50 text-red-700 border border-red-200' 
@@ -77,7 +77,7 @@ export const VerifierAuditPage: React.FC = () => {
                 </div>
 
                 {log.details && Object.keys(log.details).length > 0 && (
-                  <div className="mt-2 bg-slate-50 p-2.5 rounded border border-slate-100 font-mono text-[10px] text-slate-500 overflow-x-auto">
+                  <div className="mt-2 bg-slate-50 p-2.5 rounded border border-slate-100 font-sans text-[10px] text-slate-500 overflow-x-auto">
                     {JSON.stringify(log.details, null, 2)}
                   </div>
                 )}

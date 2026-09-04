@@ -127,8 +127,8 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
             <FileKey2 className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Create Quantum Digital Signature</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Create Quantum Digital Signature</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Encode payload into Pauli eigenstates, entangle Bell pairs, and dispatch to Verifier
             </p>
           </div>
@@ -136,7 +136,7 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
       </div>
 
       {error && (
-        <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-mono flex items-center space-x-2">
+        <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-sans flex items-center space-x-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -149,12 +149,12 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
           {/* Message Payload Input */}
           <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
             <div className="flex items-center justify-between border-b border-[#1F2E4D] pb-3">
-              <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider flex items-center space-x-2">
+              <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider flex items-center space-x-2">
                 <FileKey2 className="w-4 h-4 text-[#00C2FF]" />
                 <span>1. Message Payload</span>
               </h3>
               <span
-                className={`text-[11px] font-mono font-bold ${
+                className={`text-[11px] font-sans font-bold ${
                   message.length > MAX_MESSAGE_LENGTH ? 'text-[#EF4444]' : 'text-slate-400'
                 }`}
               >
@@ -163,7 +163,7 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Document / Canonical Transaction Message *
               </label>
               <textarea
@@ -172,7 +172,7 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Enter transaction authorization document, contract hash, or canonical transfer payload..."
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono leading-relaxed"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl p-3.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans leading-relaxed"
               />
             </div>
           </div>
@@ -181,24 +181,24 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Select Authorized Verifier */}
             <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-              <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+              <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
                 <Send className="w-4 h-4 text-purple-400" />
                 <span>2. Select Authorized Verifier</span>
               </h3>
 
               <div>
-                <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                   Verifier in {currentUser?.organization_name || 'your organization'} *
                 </label>
                 {verifiers.length === 0 ? (
-                  <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-400">
+                  <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-400">
                     Loading verifiers or default organization verifier node...
                   </div>
                 ) : (
                   <select
                     value={selectedVerifierId}
                     onChange={(e) => setSelectedVerifierId(e.target.value)}
-                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                    className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-sans"
                   >
                     {verifiers.map((v) => (
                       <option key={v.id} value={v.id}>
@@ -212,12 +212,12 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
 
             {/* Quantum Parameters Selection */}
             <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-              <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+              <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
                 <Cpu className="w-4 h-4 text-[#10B981]" />
                 <span>3. Quantum Teleportation Settings</span>
               </h3>
 
-              <div className="grid grid-cols-2 gap-3 font-mono text-xs">
+              <div className="grid grid-cols-2 gap-3 font-sans text-xs">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-1">
                     Basis State
@@ -258,7 +258,7 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
             <button
               type="submit"
               disabled={!message.trim()}
-              className="px-6 py-3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-black text-xs font-mono uppercase tracking-wider rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+              className="px-6 py-3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold text-xs font-sans uppercase tracking-wider rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
             >
               <FileKey2 className="w-4 h-4" />
               <span>Generate Secure Signature</span>
@@ -273,13 +273,13 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
           </div>
 
           <div>
-            <h3 className="text-lg font-black text-white">Quantum-Inspired QDS Generation in Progress</h3>
-            <p className="text-xs text-slate-400 font-mono mt-1">
+            <h3 className="text-lg font-bold text-white">Quantum-Inspired QDS Generation in Progress</h3>
+            <p className="text-xs text-slate-400 font-sans mt-1">
               Executing teleportation-based Pauli eigenstate simulation...
             </p>
           </div>
 
-          <div className="max-w-md mx-auto space-y-2 text-left font-mono text-xs">
+          <div className="max-w-md mx-auto space-y-2 text-left font-sans text-xs">
             {steps.map((stepName, index) => {
               const isDone = index < activeStep;
               const isCurrent = index === activeStep;
@@ -315,22 +315,22 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
               <CheckCircle2 className="w-8 h-8" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold text-[#10B981] uppercase tracking-widest block">
+              <span className="text-[10px] font-sans font-bold text-[#10B981] uppercase tracking-widest block">
                 QDS Generation Complete
               </span>
-              <h3 className="text-xl font-black text-white">Quantum-Inspired Signature Generated Successfully</h3>
+              <h3 className="text-xl font-bold text-white">Quantum-Inspired Signature Generated Successfully</h3>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-xs">
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-2">
               <span className="text-slate-400 block text-[10px] uppercase">Signature ID</span>
-              <span className="font-extrabold text-[#00C2FF] text-sm block">{generatedSignature?.signature_id}</span>
+              <span className="font-bold text-[#00C2FF] text-sm block">{generatedSignature?.signature_id}</span>
             </div>
 
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-2">
               <span className="text-slate-400 block text-[10px] uppercase">Status</span>
-              <span className="font-extrabold text-[#10B981] text-xs block">PENDING_VERIFICATION</span>
+              <span className="font-bold text-[#10B981] text-xs block">PENDING_VERIFICATION</span>
             </div>
 
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-2 md:col-span-2">
@@ -339,7 +339,7 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
             </div>
           </div>
 
-          <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl text-xs font-mono text-[#10B981] flex items-center space-x-2">
+          <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl text-xs font-sans text-[#10B981] flex items-center space-x-2">
             <ShieldCheck className="w-5 h-5 shrink-0" />
             <span>
               Signature package dispatched to assigned Verifier node for organization verification.
@@ -352,13 +352,13 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
                 setGeneratedSignature(null);
                 setMessage('');
               }}
-              className="px-4 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
+              className="px-4 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
             >
               Create Another Signature
             </button>
             <Link
               to={`/signer/signatures/${generatedSignature?.signature_id}`}
-              className="px-5 py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-extrabold font-mono text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-5 py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold font-sans text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <Eye className="w-4 h-4" />
               <span>View Signature Details</span>

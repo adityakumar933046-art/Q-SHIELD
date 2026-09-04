@@ -77,8 +77,8 @@ export const SuperAdminDashboardPage: React.FC = () => {
         <div className="absolute top-0 right-0 w-80 h-full bg-gradient-to-l from-[#00C2FF]/10 via-purple-500/5 to-transparent pointer-events-none" />
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
-            <h2 className="text-2xl font-black text-white tracking-tight">Global Platform Dashboard</h2>
-            <p className="text-xs text-slate-400 font-mono mt-1">
+            <h2 className="text-2xl font-bold text-white tracking-tight">Global Platform Dashboard</h2>
+            <p className="text-xs text-slate-400 font-sans mt-1">
               Cross-Organization Governance & Platform Security Command
             </p>
           </div>
@@ -86,7 +86,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
           <div className="flex items-center space-x-3">
             <Link
               to="/super-admin/organizations"
-              className="px-4 py-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-4 py-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <Building2 className="w-4 h-4" />
               <span>Manage Organizations</span>
@@ -158,11 +158,11 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
                 <AlertTriangle className="w-5 h-5 text-[#EF4444]" />
-                <h3 className="text-base font-extrabold text-white">Recent Critical Security Alerts</h3>
+                <h3 className="text-base font-bold text-white">Recent Critical Security Alerts</h3>
               </div>
               <Link
                 to="/super-admin/security-overview"
-                className="text-xs font-mono text-[#00C2FF] hover:underline flex items-center space-x-1"
+                className="text-xs font-sans text-[#00C2FF] hover:underline flex items-center space-x-1"
               >
                 <span>View Security Overview</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -170,12 +170,12 @@ export const SuperAdminDashboardPage: React.FC = () => {
             </div>
 
             {incidents.length === 0 ? (
-              <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-400">
+              <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-400">
                 No active critical security alerts detected across organizations.
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs font-mono">
+                <table className="w-full text-left text-xs font-sans">
                   <thead>
                     <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px]">
                       <th className="pb-3 px-3">Severity</th>
@@ -214,11 +214,11 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
                 <Activity className="w-5 h-5 text-[#00C2FF]" />
-                <h3 className="text-base font-extrabold text-white">Platform Activity Overview</h3>
+                <h3 className="text-base font-bold text-white">Platform Activity Overview</h3>
               </div>
               <Link
                 to="/super-admin/audit-logs"
-                className="text-xs font-mono text-[#00C2FF] hover:underline flex items-center space-x-1"
+                className="text-xs font-sans text-[#00C2FF] hover:underline flex items-center space-x-1"
               >
                 <span>View Full Audit Logs</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -229,7 +229,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
               {auditLogs.slice(0, 5).map((log) => (
                 <div
                   key={log.id}
-                  className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between text-xs font-mono"
+                  className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between text-xs font-sans"
                 >
                   <div className="flex items-center space-x-3">
                     <span className="w-2 h-2 rounded-full bg-[#00C2FF]" />
@@ -258,7 +258,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-2">
                 <Building2 className="w-5 h-5 text-[#10B981]" />
-                <h3 className="text-base font-extrabold text-white">Organization Status Overview</h3>
+                <h3 className="text-base font-bold text-white">Organization Status Overview</h3>
               </div>
             </div>
 
@@ -267,22 +267,22 @@ export const SuperAdminDashboardPage: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <CheckCircle2 className="w-5 h-5 text-[#10B981]" />
                   <div>
-                    <span className="text-xs font-mono font-bold text-white block">Active Organizations</span>
-                    <span className="text-[10px] text-slate-400 font-mono">Fully Operational</span>
+                    <span className="text-xs font-sans font-bold text-white block">Active Organizations</span>
+                    <span className="text-[10px] text-slate-400 font-sans">Fully Operational</span>
                   </div>
                 </div>
-                <span className="text-xl font-black font-mono text-[#10B981]">{stats.activeOrgs}</span>
+                <span className="text-xl font-bold font-sans text-[#10B981]">{stats.activeOrgs}</span>
               </div>
 
               <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <XCircle className="w-5 h-5 text-slate-500" />
                   <div>
-                    <span className="text-xs font-mono font-bold text-white block">Inactive Organizations</span>
-                    <span className="text-[10px] text-slate-400 font-mono">Deactivated or Suspended</span>
+                    <span className="text-xs font-sans font-bold text-white block">Inactive Organizations</span>
+                    <span className="text-[10px] text-slate-400 font-sans">Deactivated or Suspended</span>
                   </div>
                 </div>
-                <span className="text-xl font-black font-mono text-slate-400">
+                <span className="text-xl font-bold font-sans text-slate-400">
                   {stats.totalOrgs - stats.activeOrgs}
                 </span>
               </div>
@@ -290,7 +290,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
 
             {/* Quick List of Organizations with Status */}
             <div className="space-y-2.5">
-              <span className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-[11px] font-sans font-bold text-slate-400 uppercase tracking-wider block">
                 Platform Organizations Directory
               </span>
               {organizations.slice(0, 5).map((org) => (
@@ -303,7 +303,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
                     <span className="text-xs font-bold text-white block group-hover:text-[#00C2FF] transition">
                       {org.name}
                     </span>
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    <span className="text-[10px] text-slate-400 font-sans">
                       Domain: {org.domain || 'gov.qshield'}
                     </span>
                   </div>
@@ -315,7 +315,7 @@ export const SuperAdminDashboardPage: React.FC = () => {
             <div className="mt-6 pt-4 border-t border-[#1F2E4D]/60">
               <Link
                 to="/super-admin/organizations"
-                className="w-full py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-[#00C2FF] font-mono font-bold rounded-xl text-xs border border-[#1F2E4D] transition flex items-center justify-center space-x-2"
+                className="w-full py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-[#00C2FF] font-sans font-bold rounded-xl text-xs border border-[#1F2E4D] transition flex items-center justify-center space-x-2"
               >
                 <span>Manage All Organizations</span>
                 <ArrowRight className="w-4 h-4" />

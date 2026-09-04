@@ -44,7 +44,7 @@ export const SignerNotificationsPage: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <Bell className="w-5 h-5 text-[#00C2FF]" />
           <span>Security & Portal Notifications</span>
         </h1>
@@ -66,7 +66,7 @@ export const SignerNotificationsPage: React.FC = () => {
               </div>
               <div className="space-y-1">
                 <div className="flex justify-between items-baseline">
-                  <h3 className="font-extrabold text-slate-800 text-xs">{notif.title}</h3>
+                  <h3 className="font-bold text-slate-800 text-xs">{notif.title}</h3>
                   <span className="text-[10px] text-slate-400 font-semibold">{notif.time}</span>
                 </div>
                 <p className="text-xs text-slate-600 leading-relaxed font-medium">{notif.message}</p>

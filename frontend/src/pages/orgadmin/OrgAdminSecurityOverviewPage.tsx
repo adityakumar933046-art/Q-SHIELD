@@ -74,14 +74,14 @@ export const OrgAdminSecurityOverviewPage: React.FC<OrgAdminSecurityOverviewPage
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Organization Security Overview</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Organization Security Overview</h2>
+            <p className="text-xs text-slate-400 font-sans">
               High-level security status and incident monitoring for {currentUser?.organization_name || 'your organization'}
             </p>
           </div>
         </div>
 
-        <div className="px-3 py-1.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-300 flex items-center space-x-2">
+        <div className="px-3 py-1.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-center space-x-2">
           <ShieldCheck className="w-4 h-4 text-purple-400" />
           <span>Detailed Threat Analysis Delegated to Security Analysts</span>
         </div>
@@ -133,12 +133,12 @@ export const OrgAdminSecurityOverviewPage: React.FC<OrgAdminSecurityOverviewPage
 
       {/* Threat Distribution Chart */}
       <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-        <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+        <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
           <Activity className="w-5 h-5 text-purple-400" />
           <span>Organization Threat Category Distribution</span>
         </h3>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-mono">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans">
           <div className="space-y-4">
             {threatCategories.map((cat) => {
               const pct = Math.round((cat.count / totalCatCount) * 100);
@@ -177,12 +177,12 @@ export const OrgAdminSecurityOverviewPage: React.FC<OrgAdminSecurityOverviewPage
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <ShieldAlert className="w-5 h-5 text-[#EF4444]" />
-            <h3 className="text-base font-extrabold text-white">Recent Organization Security Events</h3>
+            <h3 className="text-base font-bold text-white">Recent Organization Security Events</h3>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
+          <table className="w-full text-left text-xs font-sans">
             <thead>
               <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                 <th className="py-3.5 px-4">Threat Type</th>
@@ -195,7 +195,7 @@ export const OrgAdminSecurityOverviewPage: React.FC<OrgAdminSecurityOverviewPage
             <tbody className="divide-y divide-[#1F2E4D]/50 text-slate-200">
               {incidents.map((inc) => (
                 <tr key={inc.id} className="hover:bg-[#131E33]/50 transition">
-                  <td className="py-3.5 px-4 font-bold text-purple-400 font-mono">
+                  <td className="py-3.5 px-4 font-bold text-purple-400 font-sans">
                     {inc.category || 'Quantum Noise Event'}
                   </td>
                   <td className="py-3.5 px-4">

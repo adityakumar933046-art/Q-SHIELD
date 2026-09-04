@@ -51,7 +51,7 @@ export const ResetPasswordPage: React.FC = () => {
           <div className="inline-flex items-center justify-center p-3 bg-[#00C2FF]/10 border border-[#00C2FF]/30 rounded-xl text-[#00C2FF] mb-2">
             <Shield className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-wide">Set New Password</h1>
+          <h1 className="text-2xl font-bold tracking-wide">Set New Password</h1>
           <p className="text-xs text-slate-400">Secure Account Credentials Reset</p>
         </div>
 
@@ -85,7 +85,7 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="Enter or paste token"
                 value={token}
                 onChange={(e) => setToken(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
 
@@ -100,7 +100,7 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="••••••••"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
 
@@ -115,7 +115,7 @@ export const ResetPasswordPage: React.FC = () => {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
 

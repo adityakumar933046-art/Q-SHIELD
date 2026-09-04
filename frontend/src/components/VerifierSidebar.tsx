@@ -43,7 +43,7 @@ export const VerifierSidebar: React.FC<VerifierSidebarProps> = ({ currentUser, o
             <Shield className="w-6 h-6" />
           </div>
           <div>
-            <div className="font-black text-lg tracking-wider">
+            <div className="font-bold text-lg tracking-wider">
               <span>Q-SHIELD</span>
             </div>
             <div className="text-[10px] uppercase font-bold tracking-wider text-green-100 opacity-90">
@@ -91,7 +91,7 @@ export const VerifierSidebar: React.FC<VerifierSidebarProps> = ({ currentUser, o
       <div className="p-4 border-t border-white/20">
         <div className="bg-white/10 rounded-xl p-3 text-xs">
           <div className="font-bold text-white">{currentUser?.first_name && currentUser?.last_name ? `${currentUser.first_name} ${currentUser.last_name}` : currentUser?.username || 'Guest'}</div>
-          <div className="text-[10px] text-green-100 font-mono font-bold uppercase mt-0.5">
+          <div className="text-[10px] text-green-100 font-sans font-bold uppercase mt-0.5">
             {currentUser?.role || 'VERIFIER'} PORTAL
           </div>
         </div>

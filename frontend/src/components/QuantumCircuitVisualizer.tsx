@@ -16,7 +16,7 @@ export const QuantumCircuitVisualizer: React.FC<QuantumCircuitVisualizerProps> =
   attackInjected = false
 }) => {
   return (
-    <div className="bg-[#0B1220] border border-[#1A263D] rounded-xl p-5 space-y-4 font-mono text-xs shadow-md">
+    <div className="bg-[#0B1220] border border-[#1A263D] rounded-xl p-5 space-y-4 font-sans text-xs shadow-md">
       <div className="flex justify-between items-center border-b border-[#1A263D] pb-3">
         <span className="text-[#00C2FF] font-bold text-xs tracking-wider uppercase">
           Qiskit 3-Qubit Teleportation Circuit Model
@@ -115,19 +115,19 @@ export const QuantumCircuitVisualizer: React.FC<QuantumCircuitVisualizerProps> =
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2 border-t border-[#1A263D] text-[11px]">
         <div className="bg-[#131E33] p-2.5 rounded-lg border border-[#1F2E4D]">
           <span className="text-slate-400">Quantum State Fidelity:</span>
-          <div className={`font-bold font-mono text-sm ${fidelity >= 0.85 ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
+          <div className={`font-bold font-sans text-sm ${fidelity >= 0.85 ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
             {(fidelity * 100).toFixed(2)}%
           </div>
         </div>
         <div className="bg-[#131E33] p-2.5 rounded-lg border border-[#1F2E4D]">
           <span className="text-slate-400">Quantum Bit Error Rate (QBER):</span>
-          <div className={`font-bold font-mono text-sm ${qber <= 0.11 ? 'text-[#00C2FF]' : 'text-[#F59E0B]'}`}>
+          <div className={`font-bold font-sans text-sm ${qber <= 0.11 ? 'text-[#00C2FF]' : 'text-[#F59E0B]'}`}>
             {(qber * 100).toFixed(2)}%
           </div>
         </div>
         <div className="bg-[#131E33] p-2.5 rounded-lg border border-[#1F2E4D]">
           <span className="text-slate-400">QBER Security Limit:</span>
-          <div className="font-bold font-mono text-sm text-slate-300">&le; 11.00%</div>
+          <div className="font-bold font-sans text-sm text-slate-300">&le; 11.00%</div>
         </div>
         <div className="bg-[#131E33] p-2.5 rounded-lg border border-[#1F2E4D]">
           <span className="text-slate-400">Teleportation State:</span>

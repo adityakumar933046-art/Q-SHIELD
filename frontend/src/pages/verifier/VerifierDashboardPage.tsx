@@ -73,12 +73,12 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 mb-1">
-              <span className="px-2.5 py-0.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full text-[10px] font-mono text-[#10B981] font-bold uppercase">
+              <span className="px-2.5 py-0.5 bg-[#10B981]/10 border border-[#10B981]/30 rounded-full text-[10px] font-sans text-[#10B981] font-bold uppercase">
                 Verifier Operational Command
               </span>
-              <span className="text-xs text-slate-400 font-mono">• {currentUser?.organization_name || 'Primary Org'}</span>
+              <span className="text-xs text-slate-400 font-sans">• {currentUser?.organization_name || 'Primary Org'}</span>
             </div>
-            <h2 className="text-2xl font-black text-white tracking-tight">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
               Verifier Command Center
             </h2>
           </div>
@@ -86,7 +86,7 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
           <div className="flex items-center space-x-3">
             <Link
               to="/verifier/pending"
-              className="px-4 py-2.5 bg-[#10B981] hover:bg-[#059669] text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-4 py-2.5 bg-[#10B981] hover:bg-[#059669] text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <Clock className="w-4 h-4" />
               <span>View Pending Queue</span>
@@ -136,12 +136,12 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Clock className="w-5 h-5 text-amber-400" />
-            <h3 className="text-base font-extrabold text-white">Assigned Pending Signatures</h3>
+            <h3 className="text-base font-bold text-white">Assigned Pending Signatures</h3>
           </div>
 
           <Link
             to="/verifier/pending"
-            className="text-xs font-mono text-[#00C2FF] hover:underline flex items-center space-x-1"
+            className="text-xs font-sans text-[#00C2FF] hover:underline flex items-center space-x-1"
           >
             <span>View All Pending Queue</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -149,12 +149,12 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
         </div>
 
         {pendingSignatures.length === 0 ? (
-          <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-400">
+          <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-400">
             No pending signatures assigned in queue. All signatures have completed verification.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Signature ID</th>
@@ -214,8 +214,8 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
                     <Eye className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-extrabold text-white">Signature Package Details</h3>
-                    <p className="text-xs text-slate-400 font-mono">{selectedSigForView.signature_id}</p>
+                    <h3 className="text-base font-bold text-white">Signature Package Details</h3>
+                    <p className="text-xs text-slate-400 font-sans">{selectedSigForView.signature_id}</p>
                   </div>
                 </div>
                 <button
@@ -226,7 +226,7 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
                 </button>
               </div>
 
-              <div className="space-y-4 font-mono text-xs max-h-[60vh] overflow-y-auto pr-1">
+              <div className="space-y-4 font-sans text-xs max-h-[60vh] overflow-y-auto pr-1">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-1">
                     <span className="text-slate-400 text-[10px] uppercase block">Signer Username</span>
@@ -267,13 +267,13 @@ export const VerifierDashboardPage: React.FC<VerifierDashboardPageProps> = ({ cu
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-[#1F2E4D]">
                 <button
                   onClick={() => setSelectedSigForView(null)}
-                  className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
+                  className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
                 >
                   Close
                 </button>
                 <Link
                   to={`/verifier/signatures/${selectedSigForView.signature_id}/verify`}
-                  className="px-4 py-2 bg-[#10B981] hover:bg-[#059669] text-white font-extrabold font-mono text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+                  className="px-4 py-2 bg-[#10B981] hover:bg-[#059669] text-white font-bold font-sans text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   <span>Proceed to Verify Signature</span>

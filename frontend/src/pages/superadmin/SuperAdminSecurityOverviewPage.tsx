@@ -76,15 +76,15 @@ export const SuperAdminSecurityOverviewPage: React.FC = () => {
               <ShieldAlert className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-extrabold text-white">Platform Security Overview</h2>
-              <p className="text-xs text-slate-400 font-mono">
+              <h2 className="text-xl font-bold text-white">Platform Security Overview</h2>
+              <p className="text-xs text-slate-400 font-sans">
                 Cross-organization threat monitoring and high-level security event tracking
               </p>
             </div>
           </div>
         </div>
 
-        <div className="px-3 py-1.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-300 flex items-center space-x-2">
+        <div className="px-3 py-1.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-center space-x-2">
           <ShieldCheck className="w-4 h-4 text-[#10B981]" />
           <span>Detailed Investigation Delegated to Security Analysts</span>
         </div>
@@ -131,19 +131,19 @@ export const SuperAdminSecurityOverviewPage: React.FC = () => {
         
         {/* Threat Category Distribution */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Activity className="w-5 h-5 text-[#00C2FF]" />
             <span>Threat Distribution by Category</span>
           </h3>
 
-          <div className="space-y-4 font-mono">
+          <div className="space-y-4 font-sans">
             {threatCategories.map((cat) => {
               const pct = Math.round((cat.count / totalCatCount) * 100);
               return (
                 <div key={cat.name} className="space-y-1.5">
                   <div className="flex justify-between text-xs">
                     <span className="font-bold text-slate-200">{cat.name}</span>
-                    <span className="text-slate-400 font-mono">
+                    <span className="text-slate-400 font-sans">
                       {cat.count} events ({pct}%)
                     </span>
                   </div>
@@ -161,7 +161,7 @@ export const SuperAdminSecurityOverviewPage: React.FC = () => {
 
         {/* Threats by Organization */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Building2 className="w-5 h-5 text-purple-400" />
             <span>Threats by Organization</span>
           </h3>
@@ -170,7 +170,7 @@ export const SuperAdminSecurityOverviewPage: React.FC = () => {
             {orgThreatBreakdown.map((item) => (
               <div
                 key={item.orgName}
-                className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between font-mono text-xs"
+                className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between font-sans text-xs"
               >
                 <div>
                   <span className="font-bold text-white block">{item.orgName}</span>
@@ -199,12 +199,12 @@ export const SuperAdminSecurityOverviewPage: React.FC = () => {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <ShieldAlert className="w-5 h-5 text-[#EF4444]" />
-            <h3 className="text-base font-extrabold text-white">Recent Critical Security Events</h3>
+            <h3 className="text-base font-bold text-white">Recent Critical Security Events</h3>
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs font-mono">
+          <table className="w-full text-left text-xs font-sans">
             <thead>
               <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                 <th className="py-3.5 px-4">Threat Type</th>

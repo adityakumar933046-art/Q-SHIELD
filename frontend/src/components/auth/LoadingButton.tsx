@@ -19,7 +19,7 @@ export const LoadingButton: React.FC<LoadingButtonProps> = ({
       type="submit"
       onClick={onClick}
       disabled={disabled || loading}
-      className="w-full py-3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-black text-xs font-mono uppercase tracking-wider rounded-xl shadow-lg transition duration-150 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full py-3 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold text-xs font-sans uppercase tracking-wider rounded-xl shadow-lg transition duration-150 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {loading ? (
         <>

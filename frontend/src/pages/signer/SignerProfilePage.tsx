@@ -35,8 +35,8 @@ export const SignerProfilePage: React.FC<SignerProfilePageProps> = ({ currentUse
             <UserIcon className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Signer Identity & Credentials</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Signer Identity & Credentials</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Manage signer cryptographic credentials, role permissions & MFA verification
             </p>
           </div>
@@ -46,23 +46,23 @@ export const SignerProfilePage: React.FC<SignerProfilePageProps> = ({ currentUse
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Left 4 Cols: Identity Avatar & Role */}
         <div className="md:col-span-4 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md text-center space-y-4">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#00C2FF] to-purple-600 border-2 border-[#00C2FF]/40 text-white font-black text-2xl font-mono flex items-center justify-center shadow-xl mx-auto">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-[#00C2FF] to-purple-600 border-2 border-[#00C2FF]/40 text-white font-bold text-2xl font-sans flex items-center justify-center shadow-xl mx-auto">
             {user?.username?.[0]?.toUpperCase() || 'S'}
           </div>
 
           <div>
-            <h3 className="text-base font-extrabold text-white">
+            <h3 className="text-base font-bold text-white">
               {user?.first_name ? `${user.first_name} ${user.last_name || ''}` : user?.username}
             </h3>
-            <span className="text-xs text-slate-400 font-mono block mt-0.5">@{user?.username}</span>
+            <span className="text-xs text-slate-400 font-sans block mt-0.5">@{user?.username}</span>
             <div className="mt-2">
-              <span className="px-2.5 py-0.5 bg-[#00C2FF]/10 text-[#00C2FF] border border-[#00C2FF]/30 text-[10px] font-mono font-bold rounded uppercase tracking-wider">
+              <span className="px-2.5 py-0.5 bg-[#00C2FF]/10 text-[#00C2FF] border border-[#00C2FF]/30 text-[10px] font-sans font-bold rounded uppercase tracking-wider">
                 SIGNER ROLE
               </span>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-[#1F2E4D] text-left text-xs font-mono space-y-3">
+          <div className="pt-4 border-t border-[#1F2E4D] text-left text-xs font-sans space-y-3">
             <div className="flex items-center space-x-2.5 text-slate-300">
               <Mail className="w-4 h-4 text-slate-500 shrink-0" />
               <span className="truncate">{user?.email || 'signer@qshield.gov'}</span>
@@ -77,12 +77,12 @@ export const SignerProfilePage: React.FC<SignerProfilePageProps> = ({ currentUse
         {/* Right 8 Cols: Organization Node & Cryptographic Permissions */}
         <div className="md:col-span-8 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-6">
           <div className="space-y-3">
-            <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+            <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
               <Building2 className="w-4 h-4 text-[#00C2FF]" />
               <span>Organization Membership & Node Setup</span>
             </h3>
 
-            <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-3 font-mono text-xs">
+            <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-3 font-sans text-xs">
               <div className="flex justify-between border-b border-[#1F2E4D]/40 pb-2">
                 <span className="text-slate-400">Organization Name:</span>
                 <span className="font-bold text-white">{user?.organization_name || 'Primary Org'}</span>
@@ -99,12 +99,12 @@ export const SignerProfilePage: React.FC<SignerProfilePageProps> = ({ currentUse
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+            <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
               <Smartphone className="w-4 h-4 text-[#10B981]" />
               <span>Multi-Factor Security & Step-Up Auth</span>
             </h3>
 
-            <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl text-xs font-mono text-[#10B981] flex items-start space-x-3">
+            <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl text-xs font-sans text-[#10B981] flex items-start space-x-3">
               <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
               <div>
                 <strong className="text-white block font-bold mb-1">MFA & Step-Up Protection Enabled</strong>

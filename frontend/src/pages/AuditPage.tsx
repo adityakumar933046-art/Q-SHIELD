@@ -24,7 +24,7 @@ export const AuditPage: React.FC = () => {
   );
 
   if (loading) {
-    return <div className="p-8 text-center text-slate-500 font-mono">Loading Immutable Audit Logs...</div>;
+    return <div className="p-8 text-center text-slate-500 font-sans">Loading Immutable Audit Logs...</div>;
   }
 
   return (
@@ -32,7 +32,7 @@ export const AuditPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
+          <h1 className="text-xl font-bold text-[#0F172A] flex items-center space-x-2">
             <FileText className="w-5 h-5 text-[#00C2FF]" />
             <span>Cryptographic & System Audit Trail</span>
           </h1>
@@ -48,7 +48,7 @@ export const AuditPage: React.FC = () => {
             placeholder="Search audit records..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white border border-[#E2E8F0] rounded-lg pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono shadow-sm"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans shadow-sm"
           />
         </div>
       </div>
@@ -67,7 +67,7 @@ export const AuditPage: React.FC = () => {
                 <th className="px-4 py-3 rounded-tr-lg">Audit Details</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-mono">
+            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-sans">
               {filteredLogs.map((log) => (
                 <tr key={log.id} className="hover:bg-slate-50 transition">
                   <td className="px-4 py-3 text-slate-500 text-[11px] font-sans">
@@ -79,7 +79,7 @@ export const AuditPage: React.FC = () => {
                   <td className="px-4 py-3">
                     <StatusBadge status={log.status} />
                   </td>
-                  <td className="px-4 py-3 text-[10px] text-slate-500 max-w-xs truncate font-mono">
+                  <td className="px-4 py-3 text-[10px] text-slate-500 max-w-xs truncate font-sans">
                     {JSON.stringify(log.details)}
                   </td>
                 </tr>

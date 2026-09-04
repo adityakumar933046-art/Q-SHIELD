@@ -65,7 +65,7 @@ export const AttackSimulatorPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-[#0F172A] flex items-center space-x-2">
           <Cpu className="w-5 h-5 text-[#00C2FF]" />
           <span>QDS Cyber Attack Simulator Suite</span>
         </h1>
@@ -113,7 +113,7 @@ export const AttackSimulatorPage: React.FC = () => {
           <div>
             <div className="flex justify-between text-slate-700 font-semibold mb-1">
               <span>Attack Channel Noise Intensity</span>
-              <span className="text-[#F59E0B] font-mono font-bold">{(intensity * 100).toFixed(0)}%</span>
+              <span className="text-[#F59E0B] font-sans font-bold">{(intensity * 100).toFixed(0)}%</span>
             </div>
             <input
               type="range"
@@ -131,7 +131,7 @@ export const AttackSimulatorPage: React.FC = () => {
             <select
               value={shots}
               onChange={(e) => setShots(parseInt(e.target.value))}
-              className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-mono text-xs focus:outline-none focus:border-[#00C2FF]"
+              className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-sans text-xs focus:outline-none focus:border-[#00C2FF]"
             >
               <option value="1024">1,024 Shots (Standard)</option>
               <option value="4096">4,096 Shots (High Precision)</option>
@@ -171,7 +171,7 @@ export const AttackSimulatorPage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Statistical Physics Analysis */}
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-mono shadow-sm">
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-sans shadow-sm">
               <div className="text-[#00C2FF] font-bold font-sans uppercase">Non-ML Statistical Hypothesis Testing</div>
               <div className="space-y-1 text-slate-700">
                 <div className="flex justify-between py-1 border-b border-[#E2E8F0]">
@@ -198,7 +198,7 @@ export const AttackSimulatorPage: React.FC = () => {
             </div>
 
             {/* Detection & Incident Created */}
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-mono shadow-sm">
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 space-y-2 text-xs font-sans shadow-sm">
               <div className="text-[#0B1220] font-bold font-sans uppercase">Threat Evaluator Result</div>
               <div className="space-y-1.5 text-slate-700">
                 <div className="flex justify-between py-1 border-b border-[#E2E8F0]">

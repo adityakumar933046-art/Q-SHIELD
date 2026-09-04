@@ -77,7 +77,7 @@ export const SigningRequestsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-sans">
         <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>PULLING OUTGOING SIGNATURE REQUESTS...</span>
       </div>
@@ -87,7 +87,7 @@ export const SigningRequestsPage: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <Key className="w-5 h-5 text-[#00C2FF]" />
           <span>Signing Requests Inbox</span>
         </h1>
@@ -104,7 +104,7 @@ export const SigningRequestsPage: React.FC = () => {
             onClick={() => setActiveTab(tab)}
             className={`pb-2.5 px-1 border-b-2 transition uppercase ${
               activeTab === tab 
-                ? 'border-[#00C2FF] text-[#00C2FF] font-black' 
+                ? 'border-[#00C2FF] text-[#00C2FF] font-bold' 
                 : 'border-transparent text-slate-400 hover:text-slate-600'
             }`}
           >
@@ -128,7 +128,7 @@ export const SigningRequestsPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-mono">
+            <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-sans">
               {filteredRequests.length > 0 ? (
                 filteredRequests.map((r) => (
                   <tr key={r.id} className="hover:bg-slate-50 transition">
@@ -181,13 +181,13 @@ export const SigningRequestsPage: React.FC = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 max-w-xl w-full shadow-2xl space-y-4 overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-black text-slate-800 uppercase flex items-center space-x-2">
+              <h2 className="text-sm font-bold text-slate-800 uppercase flex items-center space-x-2">
                 <Key className="w-4 h-4 text-[#00C2FF]" />
                 <span>Issue QDS: {signingRequest.request_id}</span>
               </h2>
               <button 
                 onClick={() => setSigningRequest(null)}
-                className="text-slate-400 hover:text-slate-600 font-black text-sm"
+                className="text-slate-400 hover:text-slate-600 font-bold text-sm"
               >
                 ✕
               </button>
@@ -206,7 +206,7 @@ export const SigningRequestsPage: React.FC = () => {
                   </div>
                   <div className="flex flex-col space-y-1 pt-1 border-t border-slate-200">
                     <span className="text-slate-500">Payload Message Content:</span>
-                    <p className="font-mono text-[11px] bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 truncate">
+                    <p className="font-sans text-[11px] bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 truncate">
                       {signingRequest.payload_content}
                     </p>
                   </div>
@@ -219,7 +219,7 @@ export const SigningRequestsPage: React.FC = () => {
                     <select
                       value={signingBasis}
                       onChange={(e) => setSigningBasis(e.target.value)}
-                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                     >
                       <option value="|+>">|+&gt; (X basis +1)</option>
                       <option value="|->">|-&gt; (X basis -1)</option>
@@ -235,7 +235,7 @@ export const SigningRequestsPage: React.FC = () => {
                     <select
                       value={signingBell}
                       onChange={(e) => setSigningBell(e.target.value)}
-                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                     >
                       <option value="PHI_PLUS">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
                       <option value="PHI_MINUS">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
@@ -266,7 +266,7 @@ export const SigningRequestsPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 text-center space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                  <div className="text-emerald-700 font-extrabold text-sm">Signature Success!</div>
+                  <div className="text-emerald-700 font-bold text-sm">Signature Success!</div>
                   <p className="text-[11px] text-emerald-600">
                     Your QDS signature was generated and saved to the audit trail logs successfully.
                   </p>

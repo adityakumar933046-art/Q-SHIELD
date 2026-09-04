@@ -46,7 +46,7 @@ export const MyVerificationsPage: React.FC = () => {
   return (
     <div className="space-y-6 select-none max-w-6xl mx-auto">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">My Verifications</h1>
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">My Verifications</h1>
         <p className="text-xs text-slate-400 font-medium">
           A list of all Quantum Digital Signature verification transactions performed by your node.
         </p>
@@ -87,7 +87,7 @@ export const MyVerificationsPage: React.FC = () => {
             <div key={item.id} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-4 hover:border-slate-350 hover:shadow-md transition">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div>
-                  <span className="font-mono text-slate-800 font-black text-sm">{item.verification_id}</span>
+                  <span className="font-sans text-slate-800 font-bold text-sm">{item.verification_id}</span>
                   <span className="text-[10px] text-slate-400 block mt-0.5">QDS ID: {item.signature_id}</span>
                 </div>
                 <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold ${
@@ -106,15 +106,15 @@ export const MyVerificationsPage: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">Fidelity</span>
-                  <span className="font-mono text-slate-700 font-bold">{(item.quantum_fidelity * 100).toFixed(2)}%</span>
+                  <span className="font-sans text-slate-700 font-bold">{(item.quantum_fidelity * 100).toFixed(2)}%</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">QBER Measured</span>
-                  <span className="font-mono text-slate-700 font-bold">{(item.qber * 100).toFixed(2)}%</span>
+                  <span className="font-sans text-slate-700 font-bold">{(item.qber * 100).toFixed(2)}%</span>
                 </div>
                 <div>
                   <span className="text-slate-400 font-bold uppercase text-[9px] block">Threat Category</span>
-                  <span className="font-mono text-slate-700 font-bold truncate max-w-[150px]">{item.threat_category || 'NONE'}</span>
+                  <span className="font-sans text-slate-700 font-bold truncate max-w-[150px]">{item.threat_category || 'NONE'}</span>
                 </div>
               </div>
 

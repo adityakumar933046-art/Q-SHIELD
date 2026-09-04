@@ -129,7 +129,7 @@ export const VerifyQdsPage: React.FC = () => {
     <div className="max-w-4xl mx-auto space-y-6 select-none">
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <ShieldCheck className="w-6 h-6 text-[#15803D]" />
           <span>Quantum Teleportation Verifier Studio</span>
         </h1>
@@ -160,7 +160,7 @@ export const VerifyQdsPage: React.FC = () => {
                   <div className="font-bold text-slate-700">{sig.signature_id}</div>
                   <div className="text-[10px] mt-0.5 text-slate-400 flex items-center justify-between">
                     <span>Sender: {sig.sender_username}</span>
-                    <span className="font-mono bg-slate-100 px-1 py-0.5 rounded text-[8px]">{sig.quantum_state_basis}</span>
+                    <span className="font-sans bg-slate-100 px-1 py-0.5 rounded text-[8px]">{sig.quantum_state_basis}</span>
                   </div>
                 </button>
               ))}
@@ -193,7 +193,7 @@ export const VerifyQdsPage: React.FC = () => {
                 <select
                   value={selectedSigId}
                   onChange={(e) => handleSelectSignature(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono focus:outline-none focus:ring-1 focus:ring-green-600"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-sans focus:outline-none focus:ring-1 focus:ring-green-600"
                   required
                 >
                   <option value="" disabled>-- Choose Signature --</option>
@@ -210,7 +210,7 @@ export const VerifyQdsPage: React.FC = () => {
                   value={verifyPayload}
                   onChange={(e) => setVerifyPayload(e.target.value)}
                   rows={4}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-xs focus:outline-none focus:ring-1 focus:ring-green-600"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-sans text-xs focus:outline-none focus:ring-1 focus:ring-green-600"
                   placeholder="Review or modify payload message..."
                   required
                 />
@@ -220,7 +220,7 @@ export const VerifyQdsPage: React.FC = () => {
               <div>
                 <div className="flex justify-between items-center mb-1.5">
                   <label className="text-slate-500">Channel Noise Level (Depolarization factor &eta;)</label>
-                  <span className="font-mono text-green-700 bg-green-50 px-2 py-0.5 rounded text-[10px]">{(verifyNoise * 100).toFixed(0)}%</span>
+                  <span className="font-sans text-green-700 bg-green-50 px-2 py-0.5 rounded text-[10px]">{(verifyNoise * 100).toFixed(0)}%</span>
                 </div>
                 <input
                   type="range"
@@ -279,7 +279,7 @@ export const VerifyQdsPage: React.FC = () => {
             <div className="bg-green-50 border border-green-200 rounded-xl p-5 flex items-center space-x-4">
               <CheckCircle2 className="w-12 h-12 text-[#15803D] shrink-0" />
               <div>
-                <h3 className="text-lg font-black text-green-800">Verification Passed</h3>
+                <h3 className="text-lg font-bold text-green-800">Verification Passed</h3>
                 <p className="text-xs text-green-700 font-semibold mt-0.5">
                   The signature is authentic. Classical SHA-256 hash matched and quantum teleportation state fidelity exceeded the security threshold.
                 </p>
@@ -289,9 +289,9 @@ export const VerifyQdsPage: React.FC = () => {
             <div className="bg-red-50 border border-red-200 rounded-xl p-5 flex items-center space-x-4">
               <XCircle className="w-12 h-12 text-[#DC2626] shrink-0" />
               <div>
-                <h3 className="text-lg font-black text-red-800">Verification Failed: Signature Rejected</h3>
+                <h3 className="text-lg font-bold text-red-800">Verification Failed: Signature Rejected</h3>
                 <p className="text-xs text-red-700 font-semibold mt-0.5">
-                  Security Breach Category: <strong className="font-mono bg-red-100 px-1 py-0.5 rounded text-red-800">{verificationResult.verification_attempt.threat_category || 'QUANTUM_STATE_COMPROMISE'}</strong>. 
+                  Security Breach Category: <strong className="font-sans bg-red-100 px-1 py-0.5 rounded text-red-800">{verificationResult.verification_attempt.threat_category || 'QUANTUM_STATE_COMPROMISE'}</strong>. 
                   Fidelity drops or digest mismatch detected. Quantum state collapsed or eavesdropped.
                 </p>
               </div>
@@ -306,11 +306,11 @@ export const VerifyQdsPage: React.FC = () => {
               <div className="divide-y divide-slate-100 text-xs font-semibold text-slate-700 space-y-3">
                 <div className="flex justify-between pt-1">
                   <span className="text-slate-400">Attempt ID</span>
-                  <span className="font-mono font-bold text-slate-800">{verificationResult.verification_attempt.verification_id}</span>
+                  <span className="font-sans font-bold text-slate-800">{verificationResult.verification_attempt.verification_id}</span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">Signature ID</span>
-                  <span className="font-mono text-slate-800">{verificationResult.verification_attempt.signature_id}</span>
+                  <span className="font-sans text-slate-800">{verificationResult.verification_attempt.signature_id}</span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">Verifier Node</span>
@@ -335,31 +335,31 @@ export const VerifyQdsPage: React.FC = () => {
               <div className="divide-y divide-slate-100 text-xs font-semibold text-slate-700 space-y-3">
                 <div className="flex justify-between pt-1">
                   <span className="text-slate-400">State Overlap Fidelity</span>
-                  <span className="font-mono text-slate-800">
+                  <span className="font-sans text-slate-800">
                     {(verificationResult.verification_attempt.quantum_fidelity * 100).toFixed(2)}%
                   </span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">Quantum Bit Error Rate (QBER)</span>
-                  <span className="font-mono text-slate-800">
+                  <span className="font-sans text-slate-800">
                     {(verificationResult.verification_attempt.qber * 100).toFixed(2)}%
                   </span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">Forgery Likelihood</span>
-                  <span className="font-mono text-slate-800">
+                  <span className="font-sans text-slate-800">
                     {(verificationResult.verification_attempt.forgery_probability * 100).toFixed(2)}%
                   </span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">Chi-Square Test (Outcome Probability)</span>
-                  <span className="font-mono text-slate-800">
+                  <span className="font-sans text-slate-800">
                     p = {verificationResult.statistical_analysis.chi_square.p_value.toFixed(4)}
                   </span>
                 </div>
                 <div className="flex justify-between pt-3">
                   <span className="text-slate-400">SPRT Sequential Decision</span>
-                  <span className="font-mono text-slate-850 font-black text-slate-850/90 text-slate-850/80 text-slate-800">
+                  <span className="font-sans text-slate-850 font-bold text-slate-850/90 text-slate-850/80 text-slate-800">
                     {verificationResult.statistical_analysis.sprt.decision}
                   </span>
                 </div>

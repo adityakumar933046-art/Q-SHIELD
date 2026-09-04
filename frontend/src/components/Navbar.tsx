@@ -17,7 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => 
         </div>
         <div>
           <div className="flex items-center space-x-2">
-            <span className="font-black text-xl tracking-wider">
+            <span className="font-bold text-xl tracking-wider">
               <span className="text-[#00C2FF]">Q</span>
               <span className="text-white">-SHIELD</span>
             </span>
@@ -34,7 +34,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => 
         <div className="flex items-center space-x-2 bg-[#131E33] px-3 py-1.5 rounded-lg border border-[#1F2E4D] text-xs">
           <Zap className="w-4 h-4 text-[#10B981]" />
           <span className="text-slate-400 font-medium">Qiskit Engine:</span>
-          <span className="text-[#10B981] font-mono font-bold">ONLINE</span>
+          <span className="text-[#10B981] font-sans font-bold">ONLINE</span>
         </div>
 
         <div className="flex items-center space-x-2 bg-[#131E33] px-3 py-1.5 rounded-lg border border-[#1F2E4D] text-xs">
@@ -55,16 +55,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => 
               {currentUser.username[0].toUpperCase()}
             </div>
             <div className="text-left text-xs">
-              <div className="font-semibold text-white font-mono">
+              <div className="font-semibold text-white font-sans">
                 {currentUser.username}
               </div>
-              <div className="text-[10px] text-[#00C2FF] font-mono uppercase font-bold">{currentUser.role}</div>
+              <div className="text-[10px] text-[#00C2FF] font-sans uppercase font-bold">{currentUser.role}</div>
             </div>
           </button>
         ) : (
           <a
             href="/login"
-            className="flex items-center space-x-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold px-4 py-2 rounded-lg text-xs transition duration-200 shadow-sm uppercase font-mono"
+            className="flex items-center space-x-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold px-4 py-2 rounded-lg text-xs transition duration-200 shadow-sm uppercase font-sans"
           >
             <UserIcon className="w-4 h-4" />
             <span>Sign In</span>

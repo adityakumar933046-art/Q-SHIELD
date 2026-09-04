@@ -42,8 +42,8 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
             <Settings className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Global Platform Settings</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Global Platform Settings</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Configure essential platform governance parameters & session security rules
             </p>
           </div>
@@ -51,7 +51,7 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
       </div>
 
       {savedSuccess && (
-        <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/40 rounded-xl text-xs text-[#10B981] font-mono flex items-center space-x-2">
+        <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/40 rounded-xl text-xs text-[#10B981] font-sans flex items-center space-x-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Global platform configuration updated and applied successfully.</span>
         </div>
@@ -60,14 +60,14 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
       <form onSubmit={handleSave} className="space-y-8">
         {/* 1. Platform Settings */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <HardDrive className="w-5 h-5 text-[#00C2FF]" />
             <span>Platform Identity & Operational Status</span>
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Platform Name
               </label>
               <input
@@ -75,12 +75,12 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
                 required
                 value={platformName}
                 onChange={(e) => setPlatformName(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Platform Support Email
               </label>
               <input
@@ -88,24 +88,24 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
                 required
                 value={supportEmail}
                 onChange={(e) => setSupportEmail(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
           </div>
 
           <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs font-bold text-white font-mono block">
+              <span className="text-xs font-bold text-white font-sans block">
                 System Maintenance Status Mode
               </span>
-              <span className="text-[11px] text-slate-400 font-mono">
+              <span className="text-[11px] text-slate-400 font-sans">
                 When enabled, non-admin organization users receive a maintenance notice.
               </span>
             </div>
             <button
               type="button"
               onClick={() => setMaintenanceMode(!maintenanceMode)}
-              className={`px-4 py-1.5 font-mono text-xs font-bold rounded-xl border transition ${
+              className={`px-4 py-1.5 font-sans text-xs font-bold rounded-xl border transition ${
                 maintenanceMode
                   ? 'bg-amber-500/20 text-amber-400 border-amber-500/40'
                   : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
@@ -118,12 +118,12 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
 
         {/* 2. Security Settings */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Shield className="w-5 h-5 text-purple-400" />
             <span>Global Security Rules & Rate Limiting</span>
           </h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans">
             <div>
               <label className="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Session Timeout (Minutes)
@@ -168,7 +168,7 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
           </div>
 
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
               Global Throttling Limit (Requests / Min per IP)
             </label>
             <input
@@ -177,7 +177,7 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
               max={1000}
               value={globalRateLimit}
               onChange={(e) => setGlobalRateLimit(Number(e.target.value))}
-              className="w-full max-w-xs bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-mono"
+              className="w-full max-w-xs bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-sans"
             />
           </div>
         </div>
@@ -187,7 +187,7 @@ export const SuperAdminSettingsPage: React.FC<SuperAdminSettingsPageProps> = ({ 
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+            className="px-6 py-2.5 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Saving Changes...' : 'Save Platform Settings'}</span>

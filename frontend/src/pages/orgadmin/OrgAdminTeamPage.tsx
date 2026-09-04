@@ -91,8 +91,8 @@ export const OrgAdminTeamPage: React.FC<OrgAdminTeamPageProps> = ({ currentUser 
             <Users className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Organization Team Directory</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Organization Team Directory</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Manage Signers, Verifiers, and Security Analysts for {currentUser?.organization_name || 'your organization'}
             </p>
           </div>
@@ -100,7 +100,7 @@ export const OrgAdminTeamPage: React.FC<OrgAdminTeamPageProps> = ({ currentUser 
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
+          className="px-4 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
         >
           <UserPlus className="w-4 h-4" />
           <span>Add Team Member</span>
@@ -116,11 +116,11 @@ export const OrgAdminTeamPage: React.FC<OrgAdminTeamPageProps> = ({ currentUser 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by name, email, or username..."
-            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
           />
         </div>
 
-        <div className="flex items-center space-x-3 w-full md:w-auto justify-end font-mono text-xs">
+        <div className="flex items-center space-x-3 w-full md:w-auto justify-end font-sans text-xs">
           <div className="flex items-center space-x-2 text-slate-400">
             <Filter className="w-4 h-4" />
             <span>Filter Role:</span>
@@ -149,7 +149,7 @@ export const OrgAdminTeamPage: React.FC<OrgAdminTeamPageProps> = ({ currentUser 
           />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Name / Identity</th>
@@ -165,7 +165,7 @@ export const OrgAdminTeamPage: React.FC<OrgAdminTeamPageProps> = ({ currentUser 
                   <tr key={member.id} className="hover:bg-[#131E33]/50 transition">
                     <td className="py-4 px-4 font-bold text-white">
                       <div className="flex items-center space-x-2.5">
-                        <div className="w-7 h-7 rounded-full bg-[#131E33] border border-[#1F2E4D] flex items-center justify-center text-purple-400 font-extrabold text-xs">
+                        <div className="w-7 h-7 rounded-full bg-[#131E33] border border-[#1F2E4D] flex items-center justify-center text-purple-400 font-bold text-xs">
                           {member.username[0].toUpperCase()}
                         </div>
                         <div>

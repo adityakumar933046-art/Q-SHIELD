@@ -23,12 +23,12 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
     iconPrefix = '⚠ ';
   } else if (['COMPROMISED', 'CRITICAL', 'HIGH', 'REJECTED_QUANTUM_THREAT', 'THREAT_DETECTED', 'ATTACK_DETECTED', 'SIGNATURE_FORGERY', 'SENDER_IMPERSONATION', 'QUANTUM_CHANNEL_MANIPULATION', 'UNAUTHORIZED_VERIFICATION', 'REJECTED'].includes(uStatus)) {
     // THREAT / REJECTED → Deep Navy with White Text
-    badgeStyle = 'bg-[#0B1220] text-white border-[#0B1220] font-extrabold shadow-sm';
+    badgeStyle = 'bg-[#0B1220] text-white border-[#0B1220] font-bold shadow-sm';
     iconPrefix = '! ';
   }
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-[10px] uppercase border font-mono tracking-wider ${badgeStyle}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded text-[10px] uppercase border font-sans tracking-wider ${badgeStyle}`}>
       {iconPrefix}{status.replace(/_/g, ' ')}
     </span>
   );

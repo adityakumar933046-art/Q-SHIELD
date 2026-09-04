@@ -49,14 +49,14 @@ export const SecurityAnalyticsPage: React.FC<SecurityAnalyticsPageProps> = ({ cu
             <BarChart3 className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Quantum Security Analytics & Metrics</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Quantum Security Analytics & Metrics</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Real deterministic threat distribution, fidelity metrics & verification security analytics
             </p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-3 shrink-0 font-mono text-xs">
+        <div className="flex items-center space-x-3 shrink-0 font-sans text-xs">
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
@@ -126,12 +126,12 @@ export const SecurityAnalyticsPage: React.FC<SecurityAnalyticsPageProps> = ({ cu
         
         {/* A. Threat Category Distribution */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+          <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
             <ShieldAlert className="w-4 h-4 text-[#EF4444]" />
             <span>A. Threat Category Distribution</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             {catDist.length === 0 ? (
               <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-slate-400 text-center">
                 No threat categories recorded.
@@ -163,32 +163,32 @@ export const SecurityAnalyticsPage: React.FC<SecurityAnalyticsPageProps> = ({ cu
         {/* B & C. Severity & Status Breakdown */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-6">
           <div className="space-y-3">
-            <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+            <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
               <BarChart3 className="w-4 h-4 text-purple-400" />
               <span>B. Threat Severity Breakdown</span>
             </h3>
 
-            <div className="grid grid-cols-2 gap-3 font-mono text-xs">
+            <div className="grid grid-cols-2 gap-3 font-sans text-xs">
               {sevDist.map((s: any) => (
                 <div key={s.severity} className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                   <span className="text-slate-400 uppercase text-[10px]">{s.severity}:</span>
-                  <span className="font-extrabold text-white">{s.count}</span>
+                  <span className="font-bold text-white">{s.count}</span>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+            <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
               <Activity className="w-4 h-4 text-[#10B981]" />
               <span>C. Threat Lifecycle Status Breakdown</span>
             </h3>
 
-            <div className="grid grid-cols-2 gap-3 font-mono text-xs">
+            <div className="grid grid-cols-2 gap-3 font-sans text-xs">
               {statusDist.map((st: any) => (
                 <div key={st.status} className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                   <span className="text-slate-400 uppercase text-[10px]">{st.status}:</span>
-                  <span className="font-extrabold text-[#00C2FF]">{st.count}</span>
+                  <span className="font-bold text-[#00C2FF]">{st.count}</span>
                 </div>
               ))}
             </div>
@@ -199,16 +199,16 @@ export const SecurityAnalyticsPage: React.FC<SecurityAnalyticsPageProps> = ({ cu
 
       {/* E. Detection Trend Over Time */}
       <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-        <h3 className="text-sm font-extrabold text-white font-mono uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
+        <h3 className="text-sm font-bold text-white font-sans uppercase tracking-wider border-b border-[#1F2E4D] pb-3 flex items-center space-x-2">
           <Activity className="w-4 h-4 text-[#00C2FF]" />
           <span>E. Threat Detection Event Trend</span>
         </h3>
 
         <div className="grid grid-cols-7 gap-2 pt-2">
           {trend.map((t: any) => (
-            <div key={t.time} className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-center font-mono space-y-1">
+            <div key={t.time} className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-center font-sans space-y-1">
               <span className="text-[10px] text-slate-400 block">{t.time}</span>
-              <span className="text-sm font-black text-[#00C2FF] block">{t.count}</span>
+              <span className="text-sm font-bold text-[#00C2FF] block">{t.count}</span>
             </div>
           ))}
         </div>

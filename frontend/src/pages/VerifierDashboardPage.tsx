@@ -108,7 +108,7 @@ export const VerifierDashboardPage: React.FC = () => {
     <div className="space-y-6 select-none max-w-7xl mx-auto">
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Verifier Dashboard</h1>
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Verifier Dashboard</h1>
         <p className="text-xs text-slate-400 font-medium">
           Quantum Digital Signature Integrity Metrics & Quantum Entanglement Telemetry Hub.
         </p>
@@ -119,7 +119,7 @@ export const VerifierDashboardPage: React.FC = () => {
         {/* Total Verifications */}
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
           <div className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">Total Verifications</div>
-          <div className="text-3xl font-black text-slate-800">{stats.total_verifications}</div>
+          <div className="text-3xl font-bold text-slate-800">{stats.total_verifications}</div>
           <div className="flex items-center space-x-1.5 text-xs text-green-600 font-bold">
             <ArrowUp className="w-3.5 h-3.5" />
             <span>24 this month</span>
@@ -129,7 +129,7 @@ export const VerifierDashboardPage: React.FC = () => {
         {/* Successful */}
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
           <div className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">Successful</div>
-          <div className="text-3xl font-black text-slate-850 text-slate-800">{stats.successful_verifications}</div>
+          <div className="text-3xl font-bold text-slate-850 text-slate-800">{stats.successful_verifications}</div>
           <div className="flex items-center space-x-1.5 text-xs text-green-600 font-bold">
             <ArrowUp className="w-3.5 h-3.5" />
             <span>20 this month</span>
@@ -139,7 +139,7 @@ export const VerifierDashboardPage: React.FC = () => {
         {/* Failed */}
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
           <div className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">Failed</div>
-          <div className="text-3xl font-black text-slate-800">{stats.failed_verifications}</div>
+          <div className="text-3xl font-bold text-slate-800">{stats.failed_verifications}</div>
           <div className="flex items-center space-x-1.5 text-xs text-red-650 text-red-600 font-bold">
             <ArrowUp className="w-3.5 h-3.5" />
             <span>2 this month</span>
@@ -149,7 +149,7 @@ export const VerifierDashboardPage: React.FC = () => {
         {/* Pending */}
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
           <div className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">Pending</div>
-          <div className="text-3xl font-black text-slate-800">{stats.pending_verifications}</div>
+          <div className="text-3xl font-bold text-slate-800">{stats.pending_verifications}</div>
           <div className="flex items-center space-x-1.5 text-xs text-red-600 font-bold">
             <ArrowUp className="w-3.5 h-3.5" />
             <span>3 new today</span>
@@ -159,7 +159,7 @@ export const VerifierDashboardPage: React.FC = () => {
         {/* Average QBER */}
         <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-2">
           <div className="text-slate-400 font-bold text-[11px] uppercase tracking-wider">Average QBER</div>
-          <div className="text-3xl font-black text-slate-800">{(stats.avg_qber * 100).toFixed(2)}%</div>
+          <div className="text-3xl font-bold text-slate-800">{(stats.avg_qber * 100).toFixed(2)}%</div>
           <div className="flex items-center space-x-1.5 text-xs text-green-600 font-bold">
             <ArrowDown className="w-3.5 h-3.5" />
             <span>0.45%</span>
@@ -228,7 +228,7 @@ export const VerifierDashboardPage: React.FC = () => {
               </ResponsiveContainer>
               {/* Central Text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-black text-slate-800">{stats.total_verifications}</span>
+                <span className="text-3xl font-bold text-slate-800">{stats.total_verifications}</span>
                 <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Total</span>
               </div>
             </div>
@@ -283,15 +283,15 @@ export const VerifierDashboardPage: React.FC = () => {
                   const isSuccess = item.verification_result === 'PASSED';
                   return (
                     <tr key={item.id} className="hover:bg-slate-50/50 transition">
-                      <td className="py-3.5 pl-2 font-mono font-bold text-slate-700">{item.verification_id}</td>
-                      <td className="py-3.5 font-mono text-slate-400">{item.signature_id}</td>
+                      <td className="py-3.5 pl-2 font-sans font-bold text-slate-700">{item.verification_id}</td>
+                      <td className="py-3.5 font-sans text-slate-400">{item.signature_id}</td>
                       <td className="py-3.5 text-slate-700">{(item as any).signer_full_name || ''}</td>
                       <td className="py-3.5">
                         <span className={`inline-flex items-center font-bold ${isSuccess ? 'text-green-600' : 'text-red-650 text-red-650/80 text-red-600'}`}>
                           {isSuccess ? 'Successful' : 'Failed'}
                         </span>
                       </td>
-                      <td className="py-3.5 font-mono text-slate-550">{(item.qber * 100).toFixed(2)}%</td>
+                      <td className="py-3.5 font-sans text-slate-550">{(item.qber * 100).toFixed(2)}%</td>
                       <td className="py-3.5 pr-2 text-slate-400 font-medium">{formatTime(item.created_at)}</td>
                     </tr>
                   );
@@ -316,19 +316,19 @@ export const VerifierDashboardPage: React.FC = () => {
             <div className="divide-y divide-slate-100 font-semibold text-xs text-slate-700 space-y-3">
               <div className="flex items-center justify-between pt-1">
                 <span className="text-slate-400">Avg Fidelity</span>
-                <span className="font-mono text-slate-800">{stats.avg_fidelity.toFixed(3)}</span>
+                <span className="font-sans text-slate-800">{stats.avg_fidelity.toFixed(3)}</span>
               </div>
               <div className="flex items-center justify-between pt-3">
                 <span className="text-slate-400">Avg Trace Distance</span>
-                <span className="font-mono text-slate-800">{stats.avg_trace_distance.toFixed(3)}</span>
+                <span className="font-sans text-slate-800">{stats.avg_trace_distance.toFixed(3)}</span>
               </div>
               <div className="flex items-center justify-between pt-3">
                 <span className="text-slate-400">Avg Chi-Square</span>
-                <span className="font-mono text-slate-800">{stats.avg_chi_square.toFixed(2)}</span>
+                <span className="font-sans text-slate-800">{stats.avg_chi_square.toFixed(2)}</span>
               </div>
               <div className="flex items-center justify-between pt-3">
                 <span className="text-slate-400">SPRT Alert Count</span>
-                <span className={`font-mono ${stats.sprt_alerts > 0 ? 'text-red-650 text-red-600 font-bold' : 'text-slate-800'}`}>
+                <span className={`font-sans ${stats.sprt_alerts > 0 ? 'text-red-650 text-red-600 font-bold' : 'text-slate-800'}`}>
                   {stats.sprt_alerts}
                 </span>
               </div>

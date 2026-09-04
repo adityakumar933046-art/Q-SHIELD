@@ -106,18 +106,18 @@ export const OrgAdminDashboardPage: React.FC<OrgAdminDashboardPageProps> = ({ cu
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 mb-1">
-              <span className="px-2.5 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-[10px] font-mono text-purple-400 font-bold uppercase">
+              <span className="px-2.5 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-[10px] font-sans text-purple-400 font-bold uppercase">
                 Organization Governance
               </span>
-              <span className="text-xs text-slate-400 font-mono">• {orgTitle}</span>
+              <span className="text-xs text-slate-400 font-sans">• {orgTitle}</span>
             </div>
-            <h2 className="text-2xl font-black text-white tracking-tight">Organization Operational Dashboard</h2>
+            <h2 className="text-2xl font-bold text-white tracking-tight">Organization Operational Dashboard</h2>
           </div>
 
           <div className="flex items-center space-x-3">
             <Link
               to="/org-admin/team"
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <Users className="w-4 h-4" />
               <span>Manage Organization Team</span>
@@ -186,11 +186,11 @@ export const OrgAdminDashboardPage: React.FC<OrgAdminDashboardPageProps> = ({ cu
           <div className="flex items-center justify-between border-b border-[#1F2E4D] pb-3">
             <div className="flex items-center space-x-2">
               <Activity className="w-5 h-5 text-purple-400" />
-              <h3 className="text-base font-extrabold text-white">Recent Organization Activity</h3>
+              <h3 className="text-base font-bold text-white">Recent Organization Activity</h3>
             </div>
             <Link
               to="/org-admin/activity"
-              className="text-xs font-mono text-[#00C2FF] hover:underline flex items-center space-x-1"
+              className="text-xs font-sans text-[#00C2FF] hover:underline flex items-center space-x-1"
             >
               <span>View Activity Log</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -199,14 +199,14 @@ export const OrgAdminDashboardPage: React.FC<OrgAdminDashboardPageProps> = ({ cu
 
           <div className="space-y-3">
             {activities.length === 0 ? (
-              <div className="p-6 text-center text-xs font-mono text-slate-400 bg-[#131E33] rounded-xl border border-[#1F2E4D]">
+              <div className="p-6 text-center text-xs font-sans text-slate-400 bg-[#131E33] rounded-xl border border-[#1F2E4D]">
                 No recent operational activity recorded in this organization.
               </div>
             ) : (
               activities.map((act) => (
                 <div
                   key={act.id}
-                  className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between font-mono text-xs"
+                  className="p-3.5 bg-[#131E33]/70 border border-[#1F2E4D] rounded-xl flex items-center justify-between font-sans text-xs"
                 >
                   <div className="flex items-center space-x-3">
                     <span className="w-2 h-2 rounded-full bg-[#00C2FF]" />
@@ -235,21 +235,21 @@ export const OrgAdminDashboardPage: React.FC<OrgAdminDashboardPageProps> = ({ cu
           <div className="flex items-center justify-between border-b border-[#1F2E4D] pb-3">
             <div className="flex items-center space-x-2">
               <ShieldAlert className="w-5 h-5 text-[#10B981]" />
-              <h3 className="text-base font-extrabold text-white">Security Status Summary</h3>
+              <h3 className="text-base font-bold text-white">Security Status Summary</h3>
             </div>
           </div>
 
           {/* Org Security Status Indicator */}
           <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
             <div>
-              <span className="text-xs font-mono font-bold text-slate-300 block">Organization Status</span>
-              <span className="text-xs font-extrabold text-[#10B981]">OPERATIONAL & PROTECTED</span>
+              <span className="text-xs font-sans font-bold text-slate-300 block">Organization Status</span>
+              <span className="text-xs font-bold text-[#10B981]">OPERATIONAL & PROTECTED</span>
             </div>
             <StatusBadge status="ACTIVE" />
           </div>
 
           {/* Incident Metrics */}
-          <div className="space-y-3 pt-1 font-mono text-xs">
+          <div className="space-y-3 pt-1 font-sans text-xs">
             <div className="p-3 bg-[#131E33]/60 border border-[#1F2E4D] rounded-xl flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <AlertTriangle className="w-4 h-4 text-[#EF4444]" />
@@ -278,7 +278,7 @@ export const OrgAdminDashboardPage: React.FC<OrgAdminDashboardPageProps> = ({ cu
           <div className="pt-2">
             <Link
               to="/org-admin/security-overview"
-              className="w-full py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-purple-400 font-mono font-bold rounded-xl text-xs border border-[#1F2E4D] transition flex items-center justify-center space-x-2"
+              className="w-full py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-purple-400 font-sans font-bold rounded-xl text-xs border border-[#1F2E4D] transition flex items-center justify-center space-x-2"
             >
               <span>View Security Overview</span>
               <ArrowRight className="w-4 h-4" />

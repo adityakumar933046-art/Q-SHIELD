@@ -125,7 +125,7 @@ export const UserManagementPage: React.FC = () => {
   });
 
   if (loading) {
-    return <div className="p-8 text-center text-slate-500 font-mono">Loading Enterprise User Directory...</div>;
+    return <div className="p-8 text-center text-slate-500 font-sans">Loading Enterprise User Directory...</div>;
   }
 
   return (
@@ -135,7 +135,7 @@ export const UserManagementPage: React.FC = () => {
         <div className="space-y-1">
           <div className="flex items-center space-x-3">
             <Users className="w-6 h-6 text-[#00C2FF]" />
-            <h1 className="text-xl font-extrabold tracking-wide">Admin User Account Management</h1>
+            <h1 className="text-xl font-bold tracking-wide">Admin User Account Management</h1>
           </div>
           <p className="text-xs text-slate-300 max-w-2xl font-medium">
             Centralized provisioning of application accounts and role-based workspace assignments (SIGNER, VERIFIER, SECURITY ANALYST, ADMIN).
@@ -156,7 +156,7 @@ export const UserManagementPage: React.FC = () => {
       </div>
 
       {successMsg && (
-        <div className="bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981] p-4 rounded-xl text-xs font-semibold flex items-center justify-between shadow-sm font-mono">
+        <div className="bg-[#10B981]/10 border border-[#10B981]/30 text-[#10B981] p-4 rounded-xl text-xs font-semibold flex items-center justify-between shadow-sm font-sans">
           <div className="flex items-center space-x-2">
             <CheckCircle className="w-4 h-4" />
             <span>{successMsg}</span>
@@ -174,7 +174,7 @@ export const UserManagementPage: React.FC = () => {
             placeholder="Search by name, username, or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg pl-9 pr-3 py-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg pl-9 pr-3 py-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
           />
         </div>
 
@@ -185,7 +185,7 @@ export const UserManagementPage: React.FC = () => {
             <select
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-mono"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-sans"
             >
               <option value="ALL">All Roles</option>
               <option value="ADMIN">ADMIN</option>
@@ -200,7 +200,7 @@ export const UserManagementPage: React.FC = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-mono"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2 text-slate-900 font-sans"
             >
               <option value="ALL">All Statuses</option>
               <option value="ACTIVE">ACTIVE</option>
@@ -225,7 +225,7 @@ export const UserManagementPage: React.FC = () => {
                 <th className="px-4 py-3 rounded-tr-lg">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-mono">
+            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-sans">
               {filteredUsers.map((u) => (
                 <tr key={u.id} className="hover:bg-slate-50 transition">
                   <td className="px-4 py-3 font-sans">
@@ -244,7 +244,7 @@ export const UserManagementPage: React.FC = () => {
                     {u.organization_name || 'Global / All Orgs'}
                   </td>
                   <td className="px-4 py-3">
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold font-mono ${
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold font-sans ${
                       u.is_active ? 'bg-[#10B981]/10 text-[#10B981] border border-[#10B981]/30' : 'bg-slate-100 text-slate-500 border border-slate-300'
                     }`}>
                       {u.is_active ? '● ACTIVE' : '○ INACTIVE'}
@@ -277,7 +277,7 @@ export const UserManagementPage: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white border border-[#E2E8F0] rounded-xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative">
             <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-3">
-              <h3 className="text-base font-extrabold text-[#0F172A] flex items-center space-x-2">
+              <h3 className="text-base font-bold text-[#0F172A] flex items-center space-x-2">
                 <UserPlus className="w-5 h-5 text-[#00C2FF]" />
                 <span>Create New User Account (Admin Provisioning)</span>
               </h3>
@@ -290,7 +290,7 @@ export const UserManagementPage: React.FC = () => {
             </div>
 
             {errorMsg && (
-              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-3 rounded-lg text-xs font-mono">
+              <div className="bg-[#F59E0B]/10 border border-[#F59E0B]/30 text-[#F59E0B] p-3 rounded-lg text-xs font-sans">
                 ⚠ {errorMsg}
               </div>
             )}
@@ -325,7 +325,7 @@ export const UserManagementPage: React.FC = () => {
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                     required
-                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-mono focus:outline-none focus:border-[#00C2FF]"
+                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-sans focus:outline-none focus:border-[#00C2FF]"
                   />
                 </div>
                 <div>
@@ -334,7 +334,7 @@ export const UserManagementPage: React.FC = () => {
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-mono focus:outline-none focus:border-[#00C2FF]"
+                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-sans focus:outline-none focus:border-[#00C2FF]"
                   />
                 </div>
               </div>
@@ -350,7 +350,7 @@ export const UserManagementPage: React.FC = () => {
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                       required
                       minLength={8}
-                      className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 pr-8 text-slate-900 font-mono focus:outline-none focus:border-[#00C2FF]"
+                      className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 pr-8 text-slate-900 font-sans focus:outline-none focus:border-[#00C2FF]"
                     />
                     <button
                       type="button"
@@ -370,7 +370,7 @@ export const UserManagementPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
                     required
                     minLength={8}
-                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-mono focus:outline-none focus:border-[#00C2FF]"
+                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-sans focus:outline-none focus:border-[#00C2FF]"
                   />
                 </div>
               </div>
@@ -382,7 +382,7 @@ export const UserManagementPage: React.FC = () => {
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-mono"
+                    className="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 font-sans"
                   >
                     <option value="SIGNER">SIGNER (QDS Issuer)</option>
                     <option value="VERIFIER">VERIFIER (State Check)</option>

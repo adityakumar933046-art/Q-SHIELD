@@ -24,12 +24,12 @@ export const UnauthorizedPage: React.FC<UnauthorizedPageProps> = ({ currentUser 
         </div>
 
         <div className="space-y-2">
-          <span className="text-xs font-mono font-bold text-[#F59E0B] uppercase tracking-widest px-3 py-1 bg-[#F59E0B]/10 rounded-full border border-[#F59E0B]/30">
+          <span className="text-xs font-sans font-bold text-[#F59E0B] uppercase tracking-widest px-3 py-1 bg-[#F59E0B]/10 rounded-full border border-[#F59E0B]/30">
             HTTP 403 Access Denied
           </span>
-          <h1 className="text-xl font-extrabold text-white">UNAUTHORIZED ROLE ACCESS</h1>
+          <h1 className="text-xl font-bold text-white">UNAUTHORIZED ROLE ACCESS</h1>
           <p className="text-xs text-slate-300">
-            Your active role <strong className="text-[#00C2FF] font-mono">[{currentUser?.role || 'UNAUTHENTICATED'}]</strong> does not have permission to access this administrative resource.
+            Your active role <strong className="text-[#00C2FF] font-sans">[{currentUser?.role || 'UNAUTHENTICATED'}]</strong> does not have permission to access this administrative resource.
           </p>
         </div>
 

@@ -68,8 +68,8 @@ export const OrgAdminAuditLogsPage: React.FC<OrgAdminAuditLogsPageProps> = ({ cu
             <FileText className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Organization Audit Logs</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Organization Audit Logs</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Organization-isolated audit trail for {currentUser?.organization_name || 'your organization'}
             </p>
           </div>
@@ -77,7 +77,7 @@ export const OrgAdminAuditLogsPage: React.FC<OrgAdminAuditLogsPageProps> = ({ cu
 
         <button
           onClick={fetchOrgAuditLogs}
-          className="px-3.5 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-purple-400 font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-2 shrink-0"
+          className="px-3.5 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-purple-400 font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-2 shrink-0"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Refresh Logs</span>
@@ -85,7 +85,7 @@ export const OrgAdminAuditLogsPage: React.FC<OrgAdminAuditLogsPageProps> = ({ cu
       </div>
 
       {/* Isolation Banner */}
-      <div className="p-3.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-300 flex items-center space-x-2">
+      <div className="p-3.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-center space-x-2">
         <Lock className="w-4 h-4 text-purple-400 shrink-0" />
         <span>
           <strong>Tenant Isolation Verified:</strong> Showing audit records exclusively for organization <strong>{currentUser?.organization_name || 'Primary Org'}</strong>. Logs from other organizations are strictly hidden.
@@ -101,11 +101,11 @@ export const OrgAdminAuditLogsPage: React.FC<OrgAdminAuditLogsPageProps> = ({ cu
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search user, action, or target resource..."
-            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
           />
         </div>
 
-        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end font-mono text-xs">
+        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto justify-end font-sans text-xs">
           {/* Action Filter */}
           <div className="flex items-center space-x-2 text-slate-400">
             <Filter className="w-3.5 h-3.5" />
@@ -144,7 +144,7 @@ export const OrgAdminAuditLogsPage: React.FC<OrgAdminAuditLogsPageProps> = ({ cu
           />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Timestamp</th>

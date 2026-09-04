@@ -42,7 +42,7 @@ export const VerificationRequestsPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 select-none">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Verification Requests</h1>
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Verification Requests</h1>
         <p className="text-xs text-slate-400 font-medium">
           Select an issued Quantum Digital Signature and run the statistical verification protocols.
         </p>
@@ -53,7 +53,7 @@ export const VerificationRequestsPage: React.FC = () => {
           <div key={req.id} className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex flex-col justify-between space-y-4 hover:border-slate-350 hover:shadow-md transition">
             <div className="space-y-3">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <span className="font-mono text-slate-850 font-black text-sm">{req.signature_id}</span>
+                <span className="font-sans text-slate-850 font-bold text-sm">{req.signature_id}</span>
                 <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
                   Pending Verification
                 </span>
@@ -66,15 +66,15 @@ export const VerificationRequestsPage: React.FC = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Quantum Basis</span>
-                  <span className="font-mono text-slate-700">{req.quantum_state_basis}</span>
+                  <span className="font-sans text-slate-700">{req.quantum_state_basis}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Bell Pair Type</span>
-                  <span className="font-mono text-slate-700">{req.bell_pair_type}</span>
+                  <span className="font-sans text-slate-700">{req.bell_pair_type}</span>
                 </div>
                 <div className="pt-2">
                   <span className="text-slate-400 block text-[9px] uppercase font-bold mb-1">Payload Sample</span>
-                  <p className="text-slate-500 font-mono text-[10px] bg-slate-50 p-2 rounded border border-slate-100 line-clamp-2">
+                  <p className="text-slate-500 font-sans text-[10px] bg-slate-50 p-2 rounded border border-slate-100 line-clamp-2">
                     {req.message_payload || '(Empty payload)'}
                   </p>
                 </div>

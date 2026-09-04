@@ -112,14 +112,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, onLogout }) => {
         {/* Brand Header */}
         <div className="px-2 border-b border-[#1A263D] pb-3">
           <div className="flex items-center space-x-2">
-            <span className="font-black text-lg tracking-wider">
+            <span className="font-bold text-lg tracking-wider">
               <span className="text-[#00C2FF]">Q</span>
               <span className="text-white">-SHIELD</span>
             </span>
           </div>
           <div className="mt-1 flex items-center space-x-1.5">
             <span className="w-2 h-2 rounded-full bg-[#00C2FF]" />
-            <span className="text-[10px] font-mono text-[#00C2FF] font-bold tracking-widest uppercase">
+            <span className="text-[10px] font-sans text-[#00C2FF] font-bold tracking-widest uppercase">
               {role} WORKSPACE
             </span>
           </div>
@@ -171,7 +171,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentUser, onLogout }) => {
         <div className="bg-[#131E33] border border-[#1F2E4D] rounded-xl p-3 text-xs flex items-center justify-between">
           <div className="space-y-0.5">
             <div className="font-bold text-white text-[11px]">{currentUser?.username || 'Guest'}</div>
-            <div className="text-[10px] text-[#00C2FF] font-mono font-bold uppercase">{role}</div>
+            <div className="text-[10px] text-[#00C2FF] font-sans font-bold uppercase">{role}</div>
           </div>
           {onLogout && (
             <button

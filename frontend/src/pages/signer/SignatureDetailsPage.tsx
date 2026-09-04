@@ -38,7 +38,7 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
 
   if (!sig) {
     return (
-      <div className="p-8 text-center font-mono text-slate-400">
+      <div className="p-8 text-center font-sans text-slate-400">
         Signature ID #{id} not found or unauthorized access.{' '}
         <Link to="/signer/my-signatures" className="text-[#00C2FF] underline">
           Return to My Signatures
@@ -53,7 +53,7 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
       <div>
         <Link
           to="/signer/my-signatures"
-          className="inline-flex items-center space-x-2 text-xs font-mono text-slate-400 hover:text-[#00C2FF] transition mb-4"
+          className="inline-flex items-center space-x-2 text-xs font-sans text-slate-400 hover:text-[#00C2FF] transition mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to My Signatures</span>
@@ -66,10 +66,10 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
             </div>
             <div>
               <div className="flex items-center space-x-3">
-                <h2 className="text-xl font-extrabold text-white">{sig.signature_id}</h2>
+                <h2 className="text-xl font-bold text-white">{sig.signature_id}</h2>
                 <StatusBadge status={sig.is_consumed ? 'VERIFIED' : sig.status || 'ISSUED'} />
               </div>
-              <p className="text-xs text-slate-400 font-mono mt-1">
+              <p className="text-xs text-slate-400 font-sans mt-1">
                 Sender: <strong className="text-white">{sig.sender_username}</strong> • Created:{' '}
                 {sig.created_at ? new Date(sig.created_at).toLocaleString() : 'Recent'}
               </p>
@@ -83,12 +83,12 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
         
         {/* Left 6 Cols: Basic & Message Information */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <FileKey2 className="w-5 h-5 text-[#00C2FF]" />
             <span>Signature & Message Metadata</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
               <span className="text-slate-400">Signature ID:</span>
               <span className="font-bold text-[#00C2FF]">{sig.signature_id}</span>
@@ -129,19 +129,19 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
         {/* Right 6 Cols: QDS Quantum Simulation Summary & Immutability */}
         <div className="lg:col-span-6 space-y-6">
           <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-            <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+            <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
               <Cpu className="w-5 h-5 text-purple-400" />
               <span>QDS Simulation Telemetry Summary</span>
             </h3>
 
-            <div className="space-y-3 font-mono text-xs">
+            <div className="space-y-3 font-sans text-xs">
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Quantum Basis State:</span>
-                <span className="font-extrabold text-[#10B981]">{sig.quantum_state_basis || '|+>'}</span>
+                <span className="font-bold text-[#10B981]">{sig.quantum_state_basis || '|+>'}</span>
               </div>
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Bell Pair Entanglement:</span>
-                <span className="font-extrabold text-purple-400">{sig.bell_pair_type || 'PHI_PLUS'}</span>
+                <span className="font-bold text-purple-400">{sig.bell_pair_type || 'PHI_PLUS'}</span>
               </div>
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Session ID:</span>
@@ -154,10 +154,10 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
             </div>
 
             <div className="space-y-2 pt-2">
-              <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider block">
+              <span className="text-xs font-sans font-bold text-slate-400 uppercase tracking-wider block">
                 QDS Pipeline Steps Executed
               </span>
-              <div className="space-y-1.5 font-mono text-[11px]">
+              <div className="space-y-1.5 font-sans text-[11px]">
                 <div className="flex items-center space-x-2 text-[#10B981]">
                   <CheckCircle2 className="w-4 h-4" />
                   <span>Pauli Eigenstate Encoding Completed</span>
@@ -179,7 +179,7 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
           </div>
 
           {/* Immutability Enforcement Notice */}
-          <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-2xl flex items-start space-x-3 text-xs text-slate-300 font-mono">
+          <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-2xl flex items-start space-x-3 text-xs text-slate-300 font-sans">
             <Lock className="w-5 h-5 text-[#00C2FF] shrink-0 mt-0.5" />
             <div>
               <strong className="text-white block font-bold mb-1">Cryptographic Immutability Enforced</strong>

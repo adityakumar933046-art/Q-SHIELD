@@ -122,12 +122,12 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center space-x-2 mb-1">
-              <span className="px-2.5 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-full text-[10px] font-mono text-[#EF4444] font-bold uppercase">
+              <span className="px-2.5 py-0.5 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-full text-[10px] font-sans text-[#EF4444] font-bold uppercase">
                 Threat Intelligence Command Center
               </span>
-              <span className="text-xs text-slate-400 font-mono">• {currentUser?.organization_name || 'Primary Org'}</span>
+              <span className="text-xs text-slate-400 font-sans">• {currentUser?.organization_name || 'Primary Org'}</span>
             </div>
-            <h2 className="text-2xl font-black text-white tracking-tight">
+            <h2 className="text-2xl font-bold text-white tracking-tight">
               Security Analyst Command
             </h2>
           </div>
@@ -135,7 +135,7 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
           <div className="flex items-center space-x-3">
             <Link
               to="/security-analyst/threats"
-              className="px-4 py-2.5 bg-[#EF4444] hover:bg-red-600 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-4 py-2.5 bg-[#EF4444] hover:bg-red-600 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <ShieldAlert className="w-4 h-4" />
               <span>Monitor Threat Events</span>
@@ -151,17 +151,17 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
             <HealthIcon className={`w-6 h-6 ${healthInfo.text}`} />
           </div>
           <div>
-            <span className={`text-[10px] font-mono font-extrabold uppercase tracking-widest block ${healthInfo.text}`}>
+            <span className={`text-[10px] font-sans font-bold uppercase tracking-widest block ${healthInfo.text}`}>
               Security Health Summary
             </span>
-            <h3 className="text-base font-black text-white">{healthInfo.label}</h3>
-            <p className="text-xs text-slate-300 font-mono mt-0.5">{healthInfo.desc}</p>
+            <h3 className="text-base font-bold text-white">{healthInfo.label}</h3>
+            <p className="text-xs text-slate-300 font-sans mt-0.5">{healthInfo.desc}</p>
           </div>
         </div>
 
         <Link
           to="/security-analyst/investigations"
-          className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-white font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-1.5 shrink-0"
+          className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-white font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-1.5 shrink-0"
         >
           <span>View Active Investigations</span>
           <ArrowRight className="w-3.5 h-3.5" />
@@ -225,12 +225,12 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <ShieldAlert className="w-5 h-5 text-[#EF4444]" />
-            <h3 className="text-base font-extrabold text-white">Recent Detected Threat Events</h3>
+            <h3 className="text-base font-bold text-white">Recent Detected Threat Events</h3>
           </div>
 
           <Link
             to="/security-analyst/threats"
-            className="text-xs font-mono text-[#00C2FF] hover:underline flex items-center space-x-1"
+            className="text-xs font-sans text-[#00C2FF] hover:underline flex items-center space-x-1"
           >
             <span>View All Threat Events</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -238,12 +238,12 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
         </div>
 
         {recentThreats.length === 0 ? (
-          <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-400">
+          <div className="p-8 text-center bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-400">
             No security threat events recorded yet for this organization.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Threat ID</th>
@@ -270,7 +270,7 @@ export const SecurityAnalystDashboardPage: React.FC<SecurityAnalystDashboardPage
                     <td className="py-3.5 px-4">
                       <StatusBadge status={threat.severity} size="sm" />
                     </td>
-                    <td className="py-3.5 px-4 text-slate-300 font-mono text-[11px]">
+                    <td className="py-3.5 px-4 text-slate-300 font-sans text-[11px]">
                       {threat.signature_id || (threat as any).related_signature || 'N/A'}
                     </td>
                     <td className="py-3.5 px-4 font-bold text-purple-400">

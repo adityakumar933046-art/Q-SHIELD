@@ -40,7 +40,7 @@ export const VerificationHistoryPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 select-none">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">Verification History</h1>
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight">Verification History</h1>
         <p className="text-xs text-slate-400 font-medium">
           A comprehensive log of all historical quantum signature verifications run on this network.
         </p>
@@ -80,16 +80,16 @@ export const VerificationHistoryPage: React.FC = () => {
                 const isSuccess = row.verification_result === 'PASSED';
                 return (
                   <tr key={row.id} className="hover:bg-slate-50/50 transition">
-                    <td className="py-3 px-4 font-mono font-bold text-slate-700">{row.verification_id}</td>
-                    <td className="py-3 px-4 font-mono text-slate-450">{row.signature_id}</td>
+                    <td className="py-3 px-4 font-sans font-bold text-slate-700">{row.verification_id}</td>
+                    <td className="py-3 px-4 font-sans text-slate-450">{row.signature_id}</td>
                     <td className="py-3 px-4 text-slate-700">{(row as any).signer_full_name || ''}</td>
                     <td className="py-3 px-4">
                       <span className={`font-bold ${isSuccess ? 'text-green-600' : 'text-red-650 text-red-600'}`}>
                         {row.verification_result}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-slate-700">{(row.quantum_fidelity * 100).toFixed(2)}%</td>
-                    <td className="py-3 px-4 font-mono text-slate-500">{(row.qber * 100).toFixed(2)}%</td>
+                    <td className="py-3 px-4 font-sans text-slate-700">{(row.quantum_fidelity * 100).toFixed(2)}%</td>
+                    <td className="py-3 px-4 font-sans text-slate-500">{(row.qber * 100).toFixed(2)}%</td>
                     <td className="py-3 px-4 text-slate-400 font-medium">{new Date(row.created_at).toLocaleString()}</td>
                   </tr>
                 );

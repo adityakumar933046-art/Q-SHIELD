@@ -20,7 +20,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
         <Database className="w-8 h-8 text-[#00C2FF]" />
       </div>
       <h4 className="text-base font-bold text-white mb-1">{title}</h4>
-      <p className="text-xs text-slate-400 max-w-sm font-mono mb-4">{description}</p>
+      <p className="text-xs text-slate-400 max-w-sm font-sans mb-4">{description}</p>
       {actionText && onAction && (
         <button
           onClick={onAction}
@@ -37,7 +37,7 @@ export const LoadingState: React.FC<{ message?: string }> = ({ message = 'Loadin
   return (
     <div className="p-12 flex flex-col items-center justify-center text-center font-sans">
       <RefreshCw className="w-8 h-8 text-[#00C2FF] animate-spin mb-3" />
-      <span className="text-xs font-mono text-slate-400 font-bold uppercase tracking-wider">{message}</span>
+      <span className="text-xs font-sans text-slate-400 font-bold uppercase tracking-wider">{message}</span>
     </div>
   );
 };

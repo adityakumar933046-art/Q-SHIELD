@@ -15,7 +15,7 @@ export const SignerSettingsPage: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <Settings className="w-5 h-5 text-[#00C2FF]" />
           <span>Portal Settings & Preferences</span>
         </h1>
@@ -38,7 +38,7 @@ export const SignerSettingsPage: React.FC = () => {
               <select
                 value={shots}
                 onChange={(e) => setShots(parseInt(e.target.value))}
-                className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#00C2FF] font-sans"
               >
                 <option value={512}>512 shots</option>
                 <option value={1024}>1024 shots</option>
@@ -52,7 +52,7 @@ export const SignerSettingsPage: React.FC = () => {
               <select
                 value={simulator}
                 onChange={(e) => setSimulator(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-[#00C2FF] font-sans"
               >
                 <option value="qiskit_local">Qiskit Local Aer (Simulated)</option>
                 <option value="ibm_cloud">IBM Quantum Cloud (Direct API)</option>

@@ -76,22 +76,22 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
             <UserPlus className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-extrabold text-white">Add Organization Team Member</h3>
-            <p className="text-xs text-slate-400 font-mono">
+            <h3 className="text-lg font-bold text-white">Add Organization Team Member</h3>
+            <p className="text-xs text-slate-400 font-sans">
               Provision Signer, Verifier, or Security Analyst user account
             </p>
           </div>
         </div>
 
         {error && (
-          <div className="p-3.5 mb-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-mono">
+          <div className="p-3.5 mb-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-sans">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
               Full Name *
             </label>
             <input
@@ -100,12 +100,12 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="e.g. Alice Johnson"
-              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
               Email Address *
             </label>
             <input
@@ -114,19 +114,19 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="alice@organization.gov"
-              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
             />
           </div>
 
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
               Assign Role *
             </label>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => setRole('SIGNER')}
-                className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold transition flex flex-col items-center justify-center space-y-1 ${
+                className={`py-2.5 px-3 rounded-xl border text-xs font-sans font-bold transition flex flex-col items-center justify-center space-y-1 ${
                   role === 'SIGNER'
                     ? 'bg-[#00C2FF]/15 border-[#00C2FF] text-[#00C2FF]'
                     : 'bg-[#131E33] border-[#1F2E4D] text-slate-400 hover:text-white'
@@ -139,7 +139,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               <button
                 type="button"
                 onClick={() => setRole('VERIFIER')}
-                className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold transition flex flex-col items-center justify-center space-y-1 ${
+                className={`py-2.5 px-3 rounded-xl border text-xs font-sans font-bold transition flex flex-col items-center justify-center space-y-1 ${
                   role === 'VERIFIER'
                     ? 'bg-[#10B981]/15 border-[#10B981] text-[#10B981]'
                     : 'bg-[#131E33] border-[#1F2E4D] text-slate-400 hover:text-white'
@@ -152,7 +152,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               <button
                 type="button"
                 onClick={() => setRole('SECURITY_ANALYST')}
-                className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold transition flex flex-col items-center justify-center space-y-1 ${
+                className={`py-2.5 px-3 rounded-xl border text-xs font-sans font-bold transition flex flex-col items-center justify-center space-y-1 ${
                   role === 'SECURITY_ANALYST'
                     ? 'bg-purple-500/15 border-purple-500 text-purple-400'
                     : 'bg-[#131E33] border-[#1F2E4D] text-slate-400 hover:text-white'
@@ -165,7 +165,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
               Temporary Password *
             </label>
             <input
@@ -173,11 +173,11 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400 font-mono"
+              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-purple-400 font-sans"
             />
           </div>
 
-          <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-[11px] font-mono text-slate-400 flex items-start space-x-2">
+          <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-[11px] font-sans text-slate-400 flex items-start space-x-2">
             <Lock className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
             <span>
               This user will be scoped strictly to <strong>{currentUser?.organization_name || 'your organization'}</strong> and assigned the selected operational role.
@@ -195,7 +195,7 @@ export const AddTeamMemberModal: React.FC<AddTeamMemberModalProps> = ({
             <button
               type="submit"
               disabled={loading || !fullName || !email}
-              className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+              className="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
             >
               <UserPlus className="w-4 h-4" />
               <span>{loading ? 'Creating...' : 'Provision Team Member'}</span>

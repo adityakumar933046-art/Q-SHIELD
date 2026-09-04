@@ -114,7 +114,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
 
   if (!sig && !error) {
     return (
-      <div className="p-8 text-center font-mono text-slate-400">
+      <div className="p-8 text-center font-sans text-slate-400">
         Signature not found.{' '}
         <Link to="/verifier/pending" className="text-[#00C2FF] underline">
           Return to Pending Queue
@@ -129,7 +129,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
       <div>
         <Link
           to="/verifier/pending"
-          className="inline-flex items-center space-x-2 text-xs font-mono text-slate-400 hover:text-[#00C2FF] transition mb-4"
+          className="inline-flex items-center space-x-2 text-xs font-sans text-slate-400 hover:text-[#00C2FF] transition mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Pending Queue</span>
@@ -142,10 +142,10 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
             </div>
             <div>
               <div className="flex items-center space-x-3">
-                <h2 className="text-xl font-extrabold text-white">Verification Execution</h2>
+                <h2 className="text-xl font-bold text-white">Verification Execution</h2>
                 <StatusBadge status={sig?.is_consumed ? 'VERIFIED' : sig?.status || 'ISSUED'} />
               </div>
-              <p className="text-xs text-slate-400 font-mono mt-1">
+              <p className="text-xs text-slate-400 font-sans mt-1">
                 Signature ID: <strong className="text-[#00C2FF]">{sig?.signature_id}</strong> • Signer:{' '}
                 <strong className="text-white">{sig?.sender_username}</strong>
               </p>
@@ -155,7 +155,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
           {!verificationResult && !isVerifying && (
             <button
               onClick={handleStartVerification}
-              className="px-6 py-3 bg-[#10B981] hover:bg-[#059669] text-white font-extrabold font-mono text-xs rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
+              className="px-6 py-3 bg-[#10B981] hover:bg-[#059669] text-white font-bold font-sans text-xs rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
             >
               <Play className="w-4 h-4 fill-current" />
               <span>Start QDS Verification</span>
@@ -165,7 +165,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
       </div>
 
       {error && (
-        <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-mono flex items-center space-x-2">
+        <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-sans flex items-center space-x-2">
           <AlertTriangle className="w-4 h-4 shrink-0" />
           <span>{error}</span>
         </div>
@@ -176,12 +176,12 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
         /* Signature Information Card (Read-Only) */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-            <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+            <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
               <FileCheck2 className="w-5 h-5 text-[#00C2FF]" />
               <span>Assigned Signature Package Information</span>
             </h3>
 
-            <div className="space-y-3 font-mono text-xs">
+            <div className="space-y-3 font-sans text-xs">
               <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
                 <span className="text-slate-400">Signature ID:</span>
                 <span className="font-bold text-[#00C2FF]">{sig?.signature_id}</span>
@@ -214,19 +214,19 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
           </div>
 
           <div className="lg:col-span-5 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
-            <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+            <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
               <Cpu className="w-5 h-5 text-purple-400" />
               <span>QDS State Telemetry</span>
             </h3>
 
-            <div className="space-y-3 font-mono text-xs">
+            <div className="space-y-3 font-sans text-xs">
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Quantum State Basis:</span>
-                <span className="font-extrabold text-[#10B981]">{sig?.quantum_state_basis || '|+>'}</span>
+                <span className="font-bold text-[#10B981]">{sig?.quantum_state_basis || '|+>'}</span>
               </div>
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Bell Pair Entanglement:</span>
-                <span className="font-extrabold text-purple-400">{sig?.bell_pair_type || 'PHI_PLUS'}</span>
+                <span className="font-bold text-purple-400">{sig?.bell_pair_type || 'PHI_PLUS'}</span>
               </div>
               <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
                 <span className="text-slate-400">Session ID:</span>
@@ -238,7 +238,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
               </div>
             </div>
 
-            <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-300 flex items-start space-x-2.5">
+            <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-start space-x-2.5">
               <Lock className="w-4 h-4 text-[#00C2FF] shrink-0 mt-0.5" />
               <span>
                 Package is read-only. Clicking "Start QDS Verification" runs Pauli state reconstruction and projective measurement analysis.
@@ -254,13 +254,13 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
           </div>
 
           <div>
-            <h3 className="text-lg font-black text-white">QDS Verification Pipeline Running</h3>
-            <p className="text-xs text-slate-400 font-mono mt-1">
+            <h3 className="text-lg font-bold text-white">QDS Verification Pipeline Running</h3>
+            <p className="text-xs text-slate-400 font-sans mt-1">
               Executing quantum state reconstruction & deterministic threshold analysis...
             </p>
           </div>
 
-          <div className="max-w-lg mx-auto space-y-2 text-left font-mono text-xs">
+          <div className="max-w-lg mx-auto space-y-2 text-left font-sans text-xs">
             {steps.map((stepName, index) => {
               const isDone = index < activeStep;
               const isCurrent = index === activeStep;
@@ -314,7 +314,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
 
             <div>
               <span
-                className={`text-[10px] font-mono font-bold uppercase tracking-widest block ${
+                className={`text-[10px] font-sans font-bold uppercase tracking-widest block ${
                   verificationResult?.attempt.verification_result === 'PASSED'
                     ? 'text-[#10B981]'
                     : 'text-[#EF4444]'
@@ -322,7 +322,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
               >
                 Verification Decision Complete
               </span>
-              <h3 className="text-xl font-black text-white">
+              <h3 className="text-xl font-bold text-white">
                 {verificationResult?.attempt.verification_result === 'PASSED'
                   ? 'Signature Verified Successfully'
                   : 'Signature Verification Failed'}
@@ -331,29 +331,29 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
           </div>
 
           {/* Verification Metrics Breakdown */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-sans text-xs">
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-1">
               <span className="text-slate-400 text-[10px] uppercase block">Verification ID</span>
-              <span className="font-extrabold text-[#00C2FF] text-xs">{verificationResult?.attempt.verification_id}</span>
+              <span className="font-bold text-[#00C2FF] text-xs">{verificationResult?.attempt.verification_id}</span>
             </div>
 
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-1">
               <span className="text-slate-400 text-[10px] uppercase block">Quantum State Fidelity (F)</span>
-              <span className="font-extrabold text-[#10B981] text-xs">
+              <span className="font-bold text-[#10B981] text-xs">
                 {((verificationResult?.attempt.quantum_fidelity || 1.0) * 100).toFixed(2)}%
               </span>
             </div>
 
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-1">
               <span className="text-slate-400 text-[10px] uppercase block">Quantum Error Rate (QBER)</span>
-              <span className="font-extrabold text-amber-400 text-xs">
+              <span className="font-bold text-amber-400 text-xs">
                 {((verificationResult?.attempt.qber || 0.0) * 100).toFixed(2)}%
               </span>
             </div>
           </div>
 
           {/* Verification Result Details */}
-          <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl font-mono text-xs space-y-2">
+          <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl font-sans text-xs space-y-2">
             <div className="flex justify-between border-b border-[#1F2E4D]/40 pb-2">
               <span className="text-slate-400">Classical SHA-256 Match:</span>
               <span
@@ -373,7 +373,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
 
           {/* Threat Event Notice if Threat Detected */}
           {verificationResult?.threat?.threat_detected && (
-            <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-xl text-xs font-mono text-[#EF4444] flex items-start space-x-3">
+            <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-xl text-xs font-sans text-[#EF4444] flex items-start space-x-3">
               <ShieldAlert className="w-5 h-5 shrink-0 mt-0.5" />
               <div>
                 <strong className="text-white block font-bold mb-1">
@@ -389,13 +389,13 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
           <div className="flex items-center justify-end space-x-4 pt-4 border-t border-[#1F2E4D]">
             <Link
               to="/verifier/pending"
-              className="px-4 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
+              className="px-4 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
             >
               Back to Pending Queue
             </Link>
             <Link
               to="/verifier/history"
-              className="px-5 py-2.5 bg-[#10B981] hover:bg-[#059669] text-white font-extrabold font-mono text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+              className="px-5 py-2.5 bg-[#10B981] hover:bg-[#059669] text-white font-bold font-sans text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
             >
               <FileCheck2 className="w-4 h-4" />
               <span>View Verification History</span>

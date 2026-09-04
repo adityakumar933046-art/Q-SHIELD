@@ -46,8 +46,8 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
             <AlertTriangle className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-extrabold text-white">{title}</h3>
-            <p className="text-xs text-slate-400 font-mono">Platform Admin Confirmation</p>
+            <h3 className="text-lg font-bold text-white">{title}</h3>
+            <p className="text-xs text-slate-400 font-sans">Platform Admin Confirmation</p>
           </div>
         </div>
 

@@ -32,7 +32,7 @@ export const ForgotPasswordPage: React.FC = () => {
           <div className="inline-flex items-center justify-center p-3 bg-[#00C2FF]/10 border border-[#00C2FF]/30 rounded-xl text-[#00C2FF] mb-2">
             <Shield className="w-8 h-8" />
           </div>
-          <h1 className="text-2xl font-extrabold tracking-wide">Q-SHIELD Security</h1>
+          <h1 className="text-2xl font-bold tracking-wide">Q-SHIELD Security</h1>
           <p className="text-xs text-slate-400">Password Recovery Portal</p>
         </div>
 
@@ -72,7 +72,7 @@ export const ForgotPasswordPage: React.FC = () => {
                   placeholder="user@organization.gov"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-9 pr-3 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
             </div>

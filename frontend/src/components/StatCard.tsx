@@ -20,7 +20,7 @@ export const StatCard: React.FC<StatCardProps> = ({
     <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm flex items-center justify-between">
       <div className="space-y-1">
         <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">{title}</span>
-        <div className="text-2xl font-extrabold text-[#0F172A] font-mono">{value}</div>
+        <div className="text-2xl font-bold text-[#0F172A] font-sans">{value}</div>
         {subtitle && <p className="text-[11px] text-slate-500">{subtitle}</p>}
       </div>
       <div className="p-3 rounded-lg bg-[#00C2FF]/10 border border-[#00C2FF]/30 text-[#00C2FF] flex items-center justify-center">

@@ -56,7 +56,7 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
 
   if (!threat) {
     return (
-      <div className="p-8 text-center font-mono text-slate-400">
+      <div className="p-8 text-center font-sans text-slate-400">
         Threat ID #{id} not found or access denied.{' '}
         <Link to="/security-analyst/threats" className="text-[#00C2FF] underline">
           Return to Threat Monitoring
@@ -73,7 +73,7 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
       <div>
         <Link
           to="/security-analyst/threats"
-          className="inline-flex items-center space-x-2 text-xs font-mono text-slate-400 hover:text-[#00C2FF] transition mb-4"
+          className="inline-flex items-center space-x-2 text-xs font-sans text-slate-400 hover:text-[#00C2FF] transition mb-4"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Threat Monitoring</span>
@@ -86,11 +86,11 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
             </div>
             <div>
               <div className="flex items-center space-x-3">
-                <h2 className="text-xl font-extrabold text-white">{threat.incident_number}</h2>
+                <h2 className="text-xl font-bold text-white">{threat.incident_number}</h2>
                 <StatusBadge status={threat.severity} />
                 <StatusBadge status={threat.status} />
               </div>
-              <p className="text-xs text-slate-400 font-mono mt-1">
+              <p className="text-xs text-slate-400 font-sans mt-1">
                 Category: <strong className="text-white">{threat.category}</strong> • Detected:{' '}
                 {threat.created_at ? new Date(threat.created_at).toLocaleString() : 'Recent'}
               </p>
@@ -99,7 +99,7 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
 
           <button
             onClick={handleStartInvestigation}
-            className="px-6 py-3 bg-[#EF4444] hover:bg-red-600 text-white font-black font-mono text-xs uppercase tracking-wider rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
+            className="px-6 py-3 bg-[#EF4444] hover:bg-red-600 text-white font-bold font-sans text-xs uppercase tracking-wider rounded-xl shadow-lg transition flex items-center space-x-2 shrink-0"
           >
             <Briefcase className="w-4 h-4" />
             <span>{threat.status === 'OPEN' ? 'Start Investigation' : 'Open Investigation Workspace'}</span>
@@ -112,12 +112,12 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
         
         {/* Left 6 Cols: Basic Info & Related Entities */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <FileText className="w-5 h-5 text-[#00C2FF]" />
             <span>Threat Incident Overview</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
               <span className="text-slate-400">Incident Number:</span>
               <span className="font-bold text-[#00C2FF]">{threat.incident_number}</span>
@@ -150,16 +150,16 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
 
         {/* Right 6 Cols: EVIDENCE PANEL */}
         <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Cpu className="w-5 h-5 text-[#EF4444]" />
             <span>Quantum & Cryptographic Evidence Panel</span>
           </h3>
 
-          <div className="space-y-3 font-mono text-xs">
+          <div className="space-y-3 font-sans text-xs">
             <div className="p-3.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
               <span className="text-slate-400">Quantum State Fidelity (F):</span>
               <span
-                className={`font-extrabold ${
+                className={`font-bold ${
                   (threat.fidelity || 1.0) < 0.85 ? 'text-[#EF4444]' : 'text-[#10B981]'
                 }`}
               >
@@ -170,7 +170,7 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
             <div className="p-3.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
               <span className="text-slate-400">Quantum Error Rate (QBER):</span>
               <span
-                className={`font-extrabold ${
+                className={`font-bold ${
                   (threat.qber || 0.0) > 0.11 ? 'text-[#EF4444]' : 'text-[#10B981]'
                 }`}
               >
@@ -181,7 +181,7 @@ export const ThreatDetailsPage: React.FC<ThreatDetailsPageProps> = ({ currentUse
             <div className="p-3.5 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
               <span className="text-slate-400">Forgery Probability Metric:</span>
               <span
-                className={`font-extrabold ${
+                className={`font-bold ${
                   (threat.forgery_probability || 0.0) > 0.05 ? 'text-[#EF4444]' : 'text-[#10B981]'
                 }`}
               >

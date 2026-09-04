@@ -32,7 +32,7 @@ export const DashboardPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-sans">
         <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>INITIALIZING QUANTUM THREAT TELEMETRY...</span>
       </div>
@@ -48,7 +48,7 @@ export const DashboardPage: React.FC = () => {
       <div className="bg-[#0B1220] border border-[#1A263D] rounded-xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between shadow-md text-white">
         <div className="space-y-1">
           <div className="flex items-center space-x-3">
-            <h1 className="text-xl font-extrabold tracking-wide">Threat Telemetry & QDS Command</h1>
+            <h1 className="text-xl font-bold tracking-wide">Threat Telemetry & QDS Command</h1>
           </div>
           <p className="text-xs text-slate-300 max-w-2xl font-medium">
             Real-time monitoring of Teleportation-based Quantum Digital Signatures, Bell-state entanglement fidelity, and non-machine-learning statistical threshold breach detection.
@@ -58,13 +58,13 @@ export const DashboardPage: React.FC = () => {
         <div className="mt-4 md:mt-0 flex items-center space-x-3">
           <div className="bg-[#131E33] px-4 py-2 rounded-lg border border-[#1F2E4D] text-right">
             <span className="text-[10px] text-slate-400 uppercase font-semibold">System QBER Avg</span>
-            <div className={`text-lg font-bold font-mono ${qberVal <= 0.11 ? 'text-[#00C2FF]' : 'text-[#F59E0B]'}`}>
+            <div className={`text-lg font-bold font-sans ${qberVal <= 0.11 ? 'text-[#00C2FF]' : 'text-[#F59E0B]'}`}>
               {(qberVal * 100).toFixed(2)}%
             </div>
           </div>
           <div className="bg-[#131E33] px-4 py-2 rounded-lg border border-[#1F2E4D] text-right">
             <span className="text-[10px] text-slate-400 uppercase font-semibold">State Fidelity Avg</span>
-            <div className={`text-lg font-bold font-mono ${fidelityVal >= 0.85 ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
+            <div className={`text-lg font-bold font-sans ${fidelityVal >= 0.85 ? 'text-[#10B981]' : 'text-[#F59E0B]'}`}>
               {(fidelityVal * 100).toFixed(2)}%
             </div>
           </div>
@@ -112,7 +112,7 @@ export const DashboardPage: React.FC = () => {
                 Continuous measurement of channel phase & bit flip noise against 11% security limit
               </p>
             </div>
-            <span className="text-[10px] font-mono bg-[#00C2FF]/10 text-[#00C2FF] px-2.5 py-1 rounded border border-[#00C2FF]/30 font-bold">
+            <span className="text-[10px] font-sans bg-[#00C2FF]/10 text-[#00C2FF] px-2.5 py-1 rounded border border-[#00C2FF]/30 font-bold">
               Limit: 0.11
             </span>
           </div>
@@ -183,7 +183,7 @@ export const DashboardPage: React.FC = () => {
                 <th className="px-4 py-3 rounded-tr-lg">Logged Time</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-mono">
+            <tbody className="divide-y divide-[#E2E8F0] text-slate-700 font-sans">
               {incidents.length > 0 ? (
                 incidents.map((inc) => (
                   <tr key={inc.id} className="hover:bg-slate-50 transition">

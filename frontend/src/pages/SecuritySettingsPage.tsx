@@ -127,7 +127,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
         <div className="space-y-1">
           <div className="flex items-center space-x-2">
             <Shield className="w-6 h-6 text-[#00C2FF]" />
-            <h1 className="text-xl font-extrabold text-white">Security & Authentication Controls</h1>
+            <h1 className="text-xl font-bold text-white">Security & Authentication Controls</h1>
           </div>
           <p className="text-xs text-slate-400">
             Device-Aware Session Security, TOTP Multi-Factor Controls & Audit Trail
@@ -137,7 +137,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
         {currentUser && (
           <div className="flex items-center space-x-3 bg-[#131E33] border border-[#1F2E4D] px-3.5 py-2 rounded-xl text-xs">
             <span className="text-slate-400">Account Role:</span>
-            <span className="font-mono font-bold text-[#00C2FF] uppercase">{currentUser.role}</span>
+            <span className="font-sans font-bold text-[#00C2FF] uppercase">{currentUser.role}</span>
           </div>
         )}
       </div>
@@ -194,12 +194,12 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                           {sess.browser || 'Browser'} on {sess.os || 'OS'} ({sess.device_type || 'Desktop'})
                         </span>
                         {sess.is_active && (
-                          <span className="px-2 py-0.5 bg-[#10B981]/20 text-[#10B981] text-[9px] font-mono font-bold rounded-full border border-[#10B981]/40 uppercase">
+                          <span className="px-2 py-0.5 bg-[#10B981]/20 text-[#10B981] text-[9px] font-sans font-bold rounded-full border border-[#10B981]/40 uppercase">
                             Active
                           </span>
                         )}
                       </div>
-                      <div className="text-[11px] text-slate-400 font-mono space-x-3">
+                      <div className="text-[11px] text-slate-400 font-sans space-x-3">
                         <span>IP: {sess.ip_address || '127.0.0.1'}</span>
                         <span>•</span>
                         <span>Last active: {new Date(sess.last_active).toLocaleString()}</span>
@@ -218,7 +218,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
               ))}
 
               {sessions.length === 0 && (
-                <div className="text-center py-6 text-xs text-slate-500 font-mono">
+                <div className="text-center py-6 text-xs text-slate-500 font-sans">
                   No active session records returned.
                 </div>
               )}
@@ -232,7 +232,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
               <h2 className="text-sm font-bold text-white uppercase tracking-wider">Recent Authentication Security Events</h2>
             </div>
 
-            <div className="space-y-2 font-mono text-xs">
+            <div className="space-y-2 font-sans text-xs">
               {recentAudits.map((audit) => (
                 <div key={audit.id} className="bg-[#131E33] border border-[#1F2E4D] p-3 rounded-lg flex items-center justify-between">
                   <div className="space-y-0.5">
@@ -258,7 +258,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
             <div className="bg-[#131E33] border border-[#1F2E4D] p-3.5 rounded-xl space-y-2">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-300 font-medium">TOTP Status:</span>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded text-[10px] ${
+                <span className={`font-sans font-bold px-2 py-0.5 rounded text-[10px] ${
                   currentUser?.is_mfa_enabled ? 'bg-[#10B981]/20 text-[#10B981] border border-[#10B981]/40' : 'bg-[#F59E0B]/20 text-[#F59E0B] border border-[#F59E0B]/40'
                 }`}>
                   {currentUser?.is_mfa_enabled ? 'ENABLED' : 'NOT VERIFIED'}
@@ -266,7 +266,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
               </div>
               <div className="flex items-center justify-between text-xs">
                 <span className="text-slate-300 font-medium">Role Policy:</span>
-                <span className="text-[11px] font-mono text-slate-400">
+                <span className="text-[11px] font-sans text-slate-400">
                   {isMandatoryMfaRole ? 'MANDATORY (Enforced)' : 'OPTIONAL'}
                 </span>
               </div>
@@ -284,7 +284,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                 ) : (
                   <form onSubmit={handleVerifyMfaSetup} className="space-y-3 bg-[#131E33] p-3.5 rounded-xl border border-[#00C2FF]/40">
                     <p className="text-[11px] text-slate-300">
-                      Scan in Google Authenticator or manual key: <code className="font-mono text-[#00C2FF]">{mfaSecret}</code>
+                      Scan in Google Authenticator or manual key: <code className="font-sans text-[#00C2FF]">{mfaSecret}</code>
                     </p>
                     <input
                       type="text"
@@ -292,7 +292,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                       placeholder="000000"
                       value={mfaCode}
                       onChange={(e) => setMfaCode(e.target.value)}
-                      className="w-full bg-[#0B1220] border border-[#1F2E4D] rounded-lg p-2.5 text-center text-lg font-mono text-[#00C2FF]"
+                      className="w-full bg-[#0B1220] border border-[#1F2E4D] rounded-lg p-2.5 text-center text-lg font-sans text-[#00C2FF]"
                     />
                     <button
                       type="submit"
@@ -320,7 +320,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   <span className="block text-[10px] font-bold text-[#00C2FF] uppercase tracking-wider">
                     Single-Use Recovery Codes (Save Now)
                   </span>
-                  <div className="grid grid-cols-1 gap-1.5 font-mono text-xs text-white">
+                  <div className="grid grid-cols-1 gap-1.5 font-sans text-xs text-white">
                     {recoveryCodes.map((c, idx) => (
                       <div key={idx} className="bg-[#131E33] p-1.5 rounded text-center border border-[#1F2E4D]">
                         {c}
@@ -349,7 +349,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   required
                   value={oldPassword}
                   onChange={(e) => setOldPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
 
@@ -363,7 +363,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   minLength={8}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
 
@@ -377,7 +377,7 @@ export const SecuritySettingsPage: React.FC<SecuritySettingsPageProps> = ({ curr
                   minLength={8}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-white focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
             </div>

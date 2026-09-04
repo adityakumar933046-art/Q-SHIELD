@@ -46,8 +46,8 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
             <Sliders className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Organization Settings</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Organization Settings</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Manage organization profile, team access rules & operational preferences
             </p>
           </div>
@@ -55,7 +55,7 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
       </div>
 
       {savedSuccess && (
-        <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/40 rounded-xl text-xs text-[#10B981] font-mono flex items-center space-x-2">
+        <div className="p-4 bg-[#10B981]/10 border border-[#10B981]/40 rounded-xl text-xs text-[#10B981] font-sans flex items-center space-x-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>Organization profile and access settings saved successfully.</span>
         </div>
@@ -64,14 +64,14 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
       <form onSubmit={handleSave} className="space-y-8">
         {/* 1. Organization Profile */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Building2 className="w-5 h-5 text-purple-400" />
             <span>Organization Profile</span>
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Organization Name
               </label>
               <input
@@ -79,12 +79,12 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
                 required
                 value={orgName}
                 onChange={(e) => setOrgName(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-sans"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
                 Organization Email
               </label>
               <input
@@ -92,32 +92,32 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
                 required
                 value={orgEmail}
                 onChange={(e) => setOrgEmail(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-sans"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+            <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1.5">
               Organization Description
             </label>
             <textarea
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-mono"
+              className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-purple-400 font-sans"
             />
           </div>
         </div>
 
         {/* 2. Basic Organization Security Rules */}
         <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-5">
-          <h3 className="text-base font-extrabold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
             <Shield className="w-5 h-5 text-[#00C2FF]" />
             <span>Organization Access & Verification Preferences</span>
           </h3>
 
-          <div className="space-y-4 font-mono text-xs">
+          <div className="space-y-4 font-sans text-xs">
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
               <div>
                 <span className="font-bold text-white block">Require MFA for All Team Members</span>
@@ -165,7 +165,7 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
         </div>
 
         {/* Global Settings Note */}
-        <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-slate-300 flex items-center space-x-3">
+        <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-center space-x-3">
           <Lock className="w-5 h-5 text-purple-400 shrink-0" />
           <span>
             <strong>Platform Boundary Notice:</strong> Global rate limiting, quantum engine parameters, and cross-organization provisioning belong strictly to the <strong>Super Admin</strong>.
@@ -177,7 +177,7 @@ export const OrgAdminSettingsPage: React.FC<OrgAdminSettingsPageProps> = ({ curr
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+            className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Saving...' : 'Save Organization Settings'}</span>

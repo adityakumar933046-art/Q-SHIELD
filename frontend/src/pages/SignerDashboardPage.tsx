@@ -125,7 +125,7 @@ export const SignerDashboardPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-sans">
         <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>INITIALIZING SIGNER METRICS & ENGINES...</span>
       </div>
@@ -196,7 +196,7 @@ export const SignerDashboardPage: React.FC = () => {
               {currentUser?.first_name ? currentUser.first_name[0] : currentUser?.username[0].toUpperCase()}
             </div>
             <div>
-              <div className="font-extrabold text-slate-800 text-sm">
+              <div className="font-bold text-slate-800 text-sm">
                 {currentUser?.first_name && currentUser?.last_name 
                   ? `${currentUser.first_name} ${currentUser.last_name}` 
                   : currentUser?.username || ''}
@@ -210,7 +210,7 @@ export const SignerDashboardPage: React.FC = () => {
       </div>
 
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-black text-slate-800 tracking-tight">Signer Dashboard</h1>
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight">Signer Dashboard</h1>
       </div>
 
       {/* Grid of 5 Metric Cards */}
@@ -219,7 +219,7 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-sm flex flex-col justify-between space-y-3">
           <div>
             <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">QDS Created</span>
-            <div className="text-3xl font-black text-slate-800 mt-1">{qdsCreatedVal}</div>
+            <div className="text-3xl font-bold text-slate-800 mt-1">{qdsCreatedVal}</div>
           </div>
           <div className="flex items-center space-x-1.5 text-xs text-emerald-600 font-bold">
             <TrendingUp className="w-3.5 h-3.5" />
@@ -231,7 +231,7 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-sm flex flex-col justify-between space-y-3">
           <div>
             <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Pending Requests</span>
-            <div className="text-3xl font-black text-slate-800 mt-1">{pendingRequestsVal}</div>
+            <div className="text-3xl font-bold text-slate-800 mt-1">{pendingRequestsVal}</div>
           </div>
           <div className="flex items-center space-x-1.5 text-xs text-red-500 font-bold">
             <Clock className="w-3.5 h-3.5" />
@@ -243,7 +243,7 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-sm flex flex-col justify-between space-y-3">
           <div>
             <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Verified</span>
-            <div className="text-3xl font-black text-slate-800 mt-1">{verifiedVal}</div>
+            <div className="text-3xl font-bold text-slate-800 mt-1">{verifiedVal}</div>
           </div>
           <div className="flex items-center space-x-1.5 text-xs text-emerald-600 font-bold">
             <TrendingUp className="w-3.5 h-3.5" />
@@ -255,7 +255,7 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-sm flex flex-col justify-between space-y-3">
           <div>
             <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider text-red-500">Rejected</span>
-            <div className="text-3xl font-black text-slate-800 mt-1 text-red-500">{rejectedVal}</div>
+            <div className="text-3xl font-bold text-slate-800 mt-1 text-red-500">{rejectedVal}</div>
           </div>
           <div className="flex items-center space-x-1.5 text-xs text-red-500 font-bold">
             <AlertOctagon className="w-3.5 h-3.5" />
@@ -267,7 +267,7 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="bg-white border border-[#E2E8F0] p-4 rounded-xl shadow-sm flex flex-col justify-between space-y-3">
           <div>
             <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Total Verifications</span>
-            <div className="text-3xl font-black text-slate-800 mt-1">{totalVerificationsVal}</div>
+            <div className="text-3xl font-bold text-slate-800 mt-1">{totalVerificationsVal}</div>
           </div>
           <div className="flex items-center space-x-1.5 text-xs text-emerald-600 font-bold">
             <TrendingUp className="w-3.5 h-3.5" />
@@ -318,7 +318,7 @@ export const SignerDashboardPage: React.FC = () => {
                   <th className="pb-3">Time</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-mono">
+              <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-sans">
                 {recentQds.length > 0 ? (
                   recentQds.map((q) => (
                     <tr key={q.id} className="hover:bg-slate-50 transition">
@@ -365,7 +365,7 @@ export const SignerDashboardPage: React.FC = () => {
                   <th className="pb-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-mono">
+              <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-sans">
                 {pendingRequests.length > 0 ? (
                   pendingRequests.map((r) => (
                     <tr key={r.id} className="hover:bg-slate-50 transition">
@@ -410,7 +410,7 @@ export const SignerDashboardPage: React.FC = () => {
               <ShieldCheck className="w-8 h-8" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-base font-black text-slate-800">All good!</h3>
+              <h3 className="text-base font-bold text-slate-800">All good!</h3>
               <p className="text-xs text-slate-500 leading-relaxed">
                 Your signing activity is secure. Quantum channels have normal fidelity bounds.
               </p>
@@ -431,13 +431,13 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 max-w-xl w-full shadow-2xl space-y-4 overflow-y-auto max-h-[90vh]">
             <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-black text-slate-800 uppercase flex items-center space-x-2">
+              <h2 className="text-sm font-bold text-slate-800 uppercase flex items-center space-x-2">
                 <Key className="w-4 h-4 text-[#00C2FF]" />
                 <span>Issue QDS: {signingModalRequest.request_id}</span>
               </h2>
               <button 
                 onClick={() => setSigningModalRequest(null)}
-                className="text-slate-400 hover:text-slate-600 font-black text-sm"
+                className="text-slate-400 hover:text-slate-600 font-bold text-sm"
               >
                 ✕
               </button>
@@ -456,7 +456,7 @@ export const SignerDashboardPage: React.FC = () => {
                   </div>
                   <div className="flex flex-col space-y-1 pt-1 border-t border-slate-200">
                     <span className="text-slate-500">Payload Message Content:</span>
-                    <p className="font-mono text-[11px] bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 truncate">
+                    <p className="font-sans text-[11px] bg-white border border-slate-200 p-2.5 rounded-lg text-slate-800 truncate">
                       {signingModalRequest.payload_content}
                     </p>
                   </div>
@@ -469,7 +469,7 @@ export const SignerDashboardPage: React.FC = () => {
                     <select
                       value={signingBasis}
                       onChange={(e) => setSigningBasis(e.target.value)}
-                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                     >
                       <option value="|+>">|+&gt; (X basis +1)</option>
                       <option value="|->">|-&gt; (X basis -1)</option>
@@ -485,7 +485,7 @@ export const SignerDashboardPage: React.FC = () => {
                     <select
                       value={signingBell}
                       onChange={(e) => setSigningBell(e.target.value)}
-                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                      className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                     >
                       <option value="PHI_PLUS">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
                       <option value="PHI_MINUS">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
@@ -516,7 +516,7 @@ export const SignerDashboardPage: React.FC = () => {
               <div className="space-y-4">
                 <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 text-center space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                  <div className="text-emerald-700 font-extrabold text-sm">Signature Success!</div>
+                  <div className="text-emerald-700 font-bold text-sm">Signature Success!</div>
                   <p className="text-[11px] text-emerald-600">
                     Your QDS signature was generated and saved to the audit trail logs successfully.
                   </p>
@@ -551,13 +551,13 @@ export const SignerDashboardPage: React.FC = () => {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4">
             <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-              <h2 className="text-sm font-black text-slate-800 uppercase flex items-center space-x-2">
+              <h2 className="text-sm font-bold text-slate-800 uppercase flex items-center space-x-2">
                 <ShieldCheck className="w-4 h-4 text-emerald-500" />
                 <span>Quantum Channel Health Report</span>
               </h2>
               <button 
                 onClick={() => setSecurityModalOpen(false)}
-                className="text-slate-400 hover:text-slate-600 font-black text-sm"
+                className="text-slate-400 hover:text-slate-600 font-bold text-sm"
               >
                 ✕
               </button>
@@ -567,11 +567,11 @@ export const SignerDashboardPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
                   <span className="text-slate-400 block font-semibold text-[10px] uppercase">State Fidelity Average</span>
-                  <span className="text-emerald-500 font-black text-base font-mono">100.00%</span>
+                  <span className="text-emerald-500 font-bold text-base font-sans">100.00%</span>
                 </div>
                 <div className="bg-slate-50 p-3 rounded-lg border border-slate-100">
                   <span className="text-slate-400 block font-semibold text-[10px] uppercase">Quantum Bit Error Rate</span>
-                  <span className="text-emerald-500 font-black text-base font-mono">0.00%</span>
+                  <span className="text-emerald-500 font-bold text-base font-sans">0.00%</span>
                 </div>
               </div>
 
@@ -581,7 +581,7 @@ export const SignerDashboardPage: React.FC = () => {
 
               <div className="flex justify-between text-slate-500 pt-2 border-t border-slate-100">
                 <span>Threat Detection Model:</span>
-                <span className="font-mono text-slate-800">Hypothesis Testing (Non-ML)</span>
+                <span className="font-sans text-slate-800">Hypothesis Testing (Non-ML)</span>
               </div>
             </div>
 

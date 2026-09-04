@@ -90,15 +90,15 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
             <Building2 className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-extrabold text-white">Create New Organization</h3>
-            <p className="text-xs text-slate-400 font-mono">
+            <h3 className="text-lg font-bold text-white">Create New Organization</h3>
+            <p className="text-xs text-slate-400 font-sans">
               Provision organization domain and create Organization Admin account
             </p>
           </div>
         </div>
 
         {error && (
-          <div className="p-3.5 mb-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-mono">
+          <div className="p-3.5 mb-4 bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-xl text-xs text-[#EF4444] font-sans">
             {error}
           </div>
         )}
@@ -106,13 +106,13 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Organization Details Section */}
           <div className="space-y-4">
-            <span className="text-[11px] font-mono font-bold text-[#00C2FF] uppercase tracking-wider block border-b border-[#1F2E4D] pb-1">
+            <span className="text-[11px] font-sans font-bold text-[#00C2FF] uppercase tracking-wider block border-b border-[#1F2E4D] pb-1">
               1. Organization Profile
             </span>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                   Organization Name *
                 </label>
                 <input
@@ -121,12 +121,12 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Cyber Defense Command"
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                   Domain / Identifier *
                 </label>
                 <input
@@ -135,13 +135,13 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                   value={domain}
                   onChange={(e) => setDomain(e.target.value)}
                   placeholder="e.g. cdc.gov.qshield"
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                 Organization Email *
               </label>
               <input
@@ -150,12 +150,12 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="org-admin@cdc.gov"
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                 Description (Optional)
               </label>
               <textarea
@@ -163,20 +163,20 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Brief mission description or department scope..."
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
               />
             </div>
           </div>
 
           {/* Organization Admin Account Section */}
           <div className="space-y-4 pt-2">
-            <span className="text-[11px] font-mono font-bold text-purple-400 uppercase tracking-wider block border-b border-[#1F2E4D] pb-1">
+            <span className="text-[11px] font-sans font-bold text-purple-400 uppercase tracking-wider block border-b border-[#1F2E4D] pb-1">
               2. Assign Organization Admin Account
             </span>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                   Org Admin Full Name *
                 </label>
                 <input
@@ -185,12 +185,12 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                   value={adminName}
                   onChange={(e) => setAdminName(e.target.value)}
                   placeholder="e.g. Marcus Vance"
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+                <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                   Org Admin Email *
                 </label>
                 <input
@@ -199,13 +199,13 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
                   placeholder="m.vance@cdc.gov"
-                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+                  className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-mono font-bold text-slate-300 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-sans font-bold text-slate-300 uppercase tracking-wider mb-1">
                 Temporary Password *
               </label>
               <input
@@ -213,9 +213,9 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
                 required
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-sans"
               />
-              <span className="text-[10px] text-slate-400 font-mono block mt-1">
+              <span className="text-[10px] text-slate-400 font-sans block mt-1">
                 The Organization Admin will use this temporary credential to sign in and manage Signers, Verifiers, and Analysts inside their organization.
               </span>
             </div>
@@ -232,7 +232,7 @@ export const CreateOrganizationModal: React.FC<CreateOrganizationModalProps> = (
             <button
               type="submit"
               disabled={loading || !name || !email || !adminName}
-              className="px-5 py-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-extrabold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
+              className="px-5 py-2 bg-[#00C2FF] hover:bg-[#00A8DE] text-[#0B1220] font-bold text-xs rounded-xl shadow-lg transition flex items-center space-x-2 disabled:opacity-50"
             >
               <UserCheck className="w-4 h-4" />
               <span>{loading ? 'Provisioning...' : 'Provision Organization & Admin'}</span>

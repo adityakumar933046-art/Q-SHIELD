@@ -55,8 +55,8 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
             <Clock className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-extrabold text-white">Pending Verification Queue</h2>
-            <p className="text-xs text-slate-400 font-mono">
+            <h2 className="text-xl font-bold text-white">Pending Verification Queue</h2>
+            <p className="text-xs text-slate-400 font-sans">
               Signatures dispatched for QDS verification in {currentUser?.organization_name || 'your organization'}
             </p>
           </div>
@@ -64,7 +64,7 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
 
         <button
           onClick={fetchPendingQueue}
-          className="px-3.5 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-[#00C2FF] font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-2 shrink-0"
+          className="px-3.5 py-2.5 bg-[#131E33] hover:bg-[#1F2E4D] text-[#00C2FF] font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition flex items-center space-x-2 shrink-0"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Refresh Queue</span>
@@ -80,7 +80,7 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by Signature ID, Signer, or message..."
-            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#10B981] font-mono"
+            className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#10B981] font-sans"
           />
         </div>
       </div>
@@ -94,7 +94,7 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
           />
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Signature ID</th>
@@ -114,7 +114,7 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
                     <td className="py-4 px-4 text-slate-300 max-w-xs truncate">
                       {sig.message_payload || sig.payload_summary || 'Document Payload Digest'}
                     </td>
-                    <td className="py-4 px-4 text-slate-400 font-mono text-[11px] max-w-[140px] truncate">
+                    <td className="py-4 px-4 text-slate-400 font-sans text-[11px] max-w-[140px] truncate">
                       {sig.message_digest}
                     </td>
                     <td className="py-4 px-4 text-slate-400 whitespace-nowrap">
@@ -158,8 +158,8 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
                     <Eye className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-base font-extrabold text-white">Signature Package Details</h3>
-                    <p className="text-xs text-slate-400 font-mono">{selectedSigForView.signature_id}</p>
+                    <h3 className="text-base font-bold text-white">Signature Package Details</h3>
+                    <p className="text-xs text-slate-400 font-sans">{selectedSigForView.signature_id}</p>
                   </div>
                 </div>
                 <button
@@ -170,7 +170,7 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
                 </button>
               </div>
 
-              <div className="space-y-4 font-mono text-xs max-h-[60vh] overflow-y-auto pr-1">
+              <div className="space-y-4 font-sans text-xs max-h-[60vh] overflow-y-auto pr-1">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl space-y-1">
                     <span className="text-slate-400 text-[10px] uppercase block">Signer Username</span>
@@ -211,13 +211,13 @@ export const PendingVerificationPage: React.FC<PendingVerificationPageProps> = (
               <div className="flex items-center justify-end space-x-3 pt-4 border-t border-[#1F2E4D]">
                 <button
                   onClick={() => setSelectedSigForView(null)}
-                  className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-mono font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
+                  className="px-4 py-2 bg-[#131E33] hover:bg-[#1F2E4D] text-slate-300 font-sans font-bold text-xs rounded-xl border border-[#1F2E4D] transition"
                 >
                   Close
                 </button>
                 <Link
                   to={`/verifier/signatures/${selectedSigForView.signature_id}/verify`}
-                  className="px-4 py-2 bg-[#10B981] hover:bg-[#059669] text-white font-extrabold font-mono text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
+                  className="px-4 py-2 bg-[#10B981] hover:bg-[#059669] text-white font-bold font-sans text-xs rounded-xl shadow-lg transition flex items-center space-x-2"
                 >
                   <Play className="w-4 h-4 fill-current" />
                   <span>Proceed to Verify Signature</span>

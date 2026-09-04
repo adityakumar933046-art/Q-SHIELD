@@ -81,7 +81,7 @@ export const QdsStudioPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-extrabold text-[#0F172A] flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-[#0F172A] flex items-center space-x-2">
           <Key className="w-5 h-5 text-[#00C2FF]" />
           <span>QDS Studio & Quantum Teleportation Verifier</span>
         </h1>
@@ -94,7 +94,7 @@ export const QdsStudioPage: React.FC = () => {
         {/* Step 1: Issue Quantum Digital Signature */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-4 shadow-sm">
           <div className="flex items-center space-x-3 border-b border-[#E2E8F0] pb-3">
-            <span className="w-6 h-6 rounded-full bg-[#0B1220] text-white font-extrabold text-xs flex items-center justify-center">
+            <span className="w-6 h-6 rounded-full bg-[#0B1220] text-white font-bold text-xs flex items-center justify-center">
               1
             </span>
             <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
@@ -109,7 +109,7 @@ export const QdsStudioPage: React.FC = () => {
                 value={payload}
                 onChange={(e) => setPayload(e.target.value)}
                 rows={3}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] focus:ring-1 focus:ring-[#00C2FF] font-mono text-xs"
+                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] focus:ring-1 focus:ring-[#00C2FF] font-sans text-xs"
                 placeholder="Enter payload string..."
                 required
               />
@@ -121,7 +121,7 @@ export const QdsStudioPage: React.FC = () => {
                 <select
                   value={quantumStateBasis}
                   onChange={(e) => setQuantumStateBasis(e.target.value)}
-                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                 >
                   <option value="|+>">|+&gt; (X basis +1)</option>
                   <option value="|->">|-&gt; (X basis -1)</option>
@@ -137,7 +137,7 @@ export const QdsStudioPage: React.FC = () => {
                 <select
                   value={bellPairType}
                   onChange={(e) => setBellPairType(e.target.value)}
-                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono"
+                  className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans"
                 >
                   <option value="PHI_PLUS">|&Phi;+&gt; (|00&gt;+|11&gt;)/&radic;2</option>
                   <option value="PHI_MINUS">|&Phi;-&gt; (|00&gt;-|11&gt;)/&radic;2</option>
@@ -158,7 +158,7 @@ export const QdsStudioPage: React.FC = () => {
           </form>
 
           {lastSignature && (
-            <div className="bg-[#0B1220] text-white rounded-lg p-4 text-xs space-y-2 font-mono">
+            <div className="bg-[#0B1220] text-white rounded-lg p-4 text-xs space-y-2 font-sans">
               <div className="flex justify-between items-center font-bold">
                 <span className="text-[#00C2FF]">Signature Issued Successfully!</span>
                 <StatusBadge status={lastSignature.status} />
@@ -173,7 +173,7 @@ export const QdsStudioPage: React.FC = () => {
         {/* Step 2: Verify Teleportation Signature */}
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-4 shadow-sm">
           <div className="flex items-center space-x-3 border-b border-[#E2E8F0] pb-3">
-            <span className="w-6 h-6 rounded-full bg-[#00C2FF] text-[#0B1220] font-extrabold text-xs flex items-center justify-center">
+            <span className="w-6 h-6 rounded-full bg-[#00C2FF] text-[#0B1220] font-bold text-xs flex items-center justify-center">
               2
             </span>
             <h2 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider">
@@ -191,7 +191,7 @@ export const QdsStudioPage: React.FC = () => {
                   const found = signatures.find(s => s.signature_id === e.target.value);
                   if (found) setVerifyPayload(found.payload_summary);
                 }}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono text-xs"
+                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans text-xs"
               >
                 {signatures.map((s) => (
                   <option key={s.signature_id} value={s.signature_id}>
@@ -207,14 +207,14 @@ export const QdsStudioPage: React.FC = () => {
                 value={verifyPayload}
                 onChange={(e) => setVerifyPayload(e.target.value)}
                 rows={2}
-                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-mono text-xs"
+                className="w-full bg-white border border-[#E2E8F0] rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#00C2FF] font-sans text-xs"
               />
             </div>
 
             <div>
               <div className="flex justify-between text-slate-700 font-semibold mb-1">
                 <span>Simulate Channel Noise Level</span>
-                <span className="text-[#00C2FF] font-mono font-bold">{(verifyNoise * 100).toFixed(0)}%</span>
+                <span className="text-[#00C2FF] font-sans font-bold">{(verifyNoise * 100).toFixed(0)}%</span>
               </div>
               <input
                 type="range"
@@ -255,7 +255,7 @@ export const QdsStudioPage: React.FC = () => {
           />
 
           {verificationResult && (
-            <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-3 font-mono text-xs shadow-sm">
+            <div className="bg-white border border-[#E2E8F0] rounded-xl p-5 space-y-3 font-sans text-xs shadow-sm">
               <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-2">
                 <span className="text-[#0F172A] font-bold font-sans">Verification Result:</span>
                 <StatusBadge status={verificationResult.verification_attempt.verification_result} />

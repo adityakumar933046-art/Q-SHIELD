@@ -16,7 +16,7 @@ export const VerifierSettingsPage: React.FC = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6 select-none text-xs font-semibold text-slate-700">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-2xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <Settings className="w-6 h-6 text-[#15803D]" />
           <span>Verifier Settings</span>
         </h1>
@@ -43,7 +43,7 @@ export const VerifierSettingsPage: React.FC = () => {
                 max="1.0"
                 value={fidelityThreshold}
                 onChange={(e) => setFidelityThreshold(parseFloat(e.target.value))}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-slate-700 focus:outline-none focus:ring-1 focus:ring-green-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-sans text-slate-700 focus:outline-none focus:ring-1 focus:ring-green-600"
               />
               <p className="text-[10px] text-slate-400 mt-1 font-medium">
                 Reject signatures if state overlap drops below this limit. Default: 0.85
@@ -59,7 +59,7 @@ export const VerifierSettingsPage: React.FC = () => {
                 max="0.5"
                 value={qberLimit}
                 onChange={(e) => setQberLimit(parseFloat(e.target.value))}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-mono text-slate-700 focus:outline-none focus:ring-1 focus:ring-green-600"
+                className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 font-sans text-slate-700 focus:outline-none focus:ring-1 focus:ring-green-600"
               />
               <p className="text-[10px] text-slate-400 mt-1 font-medium">
                 Flag potential eavesdropping if QBER exceeds this limit. Default: 0.11

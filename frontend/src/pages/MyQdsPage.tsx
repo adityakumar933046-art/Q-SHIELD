@@ -47,7 +47,7 @@ export const MyQdsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-mono">
+      <div className="p-8 text-center text-slate-500 flex items-center justify-center space-x-3 font-sans">
         <Activity className="w-5 h-5 animate-spin text-[#00C2FF]" />
         <span>LOADING SIGNED KEY STORES...</span>
       </div>
@@ -57,7 +57,7 @@ export const MyQdsPage: React.FC = () => {
   return (
     <div className="space-y-6 text-slate-800 bg-[#F8FAFC] p-6 rounded-2xl min-h-screen">
       <div>
-        <h1 className="text-xl font-black text-slate-800 tracking-tight flex items-center space-x-2">
+        <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center space-x-2">
           <Key className="w-5 h-5 text-[#00C2FF]" />
           <span>My Quantum Digital Signatures</span>
         </h1>
@@ -96,7 +96,7 @@ export const MyQdsPage: React.FC = () => {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-mono">
+            <tbody className="divide-y divide-[#F1F5F9] font-medium text-slate-600 font-sans">
               {filteredSigs.length > 0 ? (
                 filteredSigs.map((sig) => (
                   <tr key={sig.id} className="hover:bg-slate-50 transition">

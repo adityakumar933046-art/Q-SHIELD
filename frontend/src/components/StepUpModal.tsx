@@ -52,7 +52,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
         <div className="space-y-1">
           <div className="flex items-center space-x-2 text-[#F59E0B]">
             <AlertTriangle className="w-5 h-5" />
-            <h2 className="text-base font-extrabold tracking-wide">Step-Up Authentication Required</h2>
+            <h2 className="text-base font-bold tracking-wide">Step-Up Authentication Required</h2>
           </div>
           <p className="text-xs text-slate-300">
             Digital Signature Issuance is a privileged cryptographic operation. Re-authenticating is required before signing this payload.
@@ -101,7 +101,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
                 placeholder="000000"
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-3 text-center text-xl tracking-[0.5em] font-mono text-[#00C2FF] focus:outline-none focus:border-[#00C2FF]"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-3 text-center text-xl tracking-[0.5em] font-sans text-[#00C2FF] focus:outline-none focus:border-[#00C2FF]"
                 autoFocus
               />
             </div>
@@ -115,7 +115,7 @@ export const StepUpModal: React.FC<StepUpModalProps> = ({ isOpen, onClose, onSuc
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-mono"
+                className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-lg p-2.5 text-xs text-white focus:outline-none focus:border-[#00C2FF] font-sans"
                 autoFocus
               />
             </div>
