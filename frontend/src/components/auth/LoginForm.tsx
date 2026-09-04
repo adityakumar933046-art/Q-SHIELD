@@ -120,8 +120,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
     <div className="w-full max-w-md bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-8 shadow-2xl backdrop-blur-md font-sans space-y-6">
       {/* Form Header */}
       <div className="text-center space-y-1">
-        <h2 className="text-2xl font-black text-white tracking-tight">Welcome Back</h2>
-        <p className="text-xs text-slate-400 font-mono">
+        <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>
+        <p className="text-sm font-normal text-slate-400">
           Sign in to access your Q-SHIELD workspace.
         </p>
       </div>
@@ -160,8 +160,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
           />
 
           {/* Remember Me & Forgot Password Links */}
-          <div className="flex items-center justify-between text-xs font-mono pt-1">
-            <label className="flex items-center space-x-2 text-slate-300 cursor-pointer select-none">
+          <div className="flex items-center justify-between text-xs pt-1">
+            <label className="flex items-center space-x-2 text-slate-300 cursor-pointer select-none font-normal">
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -173,7 +173,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
 
             <Link
               to="/forgot-password"
-              className="text-[#00C2FF] hover:underline font-bold transition"
+              className="text-[#00C2FF] hover:underline font-semibold transition"
             >
               Forgot Password?
             </Link>
@@ -188,10 +188,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
       ) : (
         /* Step 2: Multi-Factor Authentication Challenge Form */
         <form onSubmit={handleMfaSubmit} className="space-y-4 pt-2">
-          <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-center space-y-1">
+          <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-center space-y-1">
             <Smartphone className="w-6 h-6 text-[#00C2FF] mx-auto" />
-            <h4 className="text-xs font-bold text-white font-mono uppercase">Multi-Factor Authentication Required</h4>
-            <p className="text-[11px] text-slate-400 font-mono">
+            <h4 className="text-xs font-semibold text-white uppercase tracking-wider">Multi-Factor Authentication Required</h4>
+            <p className="text-xs text-slate-400 font-normal">
               Enter your 6-digit TOTP authenticator code or single-use recovery code.
             </p>
           </div>
@@ -224,7 +224,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
             <button
               type="button"
               onClick={() => setUseRecoveryCode(!useRecoveryCode)}
-              className="text-[11px] font-mono text-[#00C2FF] hover:underline"
+              className="text-xs font-medium text-[#00C2FF] hover:underline"
             >
               {useRecoveryCode ? 'Use 6-digit Authenticator Code' : 'Use Backup Recovery Code'}
             </button>
@@ -239,7 +239,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onRedirect
       )}
 
       {/* Security Footer Note */}
-      <div className="pt-4 border-t border-[#1F2E4D]/60 text-center text-[10px] font-mono text-slate-400">
+      <div className="pt-4 border-t border-[#1F2E4D]/60 text-center text-xs font-normal text-slate-400">
         <span>Protected by Q-SHIELD Quantum Cryptographic Pipeline</span>
       </div>
     </div>

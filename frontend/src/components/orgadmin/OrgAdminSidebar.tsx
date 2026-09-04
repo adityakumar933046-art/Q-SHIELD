@@ -9,7 +9,6 @@ interface OrgAdminSidebarProps {
 }
 
 export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, onLogout }) => {
-  // STRICT ORGANIZATION ADMIN SIDEBAR LINKS ONLY
   const navItems = [
     { name: 'Dashboard', path: '/org-admin/dashboard', icon: LayoutDashboard },
     { name: 'Team', path: '/org-admin/team', icon: Users },
@@ -19,7 +18,7 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
     { name: 'Organization Settings', path: '/org-admin/settings', icon: Sliders },
   ];
 
-  const orgName = currentUser?.organization_name || 'Organization Admin Workspace';
+  const orgName = currentUser?.organization_name || 'Organization Workspace';
 
   return (
     <aside className="w-64 bg-[#070C16] border-r border-[#1F2E4D] flex flex-col justify-between h-screen sticky top-0 font-sans z-30">
@@ -30,8 +29,8 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
             <Shield className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-base font-black text-white tracking-wider">Q-SHIELD</h1>
-            <span className="text-[10px] text-purple-400 font-mono font-bold tracking-widest uppercase block truncate max-w-[130px]" title={orgName}>
+            <h1 className="text-lg font-bold text-white tracking-tight">Q-SHIELD</h1>
+            <span className="text-xs text-purple-400 font-medium uppercase tracking-wider block truncate max-w-[140px]" title={orgName}>
               {orgName}
             </span>
           </div>
@@ -39,7 +38,7 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
 
         {/* Navigation Menu */}
         <div className="px-4 py-6 space-y-1.5">
-          <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest px-3 mb-2 block">
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-3 block">
             Organization Management
           </span>
 
@@ -50,9 +49,9 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold font-mono transition duration-150 ${
+                  `flex items-center space-x-3 px-3.5 py-3 rounded-xl text-sm font-medium transition duration-150 ${
                     isActive
-                      ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30 shadow-md'
+                      ? 'bg-purple-500/15 text-purple-400 border border-purple-500/30 shadow-md font-semibold'
                       : 'text-slate-400 hover:text-slate-100 hover:bg-[#131E33]'
                   }`
                 }
@@ -69,11 +68,11 @@ export const OrgAdminSidebar: React.FC<OrgAdminSidebarProps> = ({ currentUser, o
       <div className="p-4 border-t border-[#1F2E4D]/60 space-y-3">
         <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
           <div className="overflow-hidden pr-2">
-            <span className="text-xs font-bold text-white font-mono block truncate">
+            <span className="text-xs font-semibold text-white block truncate">
               {currentUser?.username || 'Org Admin'}
             </span>
-            <span className="inline-block text-[9px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/30 px-1.5 py-0.2 rounded mt-0.5 uppercase">
-              ORG_ADMIN
+            <span className="inline-block text-[10px] font-semibold text-purple-300 bg-purple-500/10 border border-purple-500/30 px-2 py-0.5 rounded mt-0.5 uppercase tracking-wider">
+              Org Admin
             </span>
           </div>
 

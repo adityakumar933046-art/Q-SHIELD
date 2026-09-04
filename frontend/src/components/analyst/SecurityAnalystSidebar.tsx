@@ -9,7 +9,6 @@ interface SecurityAnalystSidebarProps {
 }
 
 export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ currentUser, onLogout }) => {
-  // STRICT SECURITY ANALYST SIDEBAR LINKS ONLY
   const navItems = [
     { name: 'Dashboard', path: '/security-analyst/dashboard', icon: LayoutDashboard },
     { name: 'Threat Monitoring', path: '/security-analyst/threats', icon: ShieldAlert },
@@ -18,10 +17,10 @@ export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ 
     { name: 'Profile', path: '/security-analyst/profile', icon: User },
   ];
 
-  const orgName = currentUser?.organization_name || 'Organization Security Operations';
+  const orgName = currentUser?.organization_name || 'Security Operations';
 
   return (
-    <aside className="w-64 bg-[#070C16] border-r border-[#1F2E4D] flex flex-col justify-between h-screen sticky top-0 font-sans z-30">
+    <aside className="w-64 bg-[#070C16] border-r border-[#1F2E4D] flex flex-col justify-between h-screen sticky top-0 z-30 font-sans">
       <div>
         {/* Branding Header */}
         <div className="p-6 border-b border-[#1F2E4D]/60 flex items-center space-x-3">
@@ -29,8 +28,8 @@ export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ 
             <Shield className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-base font-black text-white tracking-wider">Q-SHIELD</h1>
-            <span className="text-[10px] text-[#EF4444] font-mono font-bold tracking-widest uppercase block truncate max-w-[130px]" title={orgName}>
+            <h1 className="text-lg font-bold text-white tracking-tight">Q-SHIELD</h1>
+            <span className="text-xs text-[#EF4444] font-medium uppercase tracking-wider block truncate max-w-[140px]" title={orgName}>
               Security Analyst
             </span>
           </div>
@@ -38,7 +37,7 @@ export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ 
 
         {/* Navigation Menu */}
         <div className="px-4 py-6 space-y-1.5">
-          <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest px-3 mb-2 block">
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-3 block">
             Threat Intelligence
           </span>
 
@@ -49,9 +48,9 @@ export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ 
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center space-x-3 px-3.5 py-3 rounded-xl text-xs font-semibold font-mono transition duration-150 ${
+                  `flex items-center space-x-3 px-3.5 py-3 rounded-xl text-sm font-medium transition duration-150 ${
                     isActive
-                      ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 shadow-md'
+                      ? 'bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 shadow-md font-semibold'
                       : 'text-slate-400 hover:text-slate-100 hover:bg-[#131E33]'
                   }`
                 }
@@ -68,11 +67,11 @@ export const SecurityAnalystSidebar: React.FC<SecurityAnalystSidebarProps> = ({ 
       <div className="p-4 border-t border-[#1F2E4D]/60 space-y-3">
         <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
           <div className="overflow-hidden pr-2">
-            <span className="text-xs font-bold text-white font-mono block truncate">
+            <span className="text-xs font-semibold text-white block truncate">
               {currentUser?.username || 'SecurityAnalyst'}
             </span>
-            <span className="inline-block text-[9px] font-mono font-bold text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-1.5 py-0.2 rounded mt-0.5 uppercase">
-              ANALYST ROLE
+            <span className="inline-block text-[10px] font-semibold text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-2 py-0.5 rounded mt-0.5 uppercase tracking-wider">
+              Analyst Role
             </span>
           </div>
 
