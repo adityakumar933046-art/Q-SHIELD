@@ -435,7 +435,7 @@ class UserSessionsRevokeView(APIView):
         return Response({"detail": "Specify jti or set revoke_all_others=True."}, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
         refresh_token = request.data.get('refresh')
@@ -451,15 +451,25 @@ class LogoutView(APIView):
             except Exception as e:
                 logger.warning(f"Token blacklist on logout failed: {str(e)}")
 
+        from django.contrib.auth import logout as django_logout
+        try:
+            django_logout(request)
+        except Exception:
+            pass
+
+        username_str = user.username if (user and user.is_authenticated) else 'Anonymous'
         AuditTrailRecord.objects.create(
-            user_identifier=user.username,
+            user_identifier=username_str,
             action_type='LOGOUT',
             target_resource='AUTH_TOKEN',
-            details={'username': user.username}
+            details={'username': username_str}
         )
-        logger.info(f"LOGOUT for user {user.username}")
+        logger.info(f"LOGOUT for user {username_str}")
 
-        return Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+        response = Response({'message': 'Successfully logged out.'}, status=status.HTTP_200_OK)
+        response.delete_cookie('sessionid')
+        response.delete_cookie('csrftoken')
+        return response
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
