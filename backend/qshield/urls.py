@@ -15,8 +15,32 @@ def health_check(request):
         'detection_mode': 'Statistical Physics & Hypothesis Testing (Non-ML)'
     })
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def api_root(request):
+    return Response({
+        "status": "online",
+        "service": "Q-SHIELD API",
+        "version": "1.0",
+        "endpoints": {
+            "health": "/api/health/",
+            "auth": "/api/auth/",
+            "organizations": "/api/organizations/",
+            "qds": "/api/qds/",
+            "quantum-engine": "/api/quantum-engine/",
+            "verification": "/api/verification/",
+            "statistics": "/api/statistics/",
+            "threats": "/api/threats/",
+            "attack-simulator": "/api/attack-simulator/",
+            "incidents": "/api/incidents/",
+            "analytics": "/api/analytics/",
+            "audit": "/api/audit/"
+        }
+    })
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', api_root, name='api_root'),
     path('api/health/', health_check, name='health_check'),
     path('api/auth/', include('apps.accounts.urls')),
     path('api/organizations/', include('apps.organizations.urls')),
