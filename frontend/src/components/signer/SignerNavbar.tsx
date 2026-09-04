@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ShieldCheck, Cpu, Building2 } from 'lucide-react';
 import { User } from '../../types';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface SignerNavbarProps {
   currentUser: User | null;
@@ -39,6 +40,9 @@ export const SignerNavbar: React.FC<SignerNavbarProps> = ({ currentUser }) => {
           <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
           <span className="font-bold">QDS Engine Online</span>
         </div>
+
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
 
         {/* User Identity Avatar */}
         <div className="flex items-center space-x-3 pl-2 border-l border-[#1F2E4D]">

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Building2, ShieldCheck, User } from 'lucide-react';
+import { Building2, ShieldCheck } from 'lucide-react';
 import { User as UserType } from '../../types';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface OrgAdminNavbarProps {
   currentUser: UserType | null;
@@ -40,6 +41,9 @@ export const OrgAdminNavbar: React.FC<OrgAdminNavbarProps> = ({ currentUser }) =
           <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
           <span className="font-bold">Org Security Active</span>
         </div>
+
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
 
         {/* User Role Badge */}
         <div className="flex items-center space-x-1.5 px-3 py-1 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-purple-400">

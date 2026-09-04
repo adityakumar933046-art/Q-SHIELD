@@ -4,6 +4,7 @@ import { Navbar } from './components/Navbar';
 import { Sidebar } from './components/Sidebar';
 import { LoginModal } from './components/LoginModal';
 import { RoleGuard } from './components/RoleGuard';
+import { ThemeProvider } from './context/ThemeContext';
 
 // Legacy Admin workspace pages
 import { DashboardPage } from './pages/DashboardPage';
@@ -139,113 +140,115 @@ export const App: React.FC = () => {
   };
 
   return (
-    <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} currentUser={currentUser} />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+    <ThemeProvider>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/login" element={<LoginPage onLoginSuccess={(u) => setCurrentUser(u)} currentUser={currentUser} />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-        {/* Default Landing */}
-        <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+          {/* Default Landing */}
+          <Route path="/" element={<DefaultLandingRedirect currentUser={currentUser} />} />
 
-        {/* SECURITY ANALYST WORKSPACE ROUTES (Dedicated Red/Dark Theme Layout & Sidebar) */}
-        <Route element={<SecurityAnalystLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/security-analyst/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboardPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatMonitoringPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/threats/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatDetailsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/investigations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/investigations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationDetailsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalyticsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystProfilePage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/security-analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
-          <Route path="/analyst/threats" element={<Navigate to="/security-analyst/threats" replace />} />
-          <Route path="/analyst/dashboard" element={<Navigate to="/security-analyst/dashboard" replace />} />
-          <Route path="/analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
-        </Route>
+          {/* SECURITY ANALYST WORKSPACE ROUTES (Dedicated Red/Dark Theme Layout & Sidebar) */}
+          <Route element={<SecurityAnalystLayout currentUser={currentUser} onLogout={handleLogout} />}>
+            <Route path="/security-analyst/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystDashboardPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatMonitoringPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/threats/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><ThreatDetailsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/investigations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/investigations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><InvestigationDetailsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalyticsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SECURITY_ANALYST']}><SecurityAnalystProfilePage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/security-analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
+            <Route path="/analyst/threats" element={<Navigate to="/security-analyst/threats" replace />} />
+            <Route path="/analyst/dashboard" element={<Navigate to="/security-analyst/dashboard" replace />} />
+            <Route path="/analyst" element={<Navigate to="/security-analyst/dashboard" replace />} />
+          </Route>
 
-        {/* SIGNER WORKSPACE ROUTES (Dedicated Signer Layout & Sidebar) */}
-        <Route element={<SignerLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/signer/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerDashboardPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/signer/create-signature" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><CreateSignaturePage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/signer/create" element={<Navigate to="/signer/create-signature" replace />} />
-          <Route path="/signer/my-signatures" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><MySignaturesPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/signer/my-qds" element={<Navigate to="/signer/my-signatures" replace />} />
-          <Route path="/signer/signatures/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignatureDetailsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/signer/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerProfilePage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
-        </Route>
+          {/* SIGNER WORKSPACE ROUTES (Dedicated Signer Layout & Sidebar) */}
+          <Route element={<SignerLayout currentUser={currentUser} onLogout={handleLogout} />}>
+            <Route path="/signer/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerDashboardPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/signer/create-signature" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><CreateSignaturePage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/signer/create" element={<Navigate to="/signer/create-signature" replace />} />
+            <Route path="/signer/my-signatures" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><MySignaturesPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/signer/my-qds" element={<Navigate to="/signer/my-signatures" replace />} />
+            <Route path="/signer/signatures/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignatureDetailsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/signer/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'SIGNER']}><SignerProfilePage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/signer" element={<Navigate to="/signer/dashboard" replace />} />
+          </Route>
 
-        {/* VERIFIER WORKSPACE ROUTES (Dedicated Verifier Layout & Sidebar) */}
-        <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierDashboardPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/verifier/pending" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><PendingVerificationPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/verifier/signatures/:id/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><SignatureVerificationPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/verifier/history" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerificationHistoryPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/verifier/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierProfilePage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/verifier" element={<Navigate to="/verifier/dashboard" replace />} />
-        </Route>
+          {/* VERIFIER WORKSPACE ROUTES (Dedicated Verifier Layout & Sidebar) */}
+          <Route element={<VerifierLayout currentUser={currentUser} onLogout={handleLogout} />}>
+            <Route path="/verifier/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierDashboardPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/verifier/pending" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><PendingVerificationPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/verifier/signatures/:id/verify" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><SignatureVerificationPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/verifier/history" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerificationHistoryPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/verifier/profile" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ADMIN', 'ORGANIZATION_ADMIN', 'VERIFIER']}><VerifierProfilePage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/verifier" element={<Navigate to="/verifier/dashboard" replace />} />
+          </Route>
 
-        {/* SUPER ADMIN WORKSPACE ROUTES (Dedicated Global Platform Layout & Sidebar) */}
-        <Route element={<SuperAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/super-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminDashboardPage /></RoleGuard>} />
-          <Route path="/super-admin/organizations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminOrganizationsPage /></RoleGuard>} />
-          <Route path="/super-admin/organizations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminOrgDetailsPage /></RoleGuard>} />
-          <Route path="/super-admin/security-overview" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminSecurityOverviewPage /></RoleGuard>} />
-          <Route path="/super-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminAuditLogsPage /></RoleGuard>} />
-          <Route path="/super-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/super-admin" element={<Navigate to="/super-admin/dashboard" replace />} />
-        </Route>
+          {/* SUPER ADMIN WORKSPACE ROUTES (Dedicated Global Platform Layout & Sidebar) */}
+          <Route element={<SuperAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
+            <Route path="/super-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminDashboardPage /></RoleGuard>} />
+            <Route path="/super-admin/organizations" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminOrganizationsPage /></RoleGuard>} />
+            <Route path="/super-admin/organizations/:id" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminOrgDetailsPage /></RoleGuard>} />
+            <Route path="/super-admin/security-overview" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminSecurityOverviewPage /></RoleGuard>} />
+            <Route path="/super-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminAuditLogsPage /></RoleGuard>} />
+            <Route path="/super-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN']}><SuperAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/super-admin" element={<Navigate to="/super-admin/dashboard" replace />} />
+          </Route>
 
-        {/* ORGANIZATION ADMIN WORKSPACE ROUTES (Dedicated Organization Layout & Sidebar) */}
-        <Route element={<OrgAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
-          <Route path="/org-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminDashboardPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin/team" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminTeamPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin/activity" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminActivityPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin/security-overview" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminSecurityOverviewPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminAuditLogsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/org-admin" element={<Navigate to="/org-admin/dashboard" replace />} />
-        </Route>
+          {/* ORGANIZATION ADMIN WORKSPACE ROUTES (Dedicated Organization Layout & Sidebar) */}
+          <Route element={<OrgAdminLayout currentUser={currentUser} onLogout={handleLogout} />}>
+            <Route path="/org-admin/dashboard" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminDashboardPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin/team" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminTeamPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin/activity" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminActivityPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin/security-overview" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminSecurityOverviewPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin/audit-logs" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminAuditLogsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><OrgAdminSettingsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/org-admin" element={<Navigate to="/org-admin/dashboard" replace />} />
+          </Route>
 
-        {/* OTHER WORKSPACE ROUTES (Standard cyber-bg theme layout) */}
-        <Route element={<StandardLayout currentUser={currentUser} onLogout={handleLogout} onLoginClick={() => setIsLoginModalOpen(true)} />}>
-          {/* LEGACY ADMIN ALIASES */}
-          <Route path="/admin/dashboard" element={<Navigate to="/org-admin/dashboard" replace />} />
-          <Route path="/admin/users" element={<Navigate to="/org-admin/team" replace />} />
-          <Route path="/admin/orgs" element={<Navigate to="/org-admin/dashboard" replace />} />
-          <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><ThreatsPage /></RoleGuard>} />
-          <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
-          <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><QdsStudioPage /></RoleGuard>} />
-          <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AnalyticsPage /></RoleGuard>} />
-          <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecurityRulesPage /></RoleGuard>} />
-          <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AuditPage /></RoleGuard>} />
-          <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
-          <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
-          <Route path="/admin" element={<Navigate to="/org-admin/dashboard" replace />} />
+          {/* OTHER WORKSPACE ROUTES (Standard cyber-bg theme layout) */}
+          <Route element={<StandardLayout currentUser={currentUser} onLogout={handleLogout} onLoginClick={() => setIsLoginModalOpen(true)} />}>
+            {/* LEGACY ADMIN ALIASES */}
+            <Route path="/admin/dashboard" element={<Navigate to="/org-admin/dashboard" replace />} />
+            <Route path="/admin/users" element={<Navigate to="/org-admin/team" replace />} />
+            <Route path="/admin/orgs" element={<Navigate to="/org-admin/dashboard" replace />} />
+            <Route path="/admin/threats" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><ThreatsPage /></RoleGuard>} />
+            <Route path="/admin/attack-simulator" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AttackSimulatorPage /></RoleGuard>} />
+            <Route path="/admin/qds" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><QdsStudioPage /></RoleGuard>} />
+            <Route path="/admin/analytics" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AnalyticsPage /></RoleGuard>} />
+            <Route path="/admin/rules" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecurityRulesPage /></RoleGuard>} />
+            <Route path="/admin/audit" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><AuditPage /></RoleGuard>} />
+            <Route path="/admin/settings" element={<RoleGuard currentUser={currentUser} allowedRoles={['SUPER_ADMIN', 'ORGANIZATION_ADMIN', 'ADMIN']}><SecuritySettingsPage currentUser={currentUser} /></RoleGuard>} />
+            <Route path="/settings" element={<SecuritySettingsPage currentUser={currentUser} />} />
+            <Route path="/admin" element={<Navigate to="/org-admin/dashboard" replace />} />
 
-          {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
-          <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-          <Route path="/attack-simulator" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-          <Route path="/threats" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-          <Route path="/analytics" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-          <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-          <Route path="/users" element={<Navigate to="/org-admin/team" replace />} />
+            {/* LEGACY ROUTE ALIASES FOR COMPATIBILITY */}
+            <Route path="/qds-studio" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            <Route path="/attack-simulator" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            <Route path="/threats" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            <Route path="/analytics" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            <Route path="/audit" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+            <Route path="/users" element={<Navigate to="/org-admin/team" replace />} />
 
-          {/* 403 / UNAUTHORIZED CATCH-ALL */}
-          <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
-        </Route>
+            {/* 403 / UNAUTHORIZED CATCH-ALL */}
+            <Route path="/unauthorized" element={<UnauthorizedPage currentUser={currentUser} />} />
+          </Route>
 
-        <Route path="*" element={<DefaultLandingRedirect currentUser={currentUser} />} />
-      </Routes>
+          <Route path="*" element={<DefaultLandingRedirect currentUser={currentUser} />} />
+        </Routes>
 
-      <LoginModal
-        isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
-        currentUser={currentUser}
-        onUserChanged={(u) => setCurrentUser(u)}
-      />
-    </Router>
+        <LoginModal
+          isOpen={isLoginModalOpen}
+          onClose={() => setIsLoginModalOpen(false)}
+          currentUser={currentUser}
+          onUserChanged={(u) => setCurrentUser(u)}
+        />
+      </Router>
+    </ThemeProvider>
   );
 };
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { ShieldCheck, Bell, Server } from 'lucide-react';
+import { ShieldCheck, Server } from 'lucide-react';
 import { User } from '../../types';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface SuperAdminNavbarProps {
   currentUser: User | null;
@@ -38,6 +39,9 @@ export const SuperAdminNavbar: React.FC<SuperAdminNavbarProps> = ({ currentUser 
           <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
           <span className="font-bold">Quantum Network Online</span>
         </div>
+
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
 
         {/* Global Security Clearance Pill */}
         <div className="flex items-center space-x-1.5 px-3 py-1 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-purple-400">

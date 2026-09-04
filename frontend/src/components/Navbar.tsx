@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, Zap, Lock, User as UserIcon } from 'lucide-react';
 import { User } from '../types';
+import { ThemeToggle } from './common/ThemeToggle';
 
 interface NavbarProps {
   currentUser: User | null;
@@ -9,7 +10,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => {
   return (
-    <header className="sticky top-0 z-40 bg-[#0B1220] border-b border-[#1A263D] px-6 py-3 flex items-center justify-between shadow-md">
+    <header className="sticky top-0 z-40 bg-[#0B1220] border-b border-[#1A263D] px-6 py-3 flex items-center justify-between shadow-md font-sans">
       {/* Brand Header */}
       <div className="flex items-center space-x-3">
         <div className="p-2 bg-[#131E33] border border-[#1F2E4D] rounded-lg flex items-center justify-center text-[#00C2FF]">
@@ -46,6 +47,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, onLoginClick }) => 
 
       {/* User / Org Info & Login Trigger */}
       <div className="flex items-center space-x-4">
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
+
         {currentUser ? (
           <button
             onClick={onLoginClick}

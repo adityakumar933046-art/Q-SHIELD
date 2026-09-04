@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { ShieldAlert, Building2 } from 'lucide-react';
 import { User } from '../../types';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 interface SecurityAnalystNavbarProps {
   currentUser: User | null;
@@ -41,6 +42,9 @@ export const SecurityAnalystNavbar: React.FC<SecurityAnalystNavbarProps> = ({ cu
           <span className="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse" />
           <span className="font-bold">Threat Engine Active</span>
         </div>
+
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
 
         {/* User Identity Avatar */}
         <div className="flex items-center space-x-3 pl-2 border-l border-[#1F2E4D]">
