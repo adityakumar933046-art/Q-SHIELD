@@ -1,57 +1,60 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Building2, ShieldCheck, User } from 'lucide-react';
+import { Search, Bell, Sun, Moon } from 'lucide-react';
 import { User as UserType } from '../../types';
+import { useTheme } from '../../context/ThemeContext';
 
 interface OrgAdminNavbarProps {
   currentUser: UserType | null;
 }
 
 export const OrgAdminNavbar: React.FC<OrgAdminNavbarProps> = ({ currentUser }) => {
-  const location = useLocation();
-
-  const getPageTitle = (pathname: string) => {
-    if (pathname.includes('/org-admin/dashboard')) return 'Organization Operational Dashboard';
-    if (pathname.includes('/org-admin/team')) return 'Organization Team Directory & Governance';
-    if (pathname.includes('/org-admin/activity')) return 'Organization Operations & Activity Trail';
-    if (pathname.includes('/org-admin/security-overview')) return 'Organization Security Status & Alerts';
-    if (pathname.includes('/org-admin/audit-logs')) return 'Organization System Audit Logs';
-    if (pathname.includes('/org-admin/settings')) return 'Organization Settings & Access Policies';
-    return 'Organization Admin Console';
-  };
-
-  const orgName = currentUser?.organization_name || 'Organization Workspace';
+  const { theme, toggleTheme } = useTheme();
+  const initial = (currentUser?.username?.[0] || 'A').toUpperCase();
 
   return (
-    <header className="h-16 bg-[#0B1220]/90 border-b border-[#1F2E4D] px-6 flex items-center justify-between sticky top-0 z-20 backdrop-blur-md font-sans">
-      <div className="flex items-center space-x-3">
-        <h2 className="text-base font-extrabold text-white tracking-wide">
-          {getPageTitle(location.pathname)}
-        </h2>
-        <span className="hidden md:inline-flex items-center space-x-1.5 px-2.5 py-0.5 bg-purple-500/10 border border-purple-500/30 rounded-full text-[10px] font-mono text-purple-400 font-bold">
-          <Building2 className="w-3 h-3" />
-          <span>{orgName}</span>
-        </span>
+    <header className="h-18 bg-white dark:bg-[#0E1526] border-b border-slate-200/80 dark:border-slate-800/80 px-6 lg:px-8 flex items-center justify-between sticky top-0 z-20 transition-colors duration-200 font-sans">
+      {/* Search Bar */}
+      <div className="flex-1 max-w-lg">
+        <div className="relative">
+          <Search className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full bg-slate-100/90 dark:bg-slate-800/90 border border-transparent dark:border-slate-700/60 rounded-xl pl-11 pr-4 py-2.5 text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-800 focus:border-[#6366F1] dark:focus:border-[#6366F1] transition shadow-inner"
+          />
+        </div>
       </div>
 
-      <div className="flex items-center space-x-4">
-        {/* Security Shield Status Pill */}
-        <div className="hidden sm:flex items-center space-x-2 px-3 py-1 bg-[#10B981]/10 border border-[#10B981]/30 rounded-xl text-xs font-mono text-[#10B981]">
-          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-          <span className="font-bold">Org Security Active</span>
-        </div>
+      {/* Right Actions: Dark Mode Toggle, Notifications, User Avatar */}
+      <div className="flex items-center space-x-3 sm:space-x-4 ml-4">
+        {/* Dark/Light Mode Switcher */}
+        <button
+          onClick={toggleTheme}
+          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          className="p-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition flex items-center justify-center"
+        >
+          {theme === 'dark' ? (
+            <Sun className="w-5 h-5 text-amber-400 hover:rotate-45 transition-transform" />
+          ) : (
+            <Moon className="w-5 h-5 text-slate-600 hover:-rotate-12 transition-transform" />
+          )}
+        </button>
 
-        {/* User Role Badge */}
-        <div className="flex items-center space-x-1.5 px-3 py-1 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-mono text-purple-400">
-          <ShieldCheck className="w-4 h-4" />
-          <span className="hidden md:inline font-bold">ORG_ADMIN Access</span>
-        </div>
+        {/* Notification Bell */}
+        <button
+          title="Notifications"
+          className="p-2.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition relative flex items-center justify-center"
+        >
+          <Bell className="w-5 h-5" />
+          <span className="w-2 h-2 bg-[#6366F1] rounded-full absolute top-2.5 right-2.5 ring-2 ring-white dark:ring-[#0E1526]" />
+        </button>
 
         {/* User Identity Avatar */}
-        <div className="flex items-center space-x-3 pl-2 border-l border-[#1F2E4D]">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-[#00C2FF] flex items-center justify-center text-white font-black text-xs font-mono shadow-md">
-            {currentUser?.username?.[0]?.toUpperCase() || 'OA'}
-          </div>
+        <div
+          title={`Signed in as ${currentUser?.username || 'admin'}`}
+          className="w-9 h-9 rounded-full bg-[#6366F1] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-indigo-50 dark:ring-indigo-950/60 cursor-pointer hover:opacity-90 transition"
+        >
+          {initial}
         </div>
       </div>
     </header>
