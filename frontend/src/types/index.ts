@@ -112,6 +112,8 @@ export interface QuantumDigitalSignature {
   sender_username: string;
   sender_org_name?: string;
   recipient_org_name?: string;
+  document?: string | null;
+  document_details?: DocumentItem;
   message_payload: string;
   message_digest: string;
   payload_summary: string;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FileKey2, Search, Filter, Eye, RefreshCw, Plus } from 'lucide-react';
+import { FileKey2, Search, Filter, Eye, RefreshCw, Plus, FileText, Hash } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { LoadingState } from '../../components/common/LoadingState';
 import { EmptyState } from '../../components/common/EmptyState';
@@ -38,8 +38,10 @@ export const MySignaturesPage: React.FC<MySignaturesPageProps> = ({ currentUser 
   };
 
   const filteredSignatures = signatures.filter((sig) => {
+    const docName = sig.document_details?.original_filename || '';
     const matchesSearch =
       sig.signature_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      docName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (sig.message_payload && sig.message_payload.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (sig.payload_summary && sig.payload_summary.toLowerCase().includes(searchQuery.toLowerCase()));
 
@@ -68,7 +70,7 @@ export const MySignaturesPage: React.FC<MySignaturesPageProps> = ({ currentUser 
           <div>
             <h2 className="text-xl font-bold text-white">My Quantum Digital Signatures</h2>
             <p className="text-xs text-slate-400 font-sans">
-              Immutable cryptographic signature repository for {currentUser?.username}
+              Immutable cryptographic signature repository & document history for {currentUser?.username}
             </p>
           </div>
         </div>
@@ -99,7 +101,7 @@ export const MySignaturesPage: React.FC<MySignaturesPageProps> = ({ currentUser 
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by Signature ID or payload message..."
+            placeholder="Search by ID, Document Name or Hash..."
             className="w-full bg-[#131E33] border border-[#1F2E4D] rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-[#00C2FF] font-sans"
           />
         </div>
@@ -137,44 +139,65 @@ export const MySignaturesPage: React.FC<MySignaturesPageProps> = ({ currentUser 
               <thead>
                 <tr className="border-b border-[#1F2E4D] text-slate-400 uppercase tracking-wider text-[10px] bg-[#131E33]/40">
                   <th className="py-3.5 px-4">Signature ID</th>
-                  <th className="py-3.5 px-4">Message Payload Preview</th>
+                  <th className="py-3.5 px-4">Document / Payload</th>
+                  <th className="py-3.5 px-4">SHA-256 Hash Digest</th>
                   <th className="py-3.5 px-4">Created Date</th>
-                  <th className="py-3.5 px-4">Assigned Verifier Node</th>
+                  <th className="py-3.5 px-4">Assigned Verifier</th>
                   <th className="py-3.5 px-4">Status</th>
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1F2E4D]/50 text-slate-200">
-                {filteredSignatures.map((sig) => (
-                  <tr key={sig.id || sig.signature_id} className="hover:bg-[#131E33]/50 transition">
-                    <td className="py-4 px-4 font-bold text-[#00C2FF]">
-                      <Link to={`/signer/signatures/${sig.signature_id}`} className="hover:underline">
-                        {sig.signature_id}
-                      </Link>
-                    </td>
-                    <td className="py-4 px-4 text-slate-300 max-w-xs truncate">
-                      {sig.message_payload || sig.payload_summary || 'Document Payload Digest'}
-                    </td>
-                    <td className="py-4 px-4 text-slate-400 whitespace-nowrap">
-                      {sig.created_at ? new Date(sig.created_at).toLocaleString() : 'Recent'}
-                    </td>
-                    <td className="py-4 px-4 font-bold text-purple-400">
-                      {sig.recipient_org_name || 'Organization Verifier'}
-                    </td>
-                    <td className="py-4 px-4">
-                      <StatusBadge status={sig.is_consumed ? 'VERIFIED' : sig.status || 'ISSUED'} size="sm" />
-                    </td>
-                    <td className="py-4 px-4 text-right">
-                      <Link
-                        to={`/signer/signatures/${sig.signature_id}`}
-                        className="p-1.5 bg-[#131E33] hover:bg-[#00C2FF]/20 text-slate-300 hover:text-[#00C2FF] border border-[#1F2E4D] rounded-lg transition inline-flex items-center space-x-1"
-                      >
-                        <Eye className="w-4 h-4" />
-                        <span>View</span>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                {filteredSignatures.map((sig) => {
+                  const doc = sig.document_details;
+                  const docName = doc?.original_filename || sig.message_payload || sig.payload_summary || 'Document Payload Digest';
+                  const fileType = doc?.file_type || 'TEXT';
+
+                  return (
+                    <tr key={sig.id || sig.signature_id} className="hover:bg-[#131E33]/50 transition">
+                      <td className="py-4 px-4 font-bold text-[#00C2FF]">
+                        <Link to={`/signer/signatures/${sig.signature_id}`} className="hover:underline">
+                          {sig.signature_id}
+                        </Link>
+                      </td>
+                      <td className="py-4 px-4 max-w-xs">
+                        <div className="flex items-center space-x-2">
+                          <FileText className="w-4 h-4 text-[#00C2FF] shrink-0" />
+                          <span className="font-medium text-white truncate" title={docName}>
+                            {docName}
+                          </span>
+                          <span className="px-1.5 py-0.5 bg-[#1F2E4D] text-[#00C2FF] text-[9px] font-bold rounded uppercase shrink-0">
+                            {fileType}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-4 font-mono text-[11px] text-slate-400 max-w-[140px] truncate" title={sig.message_digest}>
+                        <span className="flex items-center space-x-1">
+                          <Hash className="w-3 h-3 text-purple-400 shrink-0" />
+                          <span className="truncate">{sig.message_digest ? `${sig.message_digest.slice(0, 12)}...` : 'N/A'}</span>
+                        </span>
+                      </td>
+                      <td className="py-4 px-4 text-slate-400 whitespace-nowrap">
+                        {sig.created_at ? new Date(sig.created_at).toLocaleString() : 'Recent'}
+                      </td>
+                      <td className="py-4 px-4 font-bold text-purple-400">
+                        {sig.recipient_org_name || 'Organization Verifier'}
+                      </td>
+                      <td className="py-4 px-4">
+                        <StatusBadge status={sig.is_consumed ? 'VERIFIED' : sig.status || 'ISSUED'} size="sm" />
+                      </td>
+                      <td className="py-4 px-4 text-right">
+                        <Link
+                          to={`/signer/signatures/${sig.signature_id}`}
+                          className="p-1.5 bg-[#131E33] hover:bg-[#00C2FF]/20 text-slate-300 hover:text-[#00C2FF] border border-[#1F2E4D] rounded-lg transition inline-flex items-center space-x-1"
+                        >
+                          <Eye className="w-4 h-4" />
+                          <span>Details</span>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

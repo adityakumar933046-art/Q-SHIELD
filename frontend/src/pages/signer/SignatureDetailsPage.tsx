@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { FileKey2, ArrowLeft, ShieldCheck, Lock, Cpu, CheckCircle2, AlertTriangle, Key } from 'lucide-react';
+import { FileKey2, ArrowLeft, ShieldCheck, Lock, Cpu, CheckCircle2, AlertTriangle, Key, FileText, Download, Hash, ExternalLink } from 'lucide-react';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { LoadingState } from '../../components/common/LoadingState';
 import { api } from '../../services/api';
@@ -47,6 +47,8 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
     );
   }
 
+  const doc = sig.document_details;
+
   return (
     <div className="space-y-8 max-w-5xl font-sans">
       {/* Top Navigation */}
@@ -81,46 +83,103 @@ export const SignatureDetailsPage: React.FC<SignatureDetailsPageProps> = ({ curr
       {/* Grid: Basic Info & Message Info */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Left 6 Cols: Basic & Message Information */}
-        <div className="lg:col-span-6 bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
-          <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
-            <FileKey2 className="w-5 h-5 text-[#00C2FF]" />
-            <span>Signature & Message Metadata</span>
-          </h3>
+        {/* Left 6 Cols: Basic & Document Metadata */}
+        <div className="lg:col-span-6 space-y-6">
+          {/* Document File Details Block */}
+          {doc && (
+            <div className="bg-[#0B1220]/90 border border-[#00C2FF]/30 rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
+              <div className="flex items-center justify-between border-b border-[#1F2E4D] pb-3">
+                <h3 className="text-base font-bold text-white flex items-center space-x-2">
+                  <FileText className="w-5 h-5 text-[#00C2FF]" />
+                  <span>Signed Original Document</span>
+                </h3>
+                <span className="px-2 py-0.5 bg-[#00C2FF]/20 border border-[#00C2FF]/40 text-[#00C2FF] font-bold text-xs rounded uppercase">
+                  {doc.file_type}
+                </span>
+              </div>
 
-          <div className="space-y-3 font-sans text-xs">
-            <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
-              <span className="text-slate-400">Signature ID:</span>
-              <span className="font-bold text-[#00C2FF]">{sig.signature_id}</span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
-              <span className="text-slate-400">Creation Timestamp:</span>
-              <span className="font-bold text-slate-200">
-                {sig.created_at ? new Date(sig.created_at).toLocaleString() : 'N/A'}
-              </span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
-              <span className="text-slate-400">Assigned Verifier / Org:</span>
-              <span className="font-bold text-purple-400">
-                {sig.recipient_org_name || 'Organization Verifier Node'}
-              </span>
-            </div>
-            <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
-              <span className="text-slate-400">Current Status:</span>
-              <StatusBadge status={sig.is_consumed ? 'VERIFIED' : sig.status || 'ISSUED'} size="sm" />
-            </div>
+              <div className="space-y-3 text-xs">
+                <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
+                  <span className="text-slate-400">File Name:</span>
+                  <span className="font-bold text-white max-w-[200px] truncate" title={doc.original_filename}>
+                    {doc.original_filename}
+                  </span>
+                </div>
 
-            <div className="pt-2 space-y-2">
-              <span className="text-slate-400 block font-bold">SHA-256 Message Digest:</span>
-              <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-slate-200 text-[11px] break-all">
-                {sig.message_digest}
+                <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
+                  <span className="text-slate-400">File Size:</span>
+                  <span className="font-mono font-bold text-slate-200">
+                    {(doc.file_size / 1024).toFixed(1)} KB ({doc.file_size} bytes)
+                  </span>
+                </div>
+
+                <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl flex items-center justify-between">
+                  <span className="text-slate-400">Signer Review Confirmation:</span>
+                  <span className="flex items-center space-x-1 text-[#10B981] font-bold">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Confirmed ({doc.reviewed_at ? new Date(doc.reviewed_at).toLocaleTimeString() : 'Verified'})</span>
+                  </span>
+                </div>
+
+                {doc.file_url && (
+                  <a
+                    href={doc.file_url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full py-2.5 bg-[#00C2FF]/10 hover:bg-[#00C2FF]/20 border border-[#00C2FF]/40 text-[#00C2FF] font-bold text-xs rounded-xl transition flex items-center justify-center space-x-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download / View Original File</span>
+                  </a>
+                )}
               </div>
             </div>
+          )}
 
-            <div className="pt-2 space-y-2">
-              <span className="text-slate-400 block font-bold">Message Payload Preview:</span>
-              <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-slate-300 text-xs leading-relaxed max-h-36 overflow-y-auto">
-                {sig.message_payload || sig.payload_summary || 'Document Canonical Payload'}
+          {/* Signature & Cryptographic Metadata */}
+          <div className="bg-[#0B1220]/90 border border-[#1F2E4D] rounded-2xl p-6 shadow-xl backdrop-blur-md space-y-4">
+            <h3 className="text-base font-bold text-white flex items-center space-x-2 border-b border-[#1F2E4D] pb-3">
+              <FileKey2 className="w-5 h-5 text-[#00C2FF]" />
+              <span>Signature & Cryptographic Metadata</span>
+            </h3>
+
+            <div className="space-y-3 font-sans text-xs">
+              <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
+                <span className="text-slate-400">Signature ID:</span>
+                <span className="font-bold text-[#00C2FF]">{sig.signature_id}</span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
+                <span className="text-slate-400">Creation Timestamp:</span>
+                <span className="font-bold text-slate-200">
+                  {sig.created_at ? new Date(sig.created_at).toLocaleString() : 'N/A'}
+                </span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
+                <span className="text-slate-400">Assigned Verifier / Org:</span>
+                <span className="font-bold text-purple-400">
+                  {sig.recipient_org_name || 'Organization Verifier Node'}
+                </span>
+              </div>
+              <div className="flex justify-between py-2 border-b border-[#1F2E4D]/40">
+                <span className="text-slate-400">Current Status:</span>
+                <StatusBadge status={sig.is_consumed ? 'VERIFIED' : sig.status || 'ISSUED'} size="sm" />
+              </div>
+
+              <div className="pt-2 space-y-2">
+                <span className="text-slate-400 block font-bold flex items-center space-x-1">
+                  <Hash className="w-3.5 h-3.5 text-purple-400" />
+                  <span>SHA-256 File Digest:</span>
+                </span>
+                <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-slate-200 text-[11px] font-mono break-all selection:bg-[#00C2FF]/30">
+                  {sig.message_digest}
+                </div>
+              </div>
+
+              <div className="pt-2 space-y-2">
+                <span className="text-slate-400 block font-bold">Message Payload / Summary:</span>
+                <div className="p-3 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-slate-300 text-xs leading-relaxed max-h-36 overflow-y-auto">
+                  {sig.message_payload || sig.payload_summary || 'Document Canonical Payload'}
+                </div>
               </div>
             </div>
           </div>

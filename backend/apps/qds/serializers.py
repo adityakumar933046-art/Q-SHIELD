@@ -2,11 +2,14 @@ import hashlib
 from rest_framework import serializers
 from .models import QuantumDigitalSignature, SigningRequest
 
+from apps.documents.serializers import DocumentSerializer
+
 class QuantumDigitalSignatureSerializer(serializers.ModelSerializer):
     sender_username = serializers.CharField(source='sender.username', read_only=True)
     sender_org_id = serializers.IntegerField(source='sender.organization.id', read_only=True)
     sender_org_name = serializers.CharField(source='sender.organization.name', read_only=True)
     recipient_org_name = serializers.CharField(source='recipient_organization.name', read_only=True)
+    document_details = DocumentSerializer(source='document', read_only=True)
 
     class Meta:
         model = QuantumDigitalSignature
