@@ -48,12 +48,14 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
     }
   };
 
+  const [simulateTamper, setSimulateTamper] = useState(false);
+
   const steps = [
     'Validating Signature Package Structure',
     'Checking Organization Authorization & Scope',
     'Checking Replay Protection & Duplicate Nonces',
     'Validating Signer Identity & Active Account Status',
-    'Loading QDS Telemetry & Pauli Correction Metadata',
+    'Calculating SHA-256 Hash Digest on Original Document File',
     'Applying Pauli Correction Operations (I, X, Y, Z)',
     'Reconstructing Quantum State Vector',
     'Executing Projective Measurement Analysis',
@@ -80,6 +82,7 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
       const res = await api.verifySignature({
         signature_id: sig.signature_id,
         payload_content: sig.message_payload || sig.payload_summary || 'Document Payload',
+        simulate_tamper: simulateTamper
       });
 
       setVerificationResult({
@@ -241,8 +244,27 @@ export const SignatureVerificationPage: React.FC<SignatureVerificationPageProps>
             <div className="p-4 bg-[#131E33] border border-[#1F2E4D] rounded-xl text-xs font-sans text-slate-300 flex items-start space-x-2.5">
               <Lock className="w-4 h-4 text-[#00C2FF] shrink-0 mt-0.5" />
               <span>
-                Package is read-only. Clicking "Start QDS Verification" runs Pauli state reconstruction and projective measurement analysis.
+                Package is read-only. Clicking "Start QDS Verification" runs Pauli state reconstruction and SHA-256 integrity verification.
               </span>
+            </div>
+
+            {/* Controlled Tamper Simulation Test Toggle */}
+            <div className="p-4 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-xl space-y-2 font-sans text-xs">
+              <div className="flex items-center space-x-2.5">
+                <input
+                  type="checkbox"
+                  id="tamper-sim-checkbox"
+                  checked={simulateTamper}
+                  onChange={(e) => setSimulateTamper(e.target.checked)}
+                  className="w-4 h-4 accent-red-500 rounded cursor-pointer"
+                />
+                <label htmlFor="tamper-sim-checkbox" className="font-bold text-red-400 cursor-pointer">
+                  Simulate Document File Tampering (Test Forgery Attack)
+                </label>
+              </div>
+              <p className="text-[11px] text-slate-300 pl-6 leading-relaxed">
+                Appends a tamper byte to simulate file modification. Verifies SHA-256 digest mismatch and logs a <strong>FORGERY_ATTEMPT</strong> threat event for the Security Analyst team.
+              </p>
             </div>
           </div>
         </div>

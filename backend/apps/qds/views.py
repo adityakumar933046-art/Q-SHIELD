@@ -56,8 +56,32 @@ class QDSViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
 
-        payload = data['payload_content']
-        digest = hashlib.sha256(payload.encode('utf-8')).hexdigest()
+        document_id = request.data.get('document_id')
+        document_obj = None
+        if document_id:
+            from apps.documents.models import Document
+            document_obj = Document.objects.filter(id=document_id, organization=request.user.organization).first()
+            if not document_obj:
+                return Response({'error': 'Document not found or unauthorized.'}, status=status.HTTP_404_NOT_FOUND)
+
+            # REQUIRE EXPLICIT REVIEW CONFIRMATION
+            if not document_obj.reviewed_at:
+                return Response({
+                    'error': 'Signer review confirmation required! You must explicitly review and approve the document before generating a digital signature.'
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            # Recalculate SHA-256 from exact original file bytes
+            try:
+                document_obj.file.open('rb')
+                file_bytes = document_obj.file.read()
+                document_obj.file.close()
+                digest = hashlib.sha256(file_bytes).hexdigest()
+                payload = document_obj.original_filename
+            except Exception as ex:
+                return Response({'error': f"Failed to read original document file bytes: {str(ex)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            payload = data['payload_content']
+            digest = hashlib.sha256(payload.encode('utf-8')).hexdigest()
 
         # Run Quantum Teleportation key state prep
         q_result = QuantumEngineService.run_teleportation_qds(
@@ -70,6 +94,8 @@ class QDSViewSet(viewsets.ModelViewSet):
         org_id = data.get('recipient_organization_id')
         if org_id:
             recipient_org = Organization.objects.filter(id=org_id).first()
+        elif document_obj:
+            recipient_org = document_obj.organization
 
         sig_id = f"QDS-{uuid.uuid4().hex[:12].upper()}"
         session_id = f"SESS-{uuid.uuid4().hex[:12].upper()}"
@@ -79,6 +105,7 @@ class QDSViewSet(viewsets.ModelViewSet):
             signature_id=sig_id,
             sender=request.user,
             recipient_organization=recipient_org,
+            document=document_obj,
             message_payload=payload,
             message_digest=digest,
             payload_summary=payload[:200],
@@ -89,6 +116,25 @@ class QDSViewSet(viewsets.ModelViewSet):
             nonce=nonce,
             status='ISSUED'
         )
+
+        # Assign Verifier if verifier_id supplied
+        verifier_id = request.data.get('verifier_id')
+        if verifier_id:
+            from django.contrib.auth import get_user_model
+            User = get_user_model()
+            verifier_user = User.objects.filter(id=verifier_id, organization=request.user.organization).first()
+            if verifier_user:
+                from .models import SigningRequest
+                SigningRequest.objects.create(
+                    request_id=f"REQ-{uuid.uuid4().hex[:8].upper()}",
+                    requester=verifier_user,
+                    signer=request.user,
+                    document=document_obj,
+                    purpose=f"Verify Document: {payload}",
+                    payload_content=digest,
+                    signature=qds_obj,
+                    status='PENDING'
+                )
 
         AuditTrailRecord.objects.create(
             action_type='QDS_SIGNATURE_CREATED',

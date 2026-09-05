@@ -4,6 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def health_check(request):
@@ -26,6 +29,7 @@ def api_root(request):
             "health": "/api/health/",
             "auth": "/api/auth/",
             "organizations": "/api/organizations/",
+            "documents": "/api/documents/",
             "qds": "/api/qds/",
             "quantum-engine": "/api/quantum-engine/",
             "verification": "/api/verification/",
@@ -44,6 +48,7 @@ urlpatterns = [
     path('api/health/', health_check, name='health_check'),
     path('api/auth/', include('apps.accounts.urls')),
     path('api/organizations/', include('apps.organizations.urls')),
+    path('api/documents/', include('apps.documents.urls')),
     path('api/qds/', include('apps.qds.urls')),
     path('api/quantum-engine/', include('apps.quantum_engine.urls')),
     path('api/verification/', include('apps.verification.urls')),
@@ -54,3 +59,6 @@ urlpatterns = [
     path('api/analytics/', include('apps.analytics.urls')),
     path('api/audit/', include('apps.audit.urls')),
 ]
+
+if settings.DEBUG or True:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

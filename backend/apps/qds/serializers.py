@@ -14,7 +14,8 @@ class QuantumDigitalSignatureSerializer(serializers.ModelSerializer):
         read_only_fields = ('signature_id', 'sender', 'message_digest', 'quantum_execution_id', 'session_id', 'nonce', 'is_consumed', 'consumed_at', 'status', 'created_at', 'updated_at')
 
 class CreateSignatureRequestSerializer(serializers.Serializer):
-    payload_content = serializers.CharField(required=True)
+    payload_content = serializers.CharField(required=False, allow_blank=True, default='')
+    document_id = serializers.UUIDField(required=False, allow_null=True)
     quantum_state_basis = serializers.ChoiceField(
         choices=['|0>', '|1>', '|+>', '|->', '|+i>', '|-i>'],
         default='|+>'

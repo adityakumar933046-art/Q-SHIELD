@@ -24,6 +24,7 @@ class SignatureVerificationAttemptSerializer(serializers.ModelSerializer):
 class VerifySignatureRequestSerializer(serializers.Serializer):
     signature_id = serializers.CharField(required=True)
     payload_content = serializers.CharField(required=True)
+    simulate_tamper = serializers.BooleanField(default=False, required=False)
     simulated_noise = serializers.FloatField(default=0.0, min_value=0.0, max_value=1.0)
     inject_attack = serializers.ChoiceField(
         choices=['NONE', 'FORGERY', 'IMPERSONATION', 'REPLAY', 'CHANNEL_MANIPULATION', 'UNAUTHORIZED'],

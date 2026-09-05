@@ -112,7 +112,8 @@ class ThreatDetectionService:
         )
 
         # Lookup related entities
-        sig_obj = QuantumDigitalSignature.objects.filter(signature_id=execution_id).first()
+        sig_id_target = execution_context.get('signature_id') or execution_id
+        sig_obj = QuantumDigitalSignature.objects.filter(signature_id=sig_id_target).first()
         user_name = execution_context.get('user')
         src_user = User.objects.filter(username=user_name).first() if user_name else (sig_obj.sender if sig_obj else None)
         org_obj = sig_obj.sender.organization if (sig_obj and sig_obj.sender and sig_obj.sender.organization) else (src_user.organization if (src_user and src_user.organization) else None)

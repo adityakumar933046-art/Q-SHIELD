@@ -17,6 +17,13 @@ class QuantumDigitalSignature(models.Model):
     )
     
     # Message & Classical Integrity Layer
+    document = models.ForeignKey(
+        'documents.Document',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='signatures'
+    )
     message_payload = models.TextField(default='', blank=True, help_text="Canonical document payload message.")
     message_digest = models.CharField(max_length=64, help_text="SHA-256 integrity hash digest.")
     payload_summary = models.TextField(blank=True, default='')
@@ -61,6 +68,13 @@ class SigningRequest(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='pending_signatures'
+    )
+    document = models.ForeignKey(
+        'documents.Document',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='signing_requests'
     )
     purpose = models.CharField(max_length=255, default='Document Sign')
     payload_content = models.TextField(default='', blank=True)

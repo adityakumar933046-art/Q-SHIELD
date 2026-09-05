@@ -228,6 +228,23 @@ export interface AnalyticsSummary {
   }>;
 }
 
+export interface DocumentItem {
+  id: string;
+  organization: number;
+  organization_name?: string;
+  uploaded_by: number;
+  uploaded_by_username?: string;
+  original_filename: string;
+  file_type: 'PDF' | 'DOCX' | 'TXT';
+  file_size: number;
+  sha256_hash: string;
+  reviewed_at: string | null;
+  file_url: string | null;
+  preview_content?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface UserSessionInfo {
   id: number;
   refresh_token_jti: string;

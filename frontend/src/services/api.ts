@@ -10,7 +10,8 @@ import {
   SecurityIncident,
   AuditTrailRecord,
   ThresholdRule,
-  AnalyticsSummary
+  AnalyticsSummary,
+  DocumentItem
 } from '../types';
 
 const API_BASE_URL = '/api';
@@ -190,6 +191,7 @@ export const api = {
   verifySignature: async (params: {
     signature_id: string;
     payload_content: string;
+    simulate_tamper?: boolean;
     simulated_noise?: number;
     inject_attack?: string;
   }): Promise<{
@@ -199,6 +201,30 @@ export const api = {
     threat_evaluation: ThreatEvaluation;
   }> => {
     const res = await apiClient.post('/verification/verify-signature/', params);
+    return res.data;
+  },
+
+  // Document Management API
+  uploadDocument: async (file: File): Promise<DocumentItem> => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const res = await apiClient.post('/documents/upload/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return res.data;
+  },
+  getDocuments: async (): Promise<DocumentItem[]> => {
+    const res = await apiClient.get('/documents/');
+    return res.data.results || res.data;
+  },
+  getDocumentDetail: async (id: string): Promise<DocumentItem> => {
+    const res = await apiClient.get(`/documents/${id}/`);
+    return res.data;
+  },
+  confirmDocumentReview: async (id: string): Promise<DocumentItem> => {
+    const res = await apiClient.post(`/documents/${id}/confirm-review/`, { confirmed: true });
     return res.data;
   },
   getVerifications: async (): Promise<SignatureVerificationAttempt[]> => {

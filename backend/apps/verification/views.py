@@ -120,11 +120,37 @@ class VerificationViewSet(viewsets.ModelViewSet):
             )
 
         # 3. Classical Digest Hash Verification
-        calc_digest = hashlib.sha256(data['payload_content'].encode('utf-8')).hexdigest()
+        calc_digest = ""
+        is_tampered_simulation = bool(data.get('simulate_tamper') or request.data.get('simulate_tamper'))
+
+        if sig_obj.document:
+            try:
+                sig_obj.document.file.open('rb')
+                file_bytes = sig_obj.document.file.read()
+                sig_obj.document.file.close()
+
+                if is_tampered_simulation:
+                    file_bytes += b"_TAMPERED_BYTE_TAMPER_TEST"
+
+                calc_digest = hashlib.sha256(file_bytes).hexdigest()
+            except Exception:
+                payload_str = data['payload_content']
+                if is_tampered_simulation:
+                    payload_str += " [TAMPERED_SIMULATION]"
+                calc_digest = hashlib.sha256(payload_str.encode('utf-8')).hexdigest()
+        else:
+            payload_str = data['payload_content']
+            if is_tampered_simulation:
+                payload_str += " [TAMPERED_SIMULATION]"
+            calc_digest = hashlib.sha256(payload_str.encode('utf-8')).hexdigest()
+
         hash_match = bool(calc_digest == sig_obj.message_digest)
 
         # 4. Build Attack Context (Only from explicit simulator or noise parameter)
         attack_type = data.get('inject_attack', 'NONE')
+        if not hash_match:
+            attack_type = 'FORGERY'
+
         attack_config = {}
         if attack_type == 'FORGERY':
             attack_config['forgery'] = True
@@ -149,7 +175,10 @@ class VerificationViewSet(viewsets.ModelViewSet):
             analysis_data=stat_result,
             execution_context={
                 'attack_type': attack_type if attack_type != 'NONE' else '',
-                'user': user.username
+                'user': user.username,
+                'signature_id': sig_obj.signature_id,
+                'original_hash': sig_obj.message_digest,
+                'calculated_hash': calc_digest
             }
         )
 
@@ -166,7 +195,7 @@ class VerificationViewSet(viewsets.ModelViewSet):
             sig_obj.status = 'VERIFIED'
             sig_obj.is_consumed = True
             sig_obj.consumed_at = timezone.now()
-        elif v_result == 'REJECTED_QUANTUM_THREAT':
+        elif v_result in ['REJECTED_QUANTUM_THREAT', 'REJECTED_DIGEST_MISMATCH']:
             sig_obj.status = 'COMPROMISED'
         sig_obj.save()
 

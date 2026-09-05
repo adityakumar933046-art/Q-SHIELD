@@ -41,3 +41,7 @@ experiments/results/
 
 # OS
 Thumbs.db
+
+# Uploaded Media
+backend/media/
+media/
