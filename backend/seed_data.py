@@ -46,6 +46,35 @@ def run_seed():
     analyst_pass = os.getenv('SEED_ANALYST_PASSWORD', 'analyst123')
 
     # 2. Create Users with Explicit RBAC Roles
+    default_pass = os.getenv('SEED_DEFAULT_PASSWORD', 'Password@123')
+    
+    role_accounts = [
+        ("superadmin", "superadmin@quantum.defense.gov", User.Role.SUPER_ADMIN, True, True),
+        ("orgadmin", "orgadmin@quantum.defense.gov", User.Role.ORGANIZATION_ADMIN, False, False),
+        ("signer", "signer@quantum.defense.gov", User.Role.SIGNER, False, False),
+        ("verifier", "verifier@quantumsecure.com", User.Role.VERIFIER, False, False),
+        ("analyst", "analyst@quantum.defense.gov", User.Role.SECURITY_ANALYST, False, False),
+    ]
+
+    for uname, uemail, urole, is_staff_flag, is_super_flag in role_accounts:
+        u_obj, _ = User.objects.get_or_create(
+            username=uname,
+            defaults={
+                "email": uemail,
+                "role": urole,
+                "organization": org2 if urole == User.Role.VERIFIER else org,
+                "is_staff": is_staff_flag,
+                "is_superuser": is_super_flag,
+                "status": User.AccountStatus.ACTIVE
+            }
+        )
+        u_obj.set_password(default_pass)
+        u_obj.status = User.AccountStatus.ACTIVE
+        u_obj.failed_login_attempts = 0
+        u_obj.lockout_until = None
+        u_obj.save()
+        print(f"  Role Account: {uname} (Role: {urole}, Password: {default_pass})")
+
     admin_user, created = User.objects.get_or_create(
         username="admin",
         defaults={
