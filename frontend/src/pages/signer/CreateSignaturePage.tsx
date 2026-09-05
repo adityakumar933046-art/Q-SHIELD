@@ -197,7 +197,12 @@ export const CreateSignaturePage: React.FC<CreateSignaturePageProps> = ({ curren
         payloadData.payload_content = rawMessage;
       }
 
-      const res = await api.clientPost('/qds/', payloadData);
+      const headers: Record<string, string> = {};
+      if (stepUpToken) {
+        headers['X-Step-Up-Token'] = stepUpToken;
+      }
+
+      const res = await api.clientPost('/qds/', payloadData, { headers });
 
       const qdsRecord = res.data.signature || res.data;
       const qResult = res.data.quantum_teleportation_key || null;

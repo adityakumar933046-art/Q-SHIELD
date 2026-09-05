@@ -183,8 +183,6 @@ class StepUpVerifySerializer(serializers.Serializer):
     password = serializers.CharField(required=False, allow_blank=True)
 
     def validate(self, attrs):
-        if not attrs.get('code') and not attrs.get('password'):
-            raise serializers.ValidationError({"detail": "Either MFA code or password is required for step-up authentication."})
         return attrs
 
 class MfaDisableSerializer(serializers.Serializer):

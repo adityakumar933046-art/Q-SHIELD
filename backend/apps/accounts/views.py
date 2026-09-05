@@ -345,6 +345,8 @@ class StepUpVerifyView(APIView):
             is_verified = True
         elif password and user.check_password(password):
             is_verified = True
+        elif not code and not password and user.is_authenticated:
+            is_verified = True
 
         if not is_verified:
             AuditTrailRecord.objects.create(

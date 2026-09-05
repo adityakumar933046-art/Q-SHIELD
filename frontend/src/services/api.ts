@@ -146,8 +146,8 @@ export const api = {
     const res = await apiClient.patch(`/organizations/${id}/`, orgData);
     return res.data;
   },
-  clientPost: async (url: string, data?: any) => {
-    return apiClient.post(url, data);
+  clientPost: async (url: string, data?: any, config?: any) => {
+    return apiClient.post(url, data, config);
   },
   clientPatch: async (url: string, data?: any) => {
     return apiClient.patch(url, data);
