@@ -1,11 +1,9 @@
-import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { User, UserRole } from '../types';
 import { UnauthorizedPage } from '../pages/UnauthorizedPage';
 
-// DEVELOPMENT SECURITY BYPASS
-// Set to true so dashboards open freely during development without 403 / Unauthorized blocking.
-// Can be toggled back to false when website development is complete to re-enable strict RBAC authentication.
-const DEV_SECURITY_BYPASS = true;
+// Enable strict authentication & role guard checks across all workspace routes
+const DEV_SECURITY_BYPASS = false;
 
 interface RoleGuardProps {
   currentUser: User | null;
@@ -14,13 +12,14 @@ interface RoleGuardProps {
 }
 
 export const RoleGuard: React.FC<RoleGuardProps> = ({ currentUser, allowedRoles, children }) => {
-  // Allow direct access during development building mode
-  if (DEV_SECURITY_BYPASS) {
-    return <>{children}</>;
+  // Redirect unauthenticated users directly to login page
+  if (!currentUser) {
+    return <Navigate to="/login" replace />;
   }
 
-  if (!currentUser) {
-    return <UnauthorizedPage currentUser={currentUser} />;
+  // Allow direct access if dev security bypass is toggled
+  if (DEV_SECURITY_BYPASS) {
+    return <>{children}</>;
   }
 
   const role = currentUser.role;

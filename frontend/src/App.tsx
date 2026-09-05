@@ -121,10 +121,18 @@ export const App: React.FC = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const fetchUser = async () => {
+    const token = localStorage.getItem('qshield_token');
+    if (!token) {
+      setCurrentUser(null);
+      return;
+    }
     try {
       const u = await api.getCurrentUser();
       setCurrentUser(u);
     } catch (err) {
+      console.log('Failed to fetch user:', err);
+      localStorage.removeItem('qshield_token');
+      localStorage.removeItem('qshield_refresh');
       setCurrentUser(null);
     }
   };
